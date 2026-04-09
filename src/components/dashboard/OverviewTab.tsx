@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import type { User } from '@/payload-types'
+import type { DashboardUser } from '@/lib/mock-user'
 import { formatDate } from '@/lib/format'
 import { OverviewRecentlyViewed } from './OverviewRecentlyViewed'
 
@@ -16,7 +16,7 @@ const TIER_COLORS: Record<string, string> = {
   pro: 'bg-lavender/30 text-indigo-700',
 }
 
-export function OverviewTab({ user }: { user: User }) {
+export function OverviewTab({ user }: { user: DashboardUser }) {
   const tierLabel = TIER_LABELS[user.membershipTier] ?? user.membershipTier
   const tierColor = TIER_COLORS[user.membershipTier] ?? TIER_COLORS.free
 

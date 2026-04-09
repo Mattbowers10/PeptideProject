@@ -5,6 +5,22 @@ type MockSearchParams = {
   tier?: string
 }
 
+// Subset of User fields needed by the dashboard
+export type DashboardUser = Pick<
+  User,
+  | 'id'
+  | 'email'
+  | 'name'
+  | 'role'
+  | 'membershipTier'
+  | 'membershipExpiresAt'
+  | 'stripeCustomerId'
+  | 'stripeSubscriptionId'
+  | 'partnerProfile'
+  | 'createdAt'
+  | 'updatedAt'
+>
+
 /**
  * Returns a mock user for dashboard development.
  * Swap this for a real Payload `/api/users/me` call when auth is wired up.
@@ -13,11 +29,11 @@ type MockSearchParams = {
  *   ?as=partner   — returns a partner-role user with linked partnerProfile
  *   ?tier=pro     — overrides membership tier (free | researcher | pro)
  */
-export function getMockUser(params?: MockSearchParams): User {
+export function getMockUser(params?: MockSearchParams): DashboardUser {
   const isPartner = params?.as === 'partner'
   const tier = (params?.tier ?? 'free') as User['membershipTier']
 
-  const base: User = {
+  return {
     id: 1,
     email: 'demo@peptidewiki.com',
     name: 'Alex Chen',
@@ -30,6 +46,4 @@ export function getMockUser(params?: MockSearchParams): User {
     createdAt: '2025-11-03T10:00:00.000Z',
     updatedAt: '2026-04-01T14:30:00.000Z',
   }
-
-  return base
 }

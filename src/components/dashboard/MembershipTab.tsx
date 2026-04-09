@@ -1,5 +1,5 @@
 import React from 'react'
-import type { User } from '@/payload-types'
+import type { DashboardUser } from '@/lib/mock-user'
 import { formatDate } from '@/lib/format'
 
 const TIERS = [
@@ -50,7 +50,7 @@ const TIERS = [
   },
 ]
 
-export function MembershipTab({ user }: { user: User }) {
+export function MembershipTab({ user }: { user: DashboardUser }) {
   const currentTier = user.membershipTier
 
   return (

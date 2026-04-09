@@ -54,7 +54,7 @@ async function run() {
       }
 
       const articles = await fetchArticles(newPmids)
-      const createdIds: string[] = []
+      const createdIds: number[] = []
 
       for (const article of articles) {
         const study = await payload.create({
@@ -73,7 +73,7 @@ async function run() {
             syncedAt: new Date().toISOString(),
           },
         })
-        createdIds.push(study.id as string)
+        createdIds.push(study.id)
       }
 
       // Link new studies to peptide
@@ -83,7 +83,7 @@ async function run() {
 
       await payload.update({
         collection: 'peptides',
-        id: peptide.id as string,
+        id: peptide.id,
         data: {
           studies: [...currentStudyIds, ...createdIds],
           lastPubmedSync: new Date().toISOString(),

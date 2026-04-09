@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Where } from 'payload'
 
 export const Partners: CollectionConfig = {
   slug: 'partners',
@@ -8,17 +8,17 @@ export const Partners: CollectionConfig = {
   },
   // Partners can read their own record; admins manage all
   access: {
-    read: ({ req }) => {
+    read: ({ req }): boolean | Where => {
       if (req.user?.role === 'admin') return true
       if (req.user?.role === 'partner' && req.user?.partnerProfile) {
         const partnerId =
           typeof req.user.partnerProfile === 'object'
             ? req.user.partnerProfile.id
             : req.user.partnerProfile
-        return { id: { equals: partnerId } } as const
+        return { id: { equals: partnerId } }
       }
       // Public: only show active partners
-      return { status: { equals: 'active' } } as const
+      return { status: { equals: 'active' } }
     },
     create: ({ req }) => req.user?.role === 'admin',
     update: ({ req }) => req.user?.role === 'admin',

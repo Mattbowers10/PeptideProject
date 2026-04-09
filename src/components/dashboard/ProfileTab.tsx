@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import type { User } from '@/payload-types'
+import type { DashboardUser } from '@/lib/mock-user'
 
-export function ProfileTab({ user }: { user: User }) {
+export function ProfileTab({ user }: { user: DashboardUser }) {
   const [name, setName] = useState(user.name ?? '')
   const [email, setEmail] = useState(user.email)
   const [saved, setSaved] = useState(false)

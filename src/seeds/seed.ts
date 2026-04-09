@@ -17,7 +17,7 @@ async function seed() {
   await payload.init({ config })
 
   console.log('\n── Seeding categories ──────────────────────────')
-  const categorySlugToId: Record<string, string> = {}
+  const categorySlugToId: Record<string, number> = {}
 
   for (const cat of categoriesData) {
     const existing = await payload.find({
@@ -27,11 +27,11 @@ async function seed() {
     })
 
     if (existing.docs.length > 0) {
-      categorySlugToId[cat.slug] = existing.docs[0].id as string
+      categorySlugToId[cat.slug] = existing.docs[0].id
       console.log(`  skip: ${cat.name}`)
     } else {
       const created = await payload.create({ collection: 'categories', data: cat })
-      categorySlugToId[cat.slug] = created.id as string
+      categorySlugToId[cat.slug] = created.id
       console.log(`  ✓ ${cat.name}`)
     }
   }

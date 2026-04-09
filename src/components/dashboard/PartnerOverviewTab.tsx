@@ -1,5 +1,6 @@
 import React from 'react'
-import type { User, Partner, AffiliateLink } from '@/payload-types'
+import type { Partner, AffiliateLink } from '@/payload-types'
+import type { DashboardUser } from '@/lib/mock-user'
 import { formatNumber, formatDate } from '@/lib/format'
 
 const STATUS_COLORS: Record<string, string> = {
@@ -15,7 +16,7 @@ const VERIFICATION_LABELS: Record<string, string> = {
 }
 
 type Props = {
-  user: User
+  user: DashboardUser
   partner: Partner | null
   affiliateLinks: AffiliateLink[]
 }
