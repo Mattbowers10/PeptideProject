@@ -1,0 +1,39 @@
+{
+  "name": "peptide-wiki",
+  "version": "0.1.0",
+  "description": "The leading resource for peptide research and trusted providers",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "generate:types": "payload generate:types",
+    "generate:importmap": "NODE_OPTIONS='--import tsx/esm' payload generate:importmap",
+    "generate:graphQLSchema": "payload generate:graphQLSchema",
+    "payload": "payload",
+    "db:migrate": "NODE_OPTIONS='--import tsx/esm' payload migrate",
+    "db:migrate:create": "NODE_OPTIONS='--import tsx/esm' payload migrate:create"
+  },
+  "dependencies": {
+    "@payloadcms/db-postgres": "^3.82.1",
+    "@payloadcms/next": "^3.82.1",
+    "@payloadcms/richtext-lexical": "^3.82.1",
+    "@payloadcms/ui": "^3.82.1",
+    "graphql": "^16.9.0",
+    "next": "15.4.11",
+    "payload": "^3.82.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sharp": "^0.34.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

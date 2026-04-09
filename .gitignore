@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Payload
+src/payload-types.ts
+src/generated-schema.graphql
+
+# Build
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Uploads (store in S3/Cloudflare R2 in production)
+public/media/

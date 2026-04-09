@@ -1,0 +1,98 @@
+export const categoriesData = [
+  {
+    name: 'Growth Hormone Axis',
+    slug: 'growth-hormone-axis',
+    description: 'Peptides that stimulate growth hormone release or enhance the GH/IGF-1 axis.',
+    icon: '📈',
+  },
+  {
+    name: 'Healing & Recovery',
+    slug: 'healing-recovery',
+    description: 'Peptides researched for accelerating tissue repair, wound healing, and post-injury recovery.',
+    icon: '🔬',
+  },
+  {
+    name: 'Cognitive Enhancement',
+    slug: 'cognitive-enhancement',
+    description: 'Peptides studied for neuroprotection, memory, focus, and neuroplasticity.',
+    icon: '🧠',
+  },
+  {
+    name: 'Fat Loss & Metabolic',
+    slug: 'fat-loss-metabolic',
+    description: 'Peptides involved in lipolysis, metabolic rate, insulin sensitivity, and body composition.',
+    icon: '⚡',
+  },
+  {
+    name: 'Sexual Health',
+    slug: 'sexual-health',
+    description: 'Peptides researched for sexual function, libido, and reproductive health.',
+    icon: '❤️',
+  },
+  {
+    name: 'Anti-Aging & Longevity',
+    slug: 'anti-aging-longevity',
+    description: 'Peptides studied for cellular repair, telomere maintenance, and extending healthspan.',
+    icon: '⏳',
+  },
+  {
+    name: 'Immune Support',
+    slug: 'immune-support',
+    description: 'Peptides that modulate or enhance immune system function and resilience.',
+    icon: '🛡️',
+  },
+  {
+    name: 'Muscle & Performance',
+    slug: 'muscle-performance',
+    description: 'Peptides researched for muscle growth, strength, and athletic performance.',
+    icon: '💪',
+  },
+  {
+    name: 'Skin & Cosmetic',
+    slug: 'skin-cosmetic',
+    description: 'Peptides used in dermatology and cosmetics for collagen synthesis, wrinkle reduction, and skin repair.',
+    icon: '✨',
+  },
+  {
+    name: 'Cardiovascular',
+    slug: 'cardiovascular',
+    description: 'Peptides studied for heart health, blood pressure regulation, and vascular function.',
+    icon: '🫀',
+  },
+  {
+    name: 'Neuroprotection',
+    slug: 'neuroprotection',
+    description: 'Peptides researched for protecting against neurodegeneration and brain injury.',
+    icon: '🔷',
+  },
+  {
+    name: 'Sleep & Circadian',
+    slug: 'sleep-circadian',
+    description: 'Peptides that influence sleep quality, circadian rhythm, and recovery during sleep.',
+    icon: '🌙',
+  },
+  {
+    name: 'Antimicrobial',
+    slug: 'antimicrobial',
+    description: 'Peptides with antibacterial, antifungal, or antiviral properties.',
+    icon: '🦠',
+  },
+  {
+    name: 'Pain & Inflammation',
+    slug: 'pain-inflammation',
+    description: 'Peptides researched for analgesic effects and reducing inflammatory pathways.',
+    icon: '🔥',
+  },
+  {
+    name: 'Mitochondrial Health',
+    slug: 'mitochondrial-health',
+    description: 'Peptides that target mitochondrial function, biogenesis, and cellular energy.',
+    icon: '⚙️',
+  },
+  {
+    name: 'GLP-1 & Metabolic Hormones',
+    slug: 'glp1-metabolic-hormones',
+    description: 'GLP-1 receptor agonists and related peptide hormones studied for diabetes, obesity, and metabolism.',
+    icon: '💊',
+  },
+]

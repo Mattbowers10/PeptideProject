@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --midnight: #010120;
+    --magenta: #ef2cc1;
+    --brand-orange: #fc4c02;
+    --lavender: #bdbbff;
+    --border-light: rgba(0, 0, 0, 0.08);
+    --border-dark: rgba(255, 255, 255, 0.12);
+    --glass-light: rgba(255, 255, 255, 0.12);
+    --glass-dark: rgba(0, 0, 0, 0.08);
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Selection — lavender tint */
+  ::selection {
+    background: rgba(189, 187, 255, 0.3);
+  }
+}
+
+@layer components {
+  /* Mono label — the technical marker pattern */
+  .mono-label {
+    @apply font-mono text-[11px] font-medium uppercase;
+    letter-spacing: 0.055em;
+  }
+
+  .mono-label-sm {
+    @apply font-mono text-[10px] font-normal uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Sharp badge — 4px radius, subtle bg */
+  .badge-light {
+    @apply inline-flex items-center border px-2 py-0.5 font-mono text-[11px] font-medium uppercase;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    border-color: var(--border-light);
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  .badge-dark {
+    @apply inline-flex items-center border px-2 py-0.5 font-mono text-[11px] font-medium uppercase text-white;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    border-color: var(--border-dark);
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  /* Glass button */
+  .btn-glass {
+    @apply inline-flex items-center px-5 py-2.5 text-sm font-medium text-white transition-all;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.12);
+    letter-spacing: -0.01em;
+  }
+  .btn-glass:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  /* Dark solid button */
+  .btn-dark {
+    @apply inline-flex items-center px-5 py-2.5 text-sm font-medium text-white transition-all;
+    border-radius: 4px;
+    background: #010120;
+    letter-spacing: -0.01em;
+  }
+  .btn-dark:hover {
+    background: #0a0a3a;
+  }
+
+  /* Outlined button */
+  .btn-outline {
+    @apply inline-flex items-center border bg-transparent px-5 py-2.5 text-sm font-medium transition-all;
+    border-radius: 4px;
+    border-color: var(--border-light);
+    letter-spacing: -0.01em;
+  }
+  .btn-outline:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  /* Card — the specimen container */
+  .card-light {
+    @apply border bg-white;
+    border-radius: 8px;
+    border-color: var(--border-light);
+    box-shadow: rgba(1, 1, 32, 0.1) 0px 4px 10px;
+  }
+
+  .card-dark {
+    @apply border;
+    border-radius: 8px;
+    border-color: var(--border-dark);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* Thin rule — annotation divider */
+  .rule {
+    @apply border-t;
+    border-color: var(--border-light);
+  }
+
+  .rule-dark {
+    @apply border-t;
+    border-color: var(--border-dark);
+  }
+
+  /* Pastel gradient hero background */
+  .gradient-pastel {
+    background: linear-gradient(
+      135deg,
+      rgba(252, 231, 243, 0.7) 0%,
+      rgba(189, 187, 255, 0.35) 35%,
+      rgba(219, 234, 254, 0.4) 65%,
+      rgba(255, 255, 255, 1) 100%
+    );
+  }
+}
+
+@layer utilities {
+  /* Tracking presets matching DESIGN.md */
+  .tracking-display {
+    letter-spacing: -0.03em;
+  }
+  .tracking-section {
+    letter-spacing: -0.02em;
+  }
+}
