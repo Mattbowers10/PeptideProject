@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { MobileNav } from './MobileNav'
+import { UserNav } from './UserNav'
 
 export function Header() {
   return (
@@ -40,13 +41,6 @@ export function Header() {
           >
             Dashboard
           </Link>
-          <Link
-            href="/login"
-            className="btn-glass py-1.5 px-3 text-sm"
-          >
-            Sign in
-          </Link>
-
           {/* Search */}
           <form action="/peptides" method="GET" className="hidden md:block">
             <div className="relative">
@@ -70,8 +64,13 @@ export function Header() {
           </form>
         </nav>
 
-        {/* Mobile hamburger — visible below sm */}
-        <MobileNav />
+        {/* User nav (desktop) + mobile hamburger */}
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:block">
+            <UserNav />
+          </div>
+          <MobileNav />
+        </div>
       </div>
     </header>
   )

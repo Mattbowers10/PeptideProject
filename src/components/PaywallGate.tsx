@@ -3,6 +3,7 @@
 import React, { Suspense } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { useAuth } from '@/lib/useAuth'
 
 type Tier = 'free' | 'researcher' | 'pro'
 
@@ -20,8 +21,21 @@ function PaywallGateInner({
   description: string
 }) {
   const searchParams = useSearchParams()
-  const tierParam = (searchParams.get('tier') ?? 'free') as Tier
-  const hasAccess = TIER_RANK[tierParam] >= TIER_RANK[minTier]
+  const { user, loading } = useAuth()
+
+  // Determine effective tier:
+  // 1. ?tier= URL param overrides (dev/preview convenience)
+  // 2. Real user session
+  // 3. Default to 'free'
+  const urlTierParam = searchParams.get('tier') as Tier | null
+  const effectiveTier: Tier = urlTierParam ?? (user?.membershipTier as Tier) ?? 'free'
+
+  const hasAccess = TIER_RANK[effectiveTier] >= TIER_RANK[minTier]
+
+  // While auth is resolving, show nothing to avoid flash
+  if (loading) {
+    return <div className="h-40 rounded-comfortable bg-white/5 animate-pulse" />
+  }
 
   if (hasAccess) return <>{children}</>
 
@@ -64,12 +78,23 @@ function PaywallGateInner({
             ? 'Available on Researcher and Pro plans.'
             : 'Available on the Pro plan.'}
         </p>
-        <Link
-          href={`/dashboard?tab=membership`}
-          className="btn-dark mt-4 text-[13px]"
-        >
-          Upgrade to {minTier === 'researcher' ? 'Researcher' : 'Pro'} →
-        </Link>
+        {user ? (
+          <Link
+            href="/dashboard?tab=membership"
+            className="btn-dark mt-4 text-[13px]"
+          >
+            Upgrade to {minTier === 'researcher' ? 'Researcher' : 'Pro'} →
+          </Link>
+        ) : (
+          <div className="mt-4 flex gap-2">
+            <Link href="/login" className="btn-glass text-[13px]">
+              Sign in
+            </Link>
+            <Link href="/register" className="btn-dark text-[13px]">
+              Create account
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   )

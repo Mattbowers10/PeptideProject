@@ -1,7 +1,9 @@
 import React, { Suspense } from 'react'
 import type { Metadata } from 'next'
+import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { getCurrentUser } from '@/lib/auth'
 import { getMockUser, type DashboardUser } from '@/lib/mock-user'
 import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar'
 import { OverviewTab } from '@/components/dashboard/OverviewTab'
@@ -11,6 +13,7 @@ import { MembershipTab } from '@/components/dashboard/MembershipTab'
 import { PartnerOverviewTab } from '@/components/dashboard/PartnerOverviewTab'
 import { AffiliateLinksTab } from '@/components/dashboard/AffiliateLinksTab'
 import { AnalyticsTab } from '@/components/dashboard/AnalyticsTab'
+import type { User } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,13 +24,48 @@ export const metadata: Metadata = {
 
 type SearchParams = { tab?: string; as?: string; tier?: string }
 
+/** Convert a full Payload User to a DashboardUser shape */
+function toDashboardUser(u: User): DashboardUser {
+  return {
+    id: u.id,
+    email: u.email,
+    name: u.name ?? null,
+    role: u.role,
+    membershipTier: u.membershipTier,
+    membershipExpiresAt: u.membershipExpiresAt ?? null,
+    stripeCustomerId: u.stripeCustomerId ?? null,
+    stripeSubscriptionId: u.stripeSubscriptionId ?? null,
+    partnerProfile: u.partnerProfile ?? null,
+    createdAt: u.createdAt,
+    updatedAt: u.updatedAt,
+  }
+}
+
 export default async function DashboardPage({
   searchParams,
 }: {
   searchParams: Promise<SearchParams>
 }) {
   const params = await searchParams
-  const user = getMockUser(params)
+
+  // ── Auth resolution ──────────────────────────────────────────────────────
+  // If ?as= is present, use mock auth (dev/preview convenience)
+  // Otherwise, require a real session — redirect to /login if absent
+  let user: DashboardUser
+
+  if (params.as) {
+    user = getMockUser(params)
+  } else {
+    const realUser = await getCurrentUser()
+    if (!realUser) {
+      redirect(`/login?redirect=/dashboard${params.tab ? `?tab=${params.tab}` : ''}`)
+    }
+    // Allow ?tier= override for testing without changing DB
+    user = params.tier
+      ? { ...toDashboardUser(realUser), membershipTier: params.tier as DashboardUser['membershipTier'] }
+      : toDashboardUser(realUser)
+  }
+
   const tab = params.tab ?? 'overview'
   const isPartner = user.role === 'partner'
 
@@ -59,8 +97,8 @@ export default async function DashboardPage({
     }
 
     if (tab === 'links') {
-      const payload = await getPayload({ config })
-      const linksResult = await payload.find({
+      const payload2 = await getPayload({ config })
+      const linksResult = await payload2.find({
         collection: 'affiliate-links',
         where: { partner: { equals: user.partnerProfile } },
         limit: 100,
@@ -73,10 +111,9 @@ export default async function DashboardPage({
     if (tab === 'analytics' && affiliateLinks && affiliateLinks.length > 0) {
       const thirtyDaysAgo = new Date()
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
-
       const linkIds = affiliateLinks.map((l) => l.id)
-      const payload = await getPayload({ config })
-      const clickResult = await payload.find({
+      const payload3 = await getPayload({ config })
+      const clickResult = await payload3.find({
         collection: 'click-events',
         where: {
           affiliateLink: { in: linkIds },
