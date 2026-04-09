@@ -1,3 +1,3 @@
-import type { ImportMap } from '@payloadcms/next/dist/bin/generateImportMap.js'
+import type { ImportMap } from 'payload'
 
 export const importMap: ImportMap = {}
