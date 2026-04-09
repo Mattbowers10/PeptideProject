@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "payload generate:types && next build",
     "start": "next start",
     "generate:types": "payload generate:types",
     "generate:importmap": "NODE_OPTIONS='--import tsx/esm' payload generate:importmap",
