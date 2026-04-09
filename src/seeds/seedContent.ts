@@ -13,6 +13,7 @@
 import payload from 'payload'
 import config from '@payload-config'
 import { richContent } from './data/rich-content'
+import { richContent2 } from './data/rich-content-2'
 import { partnersData } from './data/partners-data'
 
 async function seed() {
@@ -21,7 +22,9 @@ async function seed() {
   // ── 1. Rich content for peptides ────────────────────────────
   console.log('\n── Updating peptide rich content ───────────────────────')
 
-  for (const [slug, content] of Object.entries(richContent)) {
+  const allRichContent = { ...richContent, ...richContent2 }
+
+  for (const [slug, content] of Object.entries(allRichContent)) {
     const existing = await payload.find({
       collection: 'peptides',
       where: { slug: { equals: slug } },

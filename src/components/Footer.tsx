@@ -62,9 +62,17 @@ export function Footer() {
           <p className="mono-label text-white/20">
             © {new Date().getFullYear()} Peptide Wiki. All rights reserved.
           </p>
-          <p className="mono-label text-white/20">
-            For research and educational purposes only
-          </p>
+          <div className="flex flex-wrap gap-x-5 gap-y-1">
+            <Link href="/terms" className="mono-label text-white/20 transition-colors hover:text-white/40">
+              Terms
+            </Link>
+            <Link href="/privacy" className="mono-label text-white/20 transition-colors hover:text-white/40">
+              Privacy
+            </Link>
+            <Link href="/disclaimer" className="mono-label text-white/20 transition-colors hover:text-white/40">
+              Disclaimer
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
