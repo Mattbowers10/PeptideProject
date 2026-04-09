@@ -10,15 +10,15 @@ export const Partners: CollectionConfig = {
   access: {
     read: ({ req }) => {
       if (req.user?.role === 'admin') return true
-      if (req.user?.role === 'partner') {
-        return {
-          id: {
-            equals: req.user?.partnerProfile,
-          },
-        }
+      if (req.user?.role === 'partner' && req.user?.partnerProfile) {
+        const partnerId =
+          typeof req.user.partnerProfile === 'object'
+            ? req.user.partnerProfile.id
+            : req.user.partnerProfile
+        return { id: { equals: partnerId } } as const
       }
       // Public: only show active partners
-      return { status: { equals: 'active' } }
+      return { status: { equals: 'active' } } as const
     },
     create: ({ req }) => req.user?.role === 'admin',
     update: ({ req }) => req.user?.role === 'admin',
