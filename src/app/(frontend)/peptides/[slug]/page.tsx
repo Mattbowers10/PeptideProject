@@ -7,7 +7,10 @@ import config from '@payload-config'
 import { ResearchBadge } from '@/components/ResearchBadge'
 import { RecordViewClient } from '@/components/RecordViewClient'
 import { RecentlyViewed } from '@/components/RecentlyViewed'
-import type { Category, Peptide } from '@/payload-types'
+import { RichTextRenderer } from '@/components/RichTextRenderer'
+import { PaywallGate } from '@/components/PaywallGate'
+import { AffiliateSection } from '@/components/AffiliateSection'
+import type { AffiliateLink, Category, Partner, Peptide } from '@/payload-types'
 
 export const revalidate = 3600
 
@@ -18,6 +21,7 @@ async function getPeptide(slug: string) {
     where: { slug: { equals: slug } },
     depth: 2,
     limit: 1,
+    overrideAccess: true, // fetch all fields; paywall gate is enforced at UI layer
   })
   return result.docs[0] as Peptide | undefined
 }
@@ -36,7 +40,7 @@ export async function generateMetadata({
     description: peptide.summary,
     openGraph: {
       title: `${peptide.name} — Peptide Research Profile`,
-      description: peptide.summary,
+      description: peptide.summary ?? undefined,
     },
   }
 }
@@ -77,6 +81,21 @@ export default async function PeptideDetailPage({
   const categories = (peptide.categories ?? []).filter(
     (c): c is Category => typeof c === 'object',
   )
+
+  // Affiliate links — populated with partner data at depth 2
+  type PopulatedLink = Omit<AffiliateLink, 'partner'> & { partner: Partner | number }
+  const affiliateLinks = ((peptide.affiliateLinks ?? []).filter(
+    (l): l is AffiliateLink => typeof l === 'object',
+  ) as PopulatedLink[])
+
+  // Rich text — cast to the shape RichTextRenderer expects
+  type LexicalData = { root: { children: unknown[] } }
+  const moa = peptide.mechanismOfAction as LexicalData | null | undefined
+  const pk = peptide.pharmacokinetics as LexicalData | null | undefined
+  const findings = peptide.researchFindings as LexicalData | null | undefined
+  const safety = peptide.sideEffectsAndSafety as LexicalData | null | undefined
+
+  const hasGatedContent = moa || pk || findings || safety
 
   return (
     <>
@@ -156,9 +175,11 @@ export default async function PeptideDetailPage({
         {/* ── Two-column layout ──────────────────────────────── */}
         <div className="mx-auto max-w-[1200px] px-6 pb-16">
           <div className="grid gap-6 lg:grid-cols-5">
-            {/* Main content */}
+
+            {/* ── Main content ─────────────────────────────── */}
             <div className="space-y-6 lg:col-span-3">
-              {/* Administration Routes */}
+
+              {/* Administration Routes — free */}
               {peptide.administrationRoutes && peptide.administrationRoutes.length > 0 && (
                 <section className="card-dark p-6">
                   <p className="mono-label mb-4 text-white/30">Routes of Administration</p>
@@ -177,7 +198,76 @@ export default async function PeptideDetailPage({
                 </section>
               )}
 
-              {/* PubMed search terms */}
+              {/* ── Gated research content ───────────────── */}
+              {hasGatedContent && (
+                <section className="card-dark p-6">
+                  <p className="mono-label mb-5 text-white/30">Research Profile</p>
+                  <div className="space-y-8">
+
+                    {moa && (
+                      <div>
+                        <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.1em] text-lavender/70">
+                          Mechanism of Action
+                        </p>
+                        <PaywallGate
+                          minTier="researcher"
+                          title="Mechanism Detail — Researcher+"
+                          description={peptide.summary ?? ''}
+                        >
+                          <RichTextRenderer data={moa as Parameters<typeof RichTextRenderer>[0]['data']} />
+                        </PaywallGate>
+                      </div>
+                    )}
+
+                    {pk && (
+                      <div>
+                        <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.1em] text-lavender/70">
+                          Pharmacokinetics
+                        </p>
+                        <PaywallGate
+                          minTier="researcher"
+                          title="Pharmacokinetics — Researcher+"
+                          description={peptide.summary ?? ''}
+                        >
+                          <RichTextRenderer data={pk as Parameters<typeof RichTextRenderer>[0]['data']} />
+                        </PaywallGate>
+                      </div>
+                    )}
+
+                    {findings && (
+                      <div>
+                        <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.1em] text-lavender/70">
+                          Key Research Findings
+                        </p>
+                        <PaywallGate
+                          minTier="researcher"
+                          title="Research Findings — Researcher+"
+                          description={peptide.summary ?? ''}
+                        >
+                          <RichTextRenderer data={findings as Parameters<typeof RichTextRenderer>[0]['data']} />
+                        </PaywallGate>
+                      </div>
+                    )}
+
+                    {safety && (
+                      <div>
+                        <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.1em] text-lavender/70">
+                          Side Effects & Safety
+                        </p>
+                        <PaywallGate
+                          minTier="researcher"
+                          title="Safety Profile — Researcher+"
+                          description={peptide.summary ?? ''}
+                        >
+                          <RichTextRenderer data={safety as Parameters<typeof RichTextRenderer>[0]['data']} />
+                        </PaywallGate>
+                      </div>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {/* PubMed search terms — free (links are free; gated content is above) */}
               {peptide.pubmedSearchTerms && peptide.pubmedSearchTerms.length > 0 && (
                 <section className="card-dark p-6">
                   <p className="mono-label mb-4 text-white/30">Research Search Terms</p>
@@ -199,9 +289,12 @@ export default async function PeptideDetailPage({
                   </p>
                 </section>
               )}
+
+              {/* Affiliate links */}
+              <AffiliateSection links={affiliateLinks} />
             </div>
 
-            {/* Sidebar: molecular specimen data */}
+            {/* ── Sidebar ──────────────────────────────────── */}
             <aside className="space-y-6 lg:col-span-2">
               <div className="card-dark p-6">
                 <p className="mono-label mb-4 text-white/30">Molecular Information</p>
@@ -213,13 +306,27 @@ export default async function PeptideDetailPage({
                 </dl>
               </div>
 
+              {/* Upgrade CTA — shown if any content is gated */}
+              {hasGatedContent && (
+                <div className="card-dark border-lavender/20 p-5">
+                  <p className="mono-label mb-2 text-lavender/60">Unlock Full Profile</p>
+                  <p className="mb-4 text-[13px] leading-[1.6] text-white/50">
+                    Mechanism of action, pharmacokinetics, research findings, and safety
+                    data are available on the Researcher plan.
+                  </p>
+                  <Link href="/dashboard?tab=membership" className="btn-dark w-full justify-center text-[13px]">
+                    View Plans →
+                  </Link>
+                </div>
+              )}
+
               {/* Research disclaimer */}
               <div className="card-dark border-lavender/20 p-5">
                 <p className="mono-label mb-2 text-lavender/60">Research Use Only</p>
                 <p className="text-[12px] leading-[1.6] text-white/40">
-                  The information on this page is for educational purposes and refers to preclinical
-                  and clinical research. It is not medical advice and should not be used for
-                  self-treatment.
+                  The information on this page is for educational purposes and refers to
+                  preclinical and clinical research. It is not medical advice and should
+                  not be used for self-treatment.
                 </p>
               </div>
             </aside>
