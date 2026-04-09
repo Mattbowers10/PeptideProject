@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { MobileNav } from './MobileNav'
 
 export function Header() {
   return (
@@ -13,8 +14,8 @@ export function Header() {
           <span className="text-base font-medium tracking-heading">Peptide Wiki</span>
         </Link>
 
-        {/* Nav */}
-        <nav className="flex items-center gap-6">
+        {/* Desktop nav — hidden below sm */}
+        <nav className="hidden items-center gap-5 sm:flex">
           <Link
             href="/peptides"
             className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
@@ -39,9 +40,15 @@ export function Header() {
           >
             Dashboard
           </Link>
+          <Link
+            href="/login"
+            className="btn-glass py-1.5 px-3 text-sm"
+          >
+            Sign in
+          </Link>
 
           {/* Search */}
-          <form action="/peptides" method="GET" className="hidden sm:block">
+          <form action="/peptides" method="GET" className="hidden md:block">
             <div className="relative">
               <svg
                 className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white/40"
@@ -56,12 +63,15 @@ export function Header() {
                 name="q"
                 type="search"
                 placeholder="Search…"
-                className="w-44 rounded-sharp border bg-white/[0.08] py-1.5 pl-8 pr-3 text-sm text-white placeholder:text-white/40 transition-all focus:w-56 focus:bg-white/[0.12] focus:outline-none"
+                className="w-40 rounded-sharp border bg-white/[0.08] py-1.5 pl-8 pr-3 text-sm text-white placeholder:text-white/40 transition-all focus:w-52 focus:bg-white/[0.12] focus:outline-none"
                 style={{ borderColor: 'var(--border-dark)' }}
               />
             </div>
           </form>
         </nav>
+
+        {/* Mobile hamburger — visible below sm */}
+        <MobileNav />
       </div>
     </header>
   )

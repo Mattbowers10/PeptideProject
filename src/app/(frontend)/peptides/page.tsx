@@ -7,7 +7,7 @@ import { PeptideCard } from '@/components/PeptideCard'
 import type { Category, Peptide } from '@/payload-types'
 import type { Where } from 'payload'
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'All Peptides | Peptide Wiki',
@@ -43,6 +43,8 @@ async function getData(params: SearchParams) {
   if (params.q) {
     where.or = [
       { name: { like: params.q } },
+      { 'aliases.alias': { like: params.q } },
+      { summary: { like: params.q } },
     ]
   }
 

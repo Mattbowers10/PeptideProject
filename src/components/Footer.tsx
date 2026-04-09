@@ -12,18 +12,57 @@ export function Footer() {
           </p>
         </div>
 
-        {/* Footer links */}
-        <div className="flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex gap-6">
-            <Link href="/peptides" className="text-sm text-white/50 transition-colors hover:text-white">
-              Peptides
-            </Link>
-            <Link href="/categories" className="text-sm text-white/50 transition-colors hover:text-white">
-              Categories
-            </Link>
+        {/* Footer link grid */}
+        <div className="grid gap-8 py-12 sm:grid-cols-3">
+          <div>
+            <p className="mono-label mb-4 text-white/30">Research</p>
+            <div className="flex flex-col gap-2">
+              <Link href="/peptides" className="text-sm text-white/50 transition-colors hover:text-white">
+                All Peptides
+              </Link>
+              <Link href="/categories" className="text-sm text-white/50 transition-colors hover:text-white">
+                Categories
+              </Link>
+              <Link href="/peptides?status=approved" className="text-sm text-white/50 transition-colors hover:text-white">
+                Approved Compounds
+              </Link>
+              <Link href="/peptides?status=human" className="text-sm text-white/50 transition-colors hover:text-white">
+                Human Trials
+              </Link>
+            </div>
           </div>
 
-          <p className="mono-label text-white/30">
+          <div>
+            <p className="mono-label mb-4 text-white/30">Partners</p>
+            <div className="flex flex-col gap-2">
+              <Link href="/partners" className="text-sm text-white/50 transition-colors hover:text-white">
+                Partner Directory
+              </Link>
+              <Link href="/dashboard?tab=partner" className="text-sm text-white/50 transition-colors hover:text-white">
+                Partner Dashboard
+              </Link>
+            </div>
+          </div>
+
+          <div>
+            <p className="mono-label mb-4 text-white/30">Account</p>
+            <div className="flex flex-col gap-2">
+              <Link href="/dashboard" className="text-sm text-white/50 transition-colors hover:text-white">
+                Dashboard
+              </Link>
+              <Link href="/dashboard?tab=membership" className="text-sm text-white/50 transition-colors hover:text-white">
+                Membership Plans
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="flex flex-col gap-3 border-t pb-8 pt-6 sm:flex-row sm:items-center sm:justify-between" style={{ borderColor: 'var(--border-dark)' }}>
+          <p className="mono-label text-white/20">
+            © {new Date().getFullYear()} Peptide Wiki. All rights reserved.
+          </p>
+          <p className="mono-label text-white/20">
             For research and educational purposes only
           </p>
         </div>

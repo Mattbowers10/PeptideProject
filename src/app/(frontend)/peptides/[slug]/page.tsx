@@ -103,8 +103,27 @@ export default async function PeptideDetailPage({
 
   const hasGatedContent = moa || pk || findings || safety
 
+  const base = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://peptidewiki.com').replace(/\/$/, '')
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ChemicalSubstance',
+    name: peptide.name,
+    alternateName: peptide.aliases?.map((a) => a.alias).filter(Boolean) ?? [],
+    description: peptide.summary,
+    url: `${base}/peptides/${peptide.slug}`,
+    identifier: peptide.casNumber ?? undefined,
+    molecularFormula: peptide.molecularFormula ?? undefined,
+    potentialUse: 'Research use only',
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* ── Record visit for relationship layer ──────────────── */}
       <RecordViewClient slug={peptide.slug} name={peptide.name} />
 
