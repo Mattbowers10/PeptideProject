@@ -12,6 +12,7 @@ import { Partners } from './collections/Partners'
 import { AffiliateLinks } from './collections/AffiliateLinks'
 import { ClickEvents } from './collections/ClickEvents'
 import { Media } from './collections/Media'
+import { EmailSubscribers } from './collections/EmailSubscribers'
 
 export default buildConfig({
   admin: {
@@ -29,6 +30,7 @@ export default buildConfig({
     AffiliateLinks,
     ClickEvents,
     Media,
+    EmailSubscribers,
   ],
   editor: lexicalEditor({}),
   db: postgresAdapter({

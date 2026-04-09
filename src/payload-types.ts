@@ -75,6 +75,7 @@ export interface Config {
     'affiliate-links': AffiliateLink;
     'click-events': ClickEvent;
     media: Media;
+    'email-subscribers': EmailSubscriber;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -90,6 +91,7 @@ export interface Config {
     'affiliate-links': AffiliateLinksSelect<false> | AffiliateLinksSelect<true>;
     'click-events': ClickEventsSelect<false> | ClickEventsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'email-subscribers': EmailSubscribersSelect<false> | EmailSubscribersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -507,6 +509,26 @@ export interface AffiliateLink {
   lastClickAt?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "email-subscribers".
+ */
+export interface EmailSubscriber {
+  id: number;
+  email: string;
+  source?: ('homepage' | 'paywall' | 'peptide' | 'footer') | null;
+  peptideSlug?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface EmailSubscribersSelect<T extends boolean = true> {
+  email?: T;
+  source?: T;
+  peptideSlug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  id?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

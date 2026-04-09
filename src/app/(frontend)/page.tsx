@@ -5,6 +5,7 @@ import config from '@payload-config'
 import { CategoryCard } from '@/components/CategoryCard'
 import { PeptideCard } from '@/components/PeptideCard'
 import { RecentlyViewed } from '@/components/RecentlyViewed'
+import { EmailCapture } from '@/components/EmailCapture'
 import type { Category, Peptide } from '@/payload-types'
 
 export const revalidate = 3600
@@ -160,6 +161,35 @@ export default async function HomePage() {
       <div className="mx-auto max-w-[1200px] px-6">
         <RecentlyViewed />
       </div>
+
+      {/* ── Email capture ───────────────────────────────────────── */}
+      <section className="bg-midnight py-16">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div>
+              <p className="mono-label mb-3 text-white/30">Research updates</p>
+              <EmailCapture
+                variant="dark"
+                source="homepage"
+                heading="Stay updated on peptide research."
+                subheading="New profiles, synced PubMed studies, and research summaries — delivered free."
+              />
+            </div>
+            <div className="space-y-4">
+              {[
+                { icon: '🔬', text: 'Weekly digest of new PubMed studies across 16 research categories' },
+                { icon: '📊', text: 'Profile updates when new pharmacokinetics or mechanism data is published' },
+                { icon: '🔓', text: 'Early access to new peptide profiles and research tools' },
+              ].map((item) => (
+                <div key={item.text} className="flex items-start gap-3">
+                  <span className="mt-0.5 text-[18px]">{item.icon}</span>
+                  <p className="text-[14px] leading-[1.5] text-white/50">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ── CTA ────────────────────────────────────────────────── */}
       <section className="border-t py-16" style={{ borderColor: 'var(--border-light)' }}>

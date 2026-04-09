@@ -10,7 +10,8 @@ import { RecentlyViewed } from '@/components/RecentlyViewed'
 import { RichTextRenderer } from '@/components/RichTextRenderer'
 import { PaywallGate } from '@/components/PaywallGate'
 import { AffiliateSection } from '@/components/AffiliateSection'
-import type { AffiliateLink, Category, Partner, Peptide } from '@/payload-types'
+import { StudiesSection } from '@/components/StudiesSection'
+import type { AffiliateLink, Category, Partner, Peptide, Study } from '@/payload-types'
 
 export const revalidate = 3600
 
@@ -81,6 +82,11 @@ export default async function PeptideDetailPage({
   const categories = (peptide.categories ?? []).filter(
     (c): c is Category => typeof c === 'object',
   )
+
+  // Studies — populated at depth 2
+  const studies = ((peptide.studies ?? []).filter(
+    (s): s is Study => typeof s === 'object',
+  ) as Study[])
 
   // Affiliate links — populated with partner data at depth 2
   type PopulatedLink = Omit<AffiliateLink, 'partner'> & { partner: Partner | number }
@@ -289,6 +295,9 @@ export default async function PeptideDetailPage({
                   </p>
                 </section>
               )}
+
+              {/* PubMed-linked studies */}
+              <StudiesSection studies={studies} />
 
               {/* Affiliate links */}
               <AffiliateSection links={affiliateLinks} />

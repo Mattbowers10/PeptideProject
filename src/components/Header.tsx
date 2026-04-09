@@ -28,6 +28,12 @@ export function Header() {
             Categories
           </Link>
           <Link
+            href="/partners"
+            className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
+          >
+            Partners
+          </Link>
+          <Link
             href="/dashboard"
             className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
           >
