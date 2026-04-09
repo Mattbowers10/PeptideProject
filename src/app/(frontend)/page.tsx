@@ -17,14 +17,14 @@ async function getData() {
     payload.find({ collection: 'peptides', limit: 6, depth: 1, sort: 'name' }),
   ])
 
-  const countMap: Record<string, number> = {}
+  const countMap: Record<number, number> = {}
   for (const cat of categoriesResult.docs) {
     const { totalDocs } = await payload.find({
       collection: 'peptides',
       where: { categories: { contains: cat.id } },
       limit: 0,
     })
-    countMap[cat.id as unknown as string] = totalDocs
+    countMap[cat.id] = totalDocs
   }
 
   return {
@@ -125,7 +125,7 @@ export default async function HomePage() {
             <CategoryCard
               key={cat.id}
               category={cat}
-              count={countMap[cat.id as unknown as string]}
+              count={countMap[cat.id]}
             />
           ))}
         </div>

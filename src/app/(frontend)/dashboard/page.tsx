@@ -12,6 +12,8 @@ import { PartnerOverviewTab } from '@/components/dashboard/PartnerOverviewTab'
 import { AffiliateLinksTab } from '@/components/dashboard/AffiliateLinksTab'
 import { AnalyticsTab } from '@/components/dashboard/AnalyticsTab'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Dashboard | Peptide Wiki',
   description: 'Manage your Peptide Wiki account, membership, and research activity.',
