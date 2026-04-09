@@ -42,7 +42,7 @@ export async function GET(
       await payload.create({
         collection: 'click-events',
         data: {
-          affiliateLink: link.id as string,
+          affiliateLink: link.id,
           referrer: req.headers.get('referer') ?? undefined,
           deviceType,
           isUnique,
@@ -52,10 +52,10 @@ export async function GET(
       // Increment aggregate counters on the link
       await payload.update({
         collection: 'affiliate-links',
-        id: link.id as string,
+        id: link.id,
         data: {
-          clicks: ((link.clicks as number) ?? 0) + 1,
-          uniqueClicks: isUnique ? ((link.uniqueClicks as number) ?? 0) + 1 : link.uniqueClicks as number,
+          clicks: (link.clicks ?? 0) + 1,
+          uniqueClicks: isUnique ? (link.uniqueClicks ?? 0) + 1 : (link.uniqueClicks ?? 0),
           lastClickAt: new Date().toISOString(),
         },
       })
