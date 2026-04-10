@@ -24,17 +24,3 @@ export async function getCurrentUser(): Promise<User | null> {
   }
 }
 
-/**
- * Get initials from a name or email for display in the UI.
- */
-export function getUserInitials(user: { name?: string | null; email: string }): string {
-  if (user.name) {
-    return user.name
-      .split(' ')
-      .slice(0, 2)
-      .map((s) => s[0])
-      .join('')
-      .toUpperCase()
-  }
-  return user.email[0]?.toUpperCase() ?? '?'
-}

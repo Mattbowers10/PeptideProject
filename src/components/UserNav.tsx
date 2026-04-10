@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/useAuth'
-import { getUserInitials } from '@/lib/auth'
+import { getUserInitials } from '@/lib/format'
 
 export function UserNav() {
   const { user, loading } = useAuth()

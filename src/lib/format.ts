@@ -44,3 +44,19 @@ export function formatDate(date: string | Date): string {
     year: 'numeric',
   })
 }
+
+/**
+ * Get 1–2 letter initials from a user's name or email.
+ * Client-safe — does not import any server-only modules.
+ */
+export function getUserInitials(user: { name?: string | null; email: string }): string {
+  if (user.name) {
+    return user.name
+      .split(' ')
+      .slice(0, 2)
+      .map((s) => s[0])
+      .join('')
+      .toUpperCase()
+  }
+  return user.email[0]?.toUpperCase() ?? '?'
+}
