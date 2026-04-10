@@ -485,7 +485,7 @@ export const richContent10 = {
   },
 
   // ─── Magainin-2 ──────────────────────────────────────────────
-  'magainin': {
+  'magainin-2': {
     mechanismOfAction: lex(
       h3('Frog Skin Antimicrobial Peptide'),
       p(t('Magainin-2 is a 23-amino acid cationic amphipathic antimicrobial peptide (GIGKFLHSAKKFGKAFVGEIMNS) originally isolated from the skin of the African clawed frog (Xenopus laevis) by Michael Zasloff in 1987. It belongs to the defensin-like AMP (antimicrobial peptide) superfamily. In solution, magainin-2 is disordered, but upon contact with negatively charged microbial membranes, it adopts an amphipathic α-helical conformation that enables membrane insertion.')),
