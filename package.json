@@ -14,7 +14,8 @@
     "db:migrate": "NODE_OPTIONS='--import tsx/esm' payload migrate",
     "db:migrate:create": "NODE_OPTIONS='--import tsx/esm' payload migrate:create",
     "seed": "NODE_OPTIONS='--import tsx/esm' tsx src/seeds/seedContent.ts",
-    "seed:pubmed": "NODE_OPTIONS='--import tsx/esm' tsx src/jobs/syncPubmed.ts"
+    "seed:pubmed": "NODE_OPTIONS='--import tsx/esm' tsx src/jobs/syncPubmed.ts",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.82.1",
@@ -33,6 +34,7 @@
     "@types/node": "^22.14.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
+    "patch-package": "^8.0.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3"
   },

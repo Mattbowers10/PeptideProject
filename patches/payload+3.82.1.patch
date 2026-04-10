@@ -1,0 +1,9 @@
+diff --git a/dist/bin/loadEnv.js b/dist/bin/loadEnv.js
+index 1111111..2222222 100644
+--- a/dist/bin/loadEnv.js
++++ b/dist/bin/loadEnv.js
+@@ -1,4 +1,4 @@
+-import nextEnvImport from '@next/env';
++import * as nextEnvImport from '@next/env';
+ import { findUpSync } from '../utilities/findUp.js';
+ const { loadEnvConfig } = nextEnvImport;
