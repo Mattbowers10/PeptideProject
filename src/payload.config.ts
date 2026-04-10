@@ -36,7 +36,7 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI!,
-      max: 5,
+      max: 2,
     },
   }),
   secret: process.env.PAYLOAD_SECRET!,
