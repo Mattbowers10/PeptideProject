@@ -63,21 +63,19 @@ async function getData(params: SearchParams) {
     }
   }
 
-  const [peptidesResult, categoriesResult] = await Promise.all([
-    payload.find({
-      collection: 'peptides',
-      where,
-      limit: PAGE_SIZE,
-      page: currentPage,
-      depth: 1,
-      sort: 'name',
-    }),
-    payload.find({
-      collection: 'categories',
-      limit: 100,
-      sort: 'name',
-    }),
-  ])
+  const peptidesResult = await payload.find({
+    collection: 'peptides',
+    where,
+    limit: PAGE_SIZE,
+    page: currentPage,
+    depth: 1,
+    sort: 'name',
+  })
+  const categoriesResult = await payload.find({
+    collection: 'categories',
+    limit: 100,
+    sort: 'name',
+  })
 
   return {
     peptides: peptidesResult.docs as Peptide[],
