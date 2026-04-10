@@ -29,6 +29,9 @@ export function Footer() {
               <Link href="/peptides?status=human" className="text-sm text-white/50 transition-colors hover:text-white">
                 Human Trials
               </Link>
+              <Link href="/glossary" className="text-sm text-white/50 transition-colors hover:text-white">
+                Glossary
+              </Link>
             </div>
           </div>
 
