@@ -36,6 +36,12 @@ export function Header() {
             Partners
           </Link>
           <Link
+            href="/compare"
+            className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
+          >
+            Compare
+          </Link>
+          <Link
             href="/dashboard"
             className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
           >

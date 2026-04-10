@@ -181,8 +181,14 @@ export default async function PeptideDetailPage({
               )}
             </div>
 
-            <div className="mt-2">
+            <div className="mt-2 flex flex-col items-end gap-3">
               <ResearchBadge status={peptide.researchStatus} variant="dark" />
+              <Link
+                href={`/compare?a=${peptide.slug}`}
+                className="btn-glass text-[12px]"
+              >
+                Compare →
+              </Link>
             </div>
           </div>
         </header>

@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { href: '/peptides', label: 'Peptides' },
   { href: '/categories', label: 'Categories' },
   { href: '/partners', label: 'Partners' },
+  { href: '/compare', label: 'Compare' },
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/login', label: 'Sign in' },
 ]
