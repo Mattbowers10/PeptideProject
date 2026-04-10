@@ -23,9 +23,6 @@ async function run() {
   const { docs: peptides } = await payload.find({
     collection: 'peptides',
     limit: 200,
-    where: {
-      pubmedSearchTerms: { exists: true },
-    },
   })
 
   console.log(`Syncing PubMed for ${peptides.length} peptides...`)
