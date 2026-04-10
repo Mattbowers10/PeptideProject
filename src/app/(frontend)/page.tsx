@@ -84,6 +84,13 @@ export default async function HomePage() {
                 </Link>
               ))}
             </div>
+
+            {/* Goal CTA */}
+            <div className="mt-6">
+              <Link href="/goals" className="btn-glass">
+                Find by Research Goal →
+              </Link>
+            </div>
           </div>
         </div>
       </section>
