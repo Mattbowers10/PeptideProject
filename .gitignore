@@ -26,3 +26,5 @@ npm-debug.log*
 
 # Uploads (store in S3/Cloudflare R2 in production)
 public/media/
+.vercel
+.env*.local

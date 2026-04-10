@@ -7,7 +7,7 @@ type Props = { category: Category; count?: number }
 export function CategoryCard({ category, count }: Props) {
   return (
     <Link
-      href={`/categories/${category.slug}`}
+      href={`/peptides?category=${category.slug}`}
       className="card-light group flex flex-col p-5 transition-all hover:shadow-blue-lg"
     >
       <span className="mono-label mb-3 text-black/30">

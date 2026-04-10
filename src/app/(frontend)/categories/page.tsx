@@ -3,15 +3,15 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { CategoryCard } from '@/components/CategoryCard'
+import { GoalFilterGrid } from '@/components/GoalFilterGrid'
 import type { Category } from '@/payload-types'
 
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Research Categories | Peptide Wiki',
+  title: 'Find Peptides By Goal | Peptide Wiki',
   description:
-    'Browse peptides by research category — growth hormone, healing, nootropics, fat loss, longevity, and more.',
+    'Browse 100+ research peptides by goal — performance, longevity, cognitive enhancement, body composition, recovery, and more.',
 }
 
 export default async function CategoriesPage() {
@@ -36,29 +36,25 @@ export default async function CategoriesPage() {
 
   return (
     <>
-      {/* ── Header — pastel gradient ───────────────────────────── */}
+      {/* Header */}
       <section className="gradient-pastel py-16">
         <div className="mx-auto max-w-[1200px] px-6">
-          <p className="mono-label mb-3 text-black/40">Browse by topic</p>
+          <p className="mono-label mb-3 text-black/40">Guided discovery</p>
           <h1 className="text-[36px] font-medium leading-[1.1] tracking-display text-black sm:text-[48px]">
-            Research Categories
+            Find by Research Goal
           </h1>
           <p className="mt-3 max-w-lg text-[15px] leading-[1.5] text-black/50">
-            {categories.length} categories covering the breadth of peptide research
+            Filter by broad goal, then select a research area to see matching peptides.
           </p>
         </div>
       </section>
 
-      {/* ── Category grid ──────────────────────────────────────── */}
+      {/* Filter + grid */}
       <section className="mx-auto max-w-[1200px] px-6 py-12">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {withCounts.map(({ cat, count }) => (
-            <CategoryCard key={cat.id} category={cat} count={count} />
-          ))}
-        </div>
+        <GoalFilterGrid entries={withCounts} />
       </section>
 
-      {/* ── CTA ────────────────────────────────────────────────── */}
+      {/* CTA */}
       <section className="border-t py-12" style={{ borderColor: 'var(--border-light)' }}>
         <div className="mx-auto max-w-[1200px] px-6 text-center">
           <p className="mono-label mb-2 text-black/30">Or explore directly</p>

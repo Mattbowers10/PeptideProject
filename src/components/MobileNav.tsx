@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation'
 
 const NAV_LINKS = [
   { href: '/peptides', label: 'Peptides' },
-  { href: '/goals', label: 'Goals' },
   { href: '/categories', label: 'Categories' },
   { href: '/partners', label: 'Partners' },
   { href: '/compare', label: 'Compare' },

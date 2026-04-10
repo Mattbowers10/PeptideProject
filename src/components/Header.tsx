@@ -24,12 +24,6 @@ export function Header() {
             Peptides
           </Link>
           <Link
-            href="/goals"
-            className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
-          >
-            Goals
-          </Link>
-          <Link
             href="/categories"
             className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
           >
