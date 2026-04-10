@@ -12,7 +12,9 @@
     "generate:graphQLSchema": "payload generate:graphQLSchema",
     "payload": "payload",
     "db:migrate": "NODE_OPTIONS='--import tsx/esm' payload migrate",
-    "db:migrate:create": "NODE_OPTIONS='--import tsx/esm' payload migrate:create"
+    "db:migrate:create": "NODE_OPTIONS='--import tsx/esm' payload migrate:create",
+    "seed": "NODE_OPTIONS='--import tsx/esm' tsx src/seeds/seedContent.ts",
+    "seed:pubmed": "NODE_OPTIONS='--import tsx/esm' tsx src/jobs/syncPubmed.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.82.1",
