@@ -13,8 +13,8 @@
     "payload": "payload",
     "db:migrate": "NODE_OPTIONS='--import tsx/esm' payload migrate",
     "db:migrate:create": "NODE_OPTIONS='--import tsx/esm' payload migrate:create",
-    "seed": "NODE_OPTIONS='--import tsx/esm' tsx src/seeds/seedContent.ts",
-    "seed:pubmed": "NODE_OPTIONS='--import tsx/esm' tsx src/jobs/syncPubmed.ts",
+    "seed": "node --env-file=.env --env-file=.env.local --import tsx/esm src/seeds/seedContent.ts",
+    "seed:pubmed": "node --env-file=.env --env-file=.env.local --import tsx/esm src/jobs/syncPubmed.ts",
     "postinstall": "patch-package"
   },
   "dependencies": {
