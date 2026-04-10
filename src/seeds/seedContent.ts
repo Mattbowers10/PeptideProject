@@ -18,6 +18,7 @@ import { richContent3 } from './data/rich-content-3'
 import { richContent4 } from './data/rich-content-4'
 import { richContent5 } from './data/rich-content-5'
 import { richContent6 } from './data/rich-content-6'
+import { richContent7 } from './data/rich-content-7'
 import { partnersData } from './data/partners-data'
 
 async function seed() {
@@ -26,7 +27,7 @@ async function seed() {
   // ── 1. Rich content for peptides ────────────────────────────
   console.log('\n── Updating peptide rich content ───────────────────────')
 
-  const allRichContent = { ...richContent, ...richContent2, ...richContent3, ...richContent4, ...richContent5, ...richContent6 }
+  const allRichContent = { ...richContent, ...richContent2, ...richContent3, ...richContent4, ...richContent5, ...richContent6, ...richContent7 }
 
   for (const [slug, content] of Object.entries(allRichContent)) {
     const existing = await payload.find({
