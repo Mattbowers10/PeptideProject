@@ -5,7 +5,8 @@ import { PaywallGate } from '@/components/PaywallGate'
 import { RichTextRenderer } from '@/components/RichTextRenderer'
 import type { Category, Peptide } from '@/payload-types'
 
-type LexicalData = { root: { children: unknown[] } }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type LexicalData = { root: { children: any[] } }
 
 function CellEmpty() {
   return <span className="text-white/20">—</span>
