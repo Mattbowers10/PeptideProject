@@ -23,7 +23,7 @@ const TIERS = [
   {
     key: 'researcher',
     name: 'Researcher',
-    price: '$19',
+    price: '$9.99',
     period: '/month',
     features: [
       { label: 'Peptide summaries', included: true },
@@ -38,7 +38,7 @@ const TIERS = [
   {
     key: 'pro',
     name: 'Pro',
-    price: '$59',
+    price: '$39.99',
     period: '/month',
     features: [
       { label: 'Peptide summaries', included: true },
