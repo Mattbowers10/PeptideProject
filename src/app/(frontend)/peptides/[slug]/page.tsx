@@ -15,6 +15,17 @@ import type { AffiliateLink, Category, Partner, Peptide, Study } from '@/payload
 
 export const revalidate = 3600
 
+export async function generateStaticParams() {
+  const payload = await getPayload({ config })
+  const { docs } = await payload.find({
+    collection: 'peptides',
+    limit: 500,
+    depth: 0,
+    overrideAccess: true,
+  })
+  return (docs as Peptide[]).map((p) => ({ slug: p.slug }))
+}
+
 async function getPeptide(slug: string) {
   const payload = await getPayload({ config })
   const result = await payload.find({

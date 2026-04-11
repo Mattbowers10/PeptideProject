@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { MobileNav } from './MobileNav'
 import { UserNav } from './UserNav'
+import { SearchTrigger } from './SearchTrigger'
 
 export function Header() {
   return (
@@ -47,27 +48,8 @@ export function Header() {
           >
             Dashboard
           </Link>
-          {/* Search */}
-          <form action="/peptides" method="GET" className="hidden md:block">
-            <div className="relative">
-              <svg
-                className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-white/40"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
-              </svg>
-              <input
-                name="q"
-                type="search"
-                placeholder="Search…"
-                className="w-40 rounded-sharp border bg-white/[0.08] py-1.5 pl-8 pr-3 text-sm text-white placeholder:text-white/40 transition-all focus:w-52 focus:bg-white/[0.12] focus:outline-none"
-                style={{ borderColor: 'var(--border-dark)' }}
-              />
-            </div>
-          </form>
+          {/* Search trigger */}
+          <SearchTrigger />
         </nav>
 
         {/* User nav (desktop) + mobile hamburger */}

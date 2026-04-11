@@ -1,4 +1,5 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -9,6 +10,21 @@ import { EmailCapture } from '@/components/EmailCapture'
 import type { Category, Peptide } from '@/payload-types'
 
 export const revalidate = 3600
+
+export const metadata: Metadata = {
+  title: 'Peptide Wiki — Research-First Peptide Encyclopedia',
+  description:
+    'Comprehensive, evidence-based profiles for 100+ peptides. Mechanisms of action, pharmacokinetics, clinical research, and trusted suppliers — all in one place.',
+  openGraph: {
+    title: 'Peptide Wiki — Research-First Peptide Encyclopedia',
+    description:
+      'Comprehensive, evidence-based profiles for 100+ peptides. Mechanisms, pharmacokinetics, studies, and trusted suppliers.',
+    type: 'website',
+  },
+  alternates: {
+    canonical: 'https://peptidewiki.com',
+  },
+}
 
 async function getData() {
   const payload = await getPayload({ config })
