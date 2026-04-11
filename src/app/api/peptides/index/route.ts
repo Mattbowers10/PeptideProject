@@ -9,6 +9,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Category, Peptide } from '@/payload-types'
 
+export const dynamic = 'force-dynamic'
 export const revalidate = 3600
 
 export type PeptideIndexItem = {
