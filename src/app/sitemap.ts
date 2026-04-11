@@ -2,6 +2,29 @@ import type { MetadataRoute } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
+const TOP_PAIRS = [
+  ['bpc-157', 'tb-500'],
+  ['ipamorelin', 'cjc-1295'],
+  ['semaglutide', 'tirzepatide'],
+  ['ipamorelin', 'sermorelin'],
+  ['bpc-157', 'pentadeca-arginate'],
+  ['epithalon', 'ghk-cu'],
+  ['pt-141', 'kisspeptin'],
+  ['cjc-1295', 'sermorelin'],
+  ['tb-500', 'bpc-157'],
+  ['selank', 'semax'],
+  ['ipamorelin', 'ghrp-6'],
+  ['ipamorelin', 'ghrp-2'],
+  ['aod-9604', 'semaglutide'],
+  ['hexarelin', 'ipamorelin'],
+  ['thymosin-alpha-1', 'tb-500'],
+  ['bpc-157', 'ghk-cu'],
+  ['mots-c', 'ss-31'],
+  ['cjc-1295', 'ghrp-6'],
+  ['tesamorelin', 'sermorelin'],
+  ['epithalon', 'bpc-157'],
+]
+
 export const revalidate = 3600
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -53,6 +76,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }))
 
+  const comparisonUrls: MetadataRoute.Sitemap = TOP_PAIRS.map(([a, b]) => ({
+    url: `${base}/compare/${a}-vs-${b}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
   return [
     { url: base, lastModified: now, changeFrequency: 'daily', priority: 1.0 },
     { url: `${base}/peptides`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
@@ -63,5 +93,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...peptideUrls,
     ...categoryUrls,
     ...partnerUrls,
+    ...comparisonUrls,
   ]
 }

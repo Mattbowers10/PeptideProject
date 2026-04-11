@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { RichTextRenderer } from '@/components/RichTextRenderer'
+import { ShareButtons } from '@/components/ShareButtons'
 import type { Article, Peptide } from '@/payload-types'
 
 export const revalidate = 3600
@@ -155,6 +156,10 @@ export default async function ArticleDetailPage({
                 {article.readTimeMinutes} min read
               </p>
             )}
+            <ShareButtons
+              url={`${base}/research/${article.slug}`}
+              title={`${article.title} | Peptide Wiki`}
+            />
           </div>
         </header>
 

@@ -118,6 +118,29 @@ export default async function ComparePage({
         {bothSelected && (
           <CompareTable peptideA={peptideA} peptideB={peptideB} />
         )}
+
+        {/* Popular static comparison pages */}
+        <div className="mt-12 border-t pt-8" style={{ borderColor: 'var(--border-dark)' }}>
+          <p className="mono-label mb-4 text-white/30">Popular comparisons</p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              ['bpc-157', 'tb-500', 'BPC-157 vs TB-500'],
+              ['ipamorelin', 'cjc-1295', 'Ipamorelin vs CJC-1295'],
+              ['semaglutide', 'tirzepatide', 'Semaglutide vs Tirzepatide'],
+              ['selank', 'semax', 'Selank vs Semax'],
+              ['epithalon', 'ghk-cu', 'Epithalon vs GHK-Cu'],
+              ['mots-c', 'ss-31', 'MOTS-c vs SS-31'],
+            ].map(([a, b, label]) => (
+              <a
+                key={`${a}-vs-${b}`}
+                href={`/compare/${a}-vs-${b}`}
+                className="btn-glass text-[13px]"
+              >
+                {label} →
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
     </>

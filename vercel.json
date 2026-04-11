@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/sync-pubmed",
       "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/digest/send",
+      "schedule": "0 9 * * 1"
     }
   ]
 }

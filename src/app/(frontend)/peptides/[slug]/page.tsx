@@ -12,6 +12,7 @@ import { PaywallGate } from '@/components/PaywallGate'
 import { AffiliateSection } from '@/components/AffiliateSection'
 import { StudiesSection } from '@/components/StudiesSection'
 import { SaveToListButton } from '@/components/SaveToListButton'
+import { ShareButtons } from '@/components/ShareButtons'
 import type { AffiliateLink, Category, Partner, Peptide, Study } from '@/payload-types'
 
 export const revalidate = 3600
@@ -274,6 +275,10 @@ export default async function PeptideDetailPage({
                 </Link>
                 <SaveToListButton peptideId={peptide.id} />
               </div>
+              <ShareButtons
+                url={`${base}/peptides/${peptide.slug}`}
+                title={`${peptide.name} — Research Profile | Peptide Wiki`}
+              />
             </div>
           </div>
         </header>

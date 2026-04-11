@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { sendEmail } from '@/lib/email'
+import { welcomeEmail } from '@/lib/email-templates'
 
 export async function POST(req: NextRequest) {
   try {
@@ -39,6 +41,10 @@ export async function POST(req: NextRequest) {
       },
       overrideAccess: true,
     })
+
+    // Fire welcome email (non-blocking — don't fail the subscription if email fails)
+    const { subject, html } = welcomeEmail({ downloadUrl: 'https://peptidewiki.com/guide' })
+    sendEmail({ to: email.toLowerCase().trim(), subject, html }).catch(console.error)
 
     return NextResponse.json({ success: true })
   } catch (err) {
