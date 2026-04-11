@@ -37,6 +37,12 @@ export function Header() {
             Partners
           </Link>
           <Link
+            href="/research"
+            className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
+          >
+            Research
+          </Link>
+          <Link
             href="/compare"
             className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
           >

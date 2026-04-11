@@ -94,6 +94,27 @@ export default async function PeptideDetailPage({
     (c): c is Category => typeof c === 'object',
   )
 
+  // Fetch related peptides from same categories (sequential to respect pool limits)
+  const categoryIds = categories.map((c) => c.id)
+
+  let relatedPeptides: Peptide[] = []
+  if (categoryIds.length > 0) {
+    const payload2 = await getPayload({ config })
+    const { docs } = await payload2.find({
+      collection: 'peptides',
+      where: {
+        and: [
+          { categories: { in: categoryIds } },
+          { slug: { not_equals: peptide.slug } },
+        ],
+      },
+      limit: 3,
+      depth: 0,
+      overrideAccess: true,
+    })
+    relatedPeptides = docs as Peptide[]
+  }
+
   // Studies — populated at depth 2
   const studies = ((peptide.studies ?? []).filter(
     (s): s is Study => typeof s === 'object',
@@ -133,6 +154,55 @@ export default async function PeptideDetailPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: `${base}/` },
+              { '@type': 'ListItem', position: 2, name: 'Peptides', item: `${base}/peptides` },
+              { '@type': 'ListItem', position: 3, name: peptide.name, item: `${base}/peptides/${peptide.slug}` },
+            ],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: `What is ${peptide.name}?`,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: peptide.summary ?? `${peptide.name} is a peptide compound currently being studied in scientific research.`,
+                },
+              },
+              peptide.halfLife ? {
+                '@type': 'Question',
+                name: `What is the half-life of ${peptide.name}?`,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: `The half-life of ${peptide.name} is approximately ${peptide.halfLife}.`,
+                },
+              } : null,
+              peptide.molecularFormula ? {
+                '@type': 'Question',
+                name: `What is the molecular formula of ${peptide.name}?`,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: `The molecular formula of ${peptide.name} is ${peptide.molecularFormula}.`,
+                },
+              } : null,
+            ].filter(Boolean),
+          }),
+        }}
       />
 
       {/* ── Record visit for relationship layer ──────────────── */}
@@ -337,6 +407,25 @@ export default async function PeptideDetailPage({
 
               {/* Affiliate links */}
               <AffiliateSection links={affiliateLinks} />
+
+              {/* Related Peptides */}
+              {relatedPeptides.length > 0 && (
+                <section className="card-dark p-6">
+                  <p className="mono-label mb-4 text-white/30">Related Compounds</p>
+                  <div className="space-y-0">
+                    {relatedPeptides.map((related) => (
+                      <Link
+                        key={related.id}
+                        href={`/peptides/${related.slug}`}
+                        className="rule-dark flex items-center justify-between py-3 text-[14px] tracking-tight text-white/70 transition-colors hover:text-white"
+                      >
+                        <span>{related.name}</span>
+                        <span className="text-white/30">→</span>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              )}
             </div>
 
             {/* ── Sidebar ──────────────────────────────────── */}

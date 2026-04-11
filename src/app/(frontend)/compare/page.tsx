@@ -53,7 +53,22 @@ export default async function ComparePage({
 
   const bothSelected = !!peptideA && !!peptideB
 
+  const compareJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Peptide Comparison Tool',
+    description:
+      'Compare two peptides side-by-side: mechanism of action, pharmacokinetics, research status, and administration routes.',
+    url: 'https://peptidewiki.com/compare',
+    applicationCategory: 'HealthApplication',
+  }
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(compareJsonLd) }}
+      />
     <div className="bg-midnight min-h-screen">
       <div className="mx-auto max-w-[1200px] px-6 py-10">
         {/* Page header */}
@@ -105,5 +120,6 @@ export default async function ComparePage({
         )}
       </div>
     </div>
+    </>
   )
 }

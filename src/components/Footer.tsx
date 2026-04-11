@@ -32,6 +32,9 @@ export function Footer() {
               <Link href="/glossary" className="text-sm text-white/50 transition-colors hover:text-white">
                 Glossary
               </Link>
+              <Link href="/research" className="text-sm text-white/50 transition-colors hover:text-white">
+                Research Hub
+              </Link>
             </div>
           </div>
 

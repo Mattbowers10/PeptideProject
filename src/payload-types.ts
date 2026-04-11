@@ -76,6 +76,7 @@ export interface Config {
     'click-events': ClickEvent;
     media: Media;
     'email-subscribers': EmailSubscriber;
+    articles: Article;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +93,7 @@ export interface Config {
     'click-events': ClickEventsSelect<false> | ClickEventsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'email-subscribers': EmailSubscribersSelect<false> | EmailSubscribersSelect<true>;
+    articles: ArticlesSelect<false> | ArticlesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -929,6 +931,52 @@ export interface Auth {
   [k: string]: unknown;
 }
 
+
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles".
+ */
+export interface Article {
+  id: number;
+  title: string;
+  slug: string;
+  category: 'guide' | 'comparison' | 'clinical' | 'mechanism' | 'protocol' | 'regulatory';
+  status: 'draft' | 'published';
+  publishedAt?: string | null;
+  excerpt?: string | null;
+  readTimeMinutes?: number | null;
+  coverImage?: (number | null) | Media;
+  body: {
+    [k: string]: unknown;
+  } | null;
+  relatedPeptides?: (number | Peptide)[] | null;
+  tags?: {
+    tag?: string | null;
+    id?: string | null;
+  }[] | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface ArticlesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  category?: T;
+  status?: T;
+  publishedAt?: T;
+  excerpt?: T;
+  readTimeMinutes?: T;
+  coverImage?: T;
+  body?: T;
+  relatedPeptides?: T;
+  tags?: T | { tag?: T; id?: T };
+  seoTitle?: T;
+  seoDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  id?: T;
+}
 
 declare module 'payload' {
   export interface GeneratedTypes extends Config {}

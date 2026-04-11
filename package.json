@@ -16,6 +16,7 @@
     "seed": "npx tsx src/seeds/seed.ts",
     "seed:content": "npx tsx src/seeds/seedContent.ts",
     "seed:pubmed": "npx tsx src/jobs/syncPubmed.ts",
+    "seed:articles": "node --import tsx/esm src/scripts/seed-articles.ts",
     "postinstall": "patch-package"
   },
   "dependencies": {
