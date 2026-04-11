@@ -29,6 +29,7 @@ export const EmailSubscribers: CollectionConfig = {
         { label: 'Paywall Gate', value: 'paywall' },
         { label: 'Peptide Page', value: 'peptide' },
         { label: 'Footer', value: 'footer' },
+        { label: 'Lead Magnet (Guide)', value: 'lead-magnet' },
       ],
     },
     {

@@ -56,11 +56,23 @@ export default async function CategoriesPage() {
 
       {/* CTA */}
       <section className="border-t py-12" style={{ borderColor: 'var(--border-light)' }}>
-        <div className="mx-auto max-w-[1200px] px-6 text-center">
-          <p className="mono-label mb-2 text-black/30">Or explore directly</p>
-          <Link href="/peptides" className="btn-dark">
-            Browse All Peptides
-          </Link>
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+            <div>
+              <p className="mono-label mb-1 text-black/30">Research deeper</p>
+              <p className="text-[15px] text-black/60">
+                Free plans show summaries. Researcher unlocks mechanism profiles, pharmacokinetics, and study links.
+              </p>
+            </div>
+            <div className="flex shrink-0 gap-3">
+              <Link href="/peptides" className="btn-outline text-[13px]">
+                Browse all peptides
+              </Link>
+              <Link href="/upgrade" className="btn-dark text-[13px]">
+                View plans →
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </>

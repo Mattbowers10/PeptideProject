@@ -517,7 +517,7 @@ export interface AffiliateLink {
 export interface EmailSubscriber {
   id: number;
   email: string;
-  source?: ('homepage' | 'paywall' | 'peptide' | 'footer') | null;
+  source?: ('homepage' | 'paywall' | 'peptide' | 'footer' | 'lead-magnet') | null;
   peptideSlug?: string | null;
   updatedAt: string;
   createdAt: string;

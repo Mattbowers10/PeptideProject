@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       collection: 'email-subscribers',
       data: {
         email: email.toLowerCase().trim(),
-        source: (source as 'homepage' | 'paywall' | 'peptide' | 'footer') ?? 'homepage',
+        source: (source as 'homepage' | 'paywall' | 'peptide' | 'footer' | 'lead-magnet') ?? 'homepage',
         peptideSlug: peptideSlug ?? undefined,
       },
       overrideAccess: true,

@@ -359,8 +359,8 @@ export default async function PeptideDetailPage({
                     Mechanism of action, pharmacokinetics, research findings, and safety
                     data are available on the Researcher plan.
                   </p>
-                  <Link href="/dashboard?tab=membership" className="btn-dark w-full justify-center text-[13px]">
-                    View Plans →
+                  <Link href="/upgrade" className="btn-dark w-full justify-center text-[13px]">
+                    Unlock with Researcher →
                   </Link>
                 </div>
               )}

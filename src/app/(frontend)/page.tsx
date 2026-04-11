@@ -101,6 +101,14 @@ export default async function HomePage() {
               ))}
             </div>
 
+            {/* Lead magnet */}
+            <div className="mt-8 max-w-md rounded-comfortable border bg-white/80 p-5 backdrop-blur-sm" style={{ borderColor: 'var(--border-light)' }}>
+              <EmailCapture
+                leadMagnet
+                source="lead-magnet"
+                variant="homepage"
+              />
+            </div>
 
           </div>
         </div>
@@ -171,6 +179,54 @@ export default async function HomePage() {
             {featuredPeptides.map((peptide) => (
               <PeptideCard key={peptide.id} peptide={peptide} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Upgrade conversion strip ───────────────────────── */}
+      <section className="border-y py-14" style={{ borderColor: 'var(--border-light)' }}>
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+            <div>
+              <p className="mono-label mb-3 text-black/30">Researcher plan</p>
+              <h2 className="text-[28px] font-medium tracking-heading text-black">
+                Go deeper than the summary.
+              </h2>
+              <p className="mt-3 text-[15px] leading-[1.65] text-black/55">
+                Free summaries show you what a peptide is. Researcher profiles show you
+                how it works — mechanism of action, pharmacokinetics, PubMed-linked
+                studies, and evidence ratings.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link href="/upgrade" className="btn-dark text-[14px]">
+                  See plans →
+                </Link>
+                <Link href="/guide" className="btn-outline text-[14px]">
+                  Free research guide
+                </Link>
+              </div>
+            </div>
+            <div className="grid gap-2">
+              {[
+                { free: true,  label: 'Peptide summary & research status' },
+                { free: true,  label: 'Category browsing & search' },
+                { free: false, label: 'Full mechanism of action profile' },
+                { free: false, label: 'Pharmacokinetics & half-life data' },
+                { free: false, label: 'PubMed study links & evidence ratings' },
+                { free: false, label: 'Peptide comparison tool' },
+              ].map((row) => (
+                <div
+                  key={row.label}
+                  className="flex items-center gap-3 rounded-comfortable px-4 py-2.5 text-[13px]"
+                  style={{ background: row.free ? 'rgba(0,0,0,0.02)' : 'rgba(108,99,255,0.06)', borderLeft: row.free ? '2px solid rgba(0,0,0,0.08)' : '2px solid rgba(108,99,255,0.3)' }}
+                >
+                  <span className={row.free ? 'text-emerald-500' : 'text-lavender'}>
+                    {row.free ? '✓ Free' : '🔬 Researcher'}
+                  </span>
+                  <span className={row.free ? 'text-black/60' : 'text-black/80'}>{row.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
