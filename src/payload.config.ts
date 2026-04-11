@@ -40,6 +40,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI!,
       max: 2,
     },
+    push: true, // auto-sync schema changes to DB on cold start (avoids manual migration runs)
   }),
   secret: process.env.PAYLOAD_SECRET!,
   sharp,

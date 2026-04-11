@@ -27,16 +27,20 @@ const CATEGORY_LABELS: Record<string, { label: string; color: string }> = {
 }
 
 export default async function ResearchPage() {
-  const payload = await getPayload({ config })
-
-  const { docs: articleDocs } = await payload.find({
-    collection: 'articles',
-    where: { status: { equals: 'published' } },
-    sort: '-publishedAt',
-    limit: 50,
-    depth: 0,
-  })
-  const articles = articleDocs as Article[]
+  let articles: Article[] = []
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'articles',
+      where: { status: { equals: 'published' } },
+      sort: '-publishedAt',
+      limit: 50,
+      depth: 0,
+    })
+    articles = docs as Article[]
+  } catch {
+    // Articles table may not exist yet (pre-migration) — show empty state
+  }
 
   return (
     <>

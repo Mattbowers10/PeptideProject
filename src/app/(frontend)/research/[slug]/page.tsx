@@ -20,14 +20,19 @@ const CATEGORY_LABELS: Record<string, { label: string; color: string }> = {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({
-    collection: 'articles',
-    where: { status: { equals: 'published' } },
-    limit: 200,
-    depth: 0,
-  })
-  return (docs as Article[]).map((a) => ({ slug: a.slug }))
+  try {
+    const payload = await getPayload({ config })
+    const { docs } = await payload.find({
+      collection: 'articles',
+      where: { status: { equals: 'published' } },
+      limit: 200,
+      depth: 0,
+    })
+    return (docs as Article[]).map((a) => ({ slug: a.slug }))
+  } catch {
+    // Articles table may not exist yet (pre-migration) — return empty so build succeeds
+    return []
+  }
 }
 
 async function getArticle(slug: string): Promise<Article | null> {
