@@ -10,22 +10,25 @@
  *   or: npx tsx src/seeds/seedContent.ts
  */
 
-import payload from 'payload'
-import config from '@payload-config'
-import { richContent } from './data/rich-content'
-import { richContent2 } from './data/rich-content-2'
-import { richContent3 } from './data/rich-content-3'
-import { richContent4 } from './data/rich-content-4'
-import { richContent5 } from './data/rich-content-5'
-import { richContent6 } from './data/rich-content-6'
-import { richContent7 } from './data/rich-content-7'
-import { richContent8 } from './data/rich-content-8'
-import { richContent9 } from './data/rich-content-9'
-import { richContent10 } from './data/rich-content-10'
-import { richContent11 } from './data/rich-content-11'
-import { partnersData } from './data/partners-data'
+import { loadEnvConfig } from '@next/env'
+loadEnvConfig(process.cwd())
 
 async function seed() {
+  const { default: payload } = await import('payload')
+  const { default: config } = await import('@payload-config')
+  const { richContent } = await import('./data/rich-content')
+  const { richContent2 } = await import('./data/rich-content-2')
+  const { richContent3 } = await import('./data/rich-content-3')
+  const { richContent4 } = await import('./data/rich-content-4')
+  const { richContent5 } = await import('./data/rich-content-5')
+  const { richContent6 } = await import('./data/rich-content-6')
+  const { richContent7 } = await import('./data/rich-content-7')
+  const { richContent8 } = await import('./data/rich-content-8')
+  const { richContent9 } = await import('./data/rich-content-9')
+  const { richContent10 } = await import('./data/rich-content-10')
+  const { richContent11 } = await import('./data/rich-content-11')
+  const { partnersData } = await import('./data/partners-data')
+
   await payload.init({ config })
 
   // ── 1. Rich content for peptides ────────────────────────────

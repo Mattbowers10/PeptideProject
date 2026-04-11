@@ -13,8 +13,9 @@
     "payload": "payload",
     "db:migrate": "NODE_OPTIONS='--import tsx/esm' payload migrate",
     "db:migrate:create": "NODE_OPTIONS='--import tsx/esm' payload migrate:create",
-    "seed": "set -a && source .env 2>/dev/null; source .env.local 2>/dev/null; set +a && NODE_OPTIONS='--import tsx/esm' tsx src/seeds/seedContent.ts",
-    "seed:pubmed": "set -a && source .env 2>/dev/null; source .env.local 2>/dev/null; set +a && NODE_OPTIONS='--import tsx/esm' tsx src/jobs/syncPubmed.ts",
+    "seed": "npx tsx src/seeds/seed.ts",
+    "seed:content": "npx tsx src/seeds/seedContent.ts",
+    "seed:pubmed": "npx tsx src/jobs/syncPubmed.ts",
     "postinstall": "patch-package"
   },
   "dependencies": {

@@ -7,13 +7,16 @@
  * Safe to re-run — skips existing records by slug.
  */
 
-import payload from 'payload'
-import config from '@payload-config'
-import { categoriesData } from './data/categories'
-import { peptidesData } from './data/peptides'
-import { peptidesData2 } from './data/peptides2'
+import { loadEnvConfig } from '@next/env'
+loadEnvConfig(process.cwd())
 
 async function seed() {
+  const { default: payload } = await import('payload')
+  const { default: config } = await import('@payload-config')
+  const { categoriesData } = await import('./data/categories')
+  const { peptidesData } = await import('./data/peptides')
+  const { peptidesData2 } = await import('./data/peptides2')
+
   await payload.init({ config })
 
   console.log('\n── Seeding categories ──────────────────────────')
