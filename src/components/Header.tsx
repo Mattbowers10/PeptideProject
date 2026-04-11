@@ -48,6 +48,12 @@ export function Header() {
           >
             Dashboard
           </Link>
+          <Link
+            href="/upgrade"
+            className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
+          >
+            Pricing
+          </Link>
           {/* Search trigger */}
           <SearchTrigger />
         </nav>

@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import type Stripe from 'stripe'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { stripe, tierFromPriceId } from '@/lib/stripe'
+import { getStripe, tierFromPriceId } from '@/lib/stripe'
 
 // Next.js requires the raw body for Stripe signature verification
 export const dynamic = 'force-dynamic'
 
 export async function POST(req: NextRequest) {
+  const stripe = getStripe()
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
   if (!webhookSecret) {
     console.error('[stripe/webhook] Missing STRIPE_WEBHOOK_SECRET')
@@ -38,13 +39,13 @@ export async function POST(req: NextRequest) {
         if (session.mode !== 'subscription') break
 
         const sub = await stripe.subscriptions.retrieve(session.subscription as string)
-        await handleSubscriptionActive(payload, sub)
+        await handleSubscriptionActive(payload, stripe, sub)
         break
       }
 
       case 'customer.subscription.updated': {
         const sub = event.data.object as Stripe.Subscription
-        await handleSubscriptionActive(payload, sub)
+        await handleSubscriptionActive(payload, stripe, sub)
         break
       }
 
@@ -82,6 +83,7 @@ export async function POST(req: NextRequest) {
 // ── Helper — sync subscription state to Payload user ─────────────────────────
 async function handleSubscriptionActive(
   payload: Awaited<ReturnType<typeof getPayload>>,
+  stripe: ReturnType<typeof getStripe>,
   sub: Stripe.Subscription,
 ) {
   const userId = sub.metadata?.payloadUserId

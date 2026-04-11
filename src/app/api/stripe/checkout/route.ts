@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { stripe, PRICE_IDS } from '@/lib/stripe'
+import { getStripe, PRICE_IDS } from '@/lib/stripe'
 import { getCurrentUser } from '@/lib/auth'
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+const VALID_PAID_TIERS = ['researcher', 'pro', 'clinic']
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,10 +17,26 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { tier } = body as { tier?: string }
 
-    if (!tier || !['researcher', 'pro'].includes(tier)) {
+    if (!tier || !VALID_PAID_TIERS.includes(tier)) {
       return NextResponse.json({ error: 'Invalid tier' }, { status: 400 })
     }
 
+    // ── Test mode: bypass Stripe entirely ───────────────────────────
+    if (process.env.BILLING_TEST_MODE === 'true') {
+      const payload = await getPayload({ config })
+      const expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+      await payload.update({
+        collection: 'users',
+        id: user.id,
+        data: { membershipTier: tier as 'researcher' | 'pro' | 'clinic', membershipExpiresAt: expiresAt },
+        overrideAccess: true,
+      })
+      return NextResponse.json({
+        url: `${APP_URL}/dashboard?tab=membership&checkout=success&test=1`,
+      })
+    }
+
+    // ── Live mode: Stripe checkout ───────────────────────────────────
     const priceId = PRICE_IDS[tier]
     if (!priceId) {
       return NextResponse.json(
@@ -27,6 +44,8 @@ export async function POST(req: NextRequest) {
         { status: 500 },
       )
     }
+
+    const stripe = getStripe()
 
     // Create or retrieve Stripe customer
     let customerId = user.stripeCustomerId ?? undefined
@@ -39,7 +58,6 @@ export async function POST(req: NextRequest) {
       })
       customerId = customer.id
 
-      // Persist customer ID back to Payload
       const payload = await getPayload({ config })
       await payload.update({
         collection: 'users',
@@ -49,18 +67,16 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // Create checkout session
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       mode: 'subscription',
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${APP_URL}/dashboard?tab=membership&checkout=success`,
-      cancel_url: `${APP_URL}/dashboard?tab=membership`,
+      cancel_url: `${APP_URL}/upgrade`,
       subscription_data: {
         metadata: { payloadUserId: String(user.id), tier },
       },
       allow_promotion_codes: true,
-      // Pre-fill email
       customer_update: { name: 'auto' },
     })
 

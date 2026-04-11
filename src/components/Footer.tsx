@@ -53,8 +53,11 @@ export function Footer() {
               <Link href="/dashboard" className="text-sm text-white/50 transition-colors hover:text-white">
                 Dashboard
               </Link>
+              <Link href="/upgrade" className="text-sm text-white/50 transition-colors hover:text-white">
+                Pricing & Plans
+              </Link>
               <Link href="/dashboard?tab=membership" className="text-sm text-white/50 transition-colors hover:text-white">
-                Membership Plans
+                Manage Subscription
               </Link>
             </div>
           </div>

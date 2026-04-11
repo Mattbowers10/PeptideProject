@@ -27,7 +27,7 @@ export type DashboardUser = Pick<
  *
  * Query param overrides:
  *   ?as=partner   — returns a partner-role user with linked partnerProfile
- *   ?tier=pro     — overrides membership tier (free | researcher | pro)
+ *   ?tier=pro     — overrides membership tier (free | researcher | pro | clinic)
  */
 export function getMockUser(params?: MockSearchParams): DashboardUser {
   const isPartner = params?.as === 'partner'

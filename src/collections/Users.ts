@@ -34,8 +34,9 @@ export const Users: CollectionConfig = {
       required: true,
       options: [
         { label: 'Free (Explorer)', value: 'free' },
-        { label: 'Researcher ($19/mo)', value: 'researcher' },
-        { label: 'Pro ($59/mo)', value: 'pro' },
+        { label: 'Researcher ($12/mo)', value: 'researcher' },
+        { label: 'Pro / Practitioner ($39/mo)', value: 'pro' },
+        { label: 'Clinic ($149/mo)', value: 'clinic' },
       ],
       admin: {
         description: 'Determines content access level across the app.',

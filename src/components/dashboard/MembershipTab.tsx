@@ -4,61 +4,101 @@ import React, { useState } from 'react'
 import type { DashboardUser } from '@/lib/mock-user'
 import { formatDate } from '@/lib/format'
 
+const IS_TEST_MODE = process.env.NEXT_PUBLIC_BILLING_TEST_MODE === 'true'
+
 const TIERS = [
   {
     key: 'free',
     name: 'Free Explorer',
     price: '$0',
     period: 'forever',
+    description: 'Core research browsing, no account required.',
     features: [
-      { label: 'Peptide summaries', included: true },
-      { label: 'Research status badges', included: true },
+      { label: 'Peptide summaries & status badges', included: true },
       { label: 'Category browsing', included: true },
+      { label: 'Cmd+K search', included: true },
       { label: 'Full mechanism profiles', included: false },
       { label: 'Pharmacokinetics data', included: false },
       { label: 'PubMed study links', included: false },
-      { label: 'API access', included: false },
+      { label: 'Comparison tool', included: false },
+      { label: 'Clinical PDFs & stack tool', included: false },
+      { label: 'Multi-seat access', included: false },
     ],
   },
   {
     key: 'researcher',
     name: 'Researcher',
-    price: '$9.99',
+    price: '$12',
     period: '/month',
+    description: 'Full depth research profiles for serious investigators.',
+    badge: null as string | null,
     features: [
-      { label: 'Peptide summaries', included: true },
-      { label: 'Research status badges', included: true },
+      { label: 'Peptide summaries & status badges', included: true },
       { label: 'Category browsing', included: true },
+      { label: 'Cmd+K search', included: true },
       { label: 'Full mechanism profiles', included: true },
       { label: 'Pharmacokinetics data', included: true },
       { label: 'PubMed study links', included: true },
-      { label: 'API access', included: false },
+      { label: 'Comparison tool (save 25 lists)', included: true },
+      { label: 'Clinical PDFs & stack tool', included: false },
+      { label: 'Multi-seat access', included: false },
     ],
   },
   {
     key: 'pro',
-    name: 'Pro',
-    price: '$39.99',
+    name: 'Pro / Practitioner',
+    price: '$39',
     period: '/month',
+    description: 'Full intelligence suite for practitioners and consultants.',
+    badge: 'Most Popular',
     features: [
-      { label: 'Peptide summaries', included: true },
-      { label: 'Research status badges', included: true },
+      { label: 'Peptide summaries & status badges', included: true },
       { label: 'Category browsing', included: true },
+      { label: 'Cmd+K search', included: true },
       { label: 'Full mechanism profiles', included: true },
       { label: 'Pharmacokinetics data', included: true },
       { label: 'PubMed study links', included: true },
-      { label: 'API access', included: true },
+      { label: 'Comparison tool (unlimited lists)', included: true },
+      { label: 'Clinical PDFs & stack tool', included: true },
+      { label: 'Multi-seat access', included: false },
+    ],
+  },
+  {
+    key: 'clinic',
+    name: 'Clinic',
+    price: '$149',
+    period: '/month',
+    description: 'Team access, white-label, and quarterly advisory calls.',
+    badge: null as string | null,
+    features: [
+      { label: 'Peptide summaries & status badges', included: true },
+      { label: 'Category browsing', included: true },
+      { label: 'Cmd+K search', included: true },
+      { label: 'Full mechanism profiles', included: true },
+      { label: 'Pharmacokinetics data', included: true },
+      { label: 'PubMed study links', included: true },
+      { label: 'Comparison tool (unlimited lists)', included: true },
+      { label: 'Clinical PDFs & stack tool', included: true },
+      { label: '5-seat team access + white-label', included: true },
     ],
   },
 ]
 
+const TIER_ORDER = ['free', 'researcher', 'pro', 'clinic']
+
+function tierRank(tier: string) {
+  return TIER_ORDER.indexOf(tier)
+}
+
 export function MembershipTab({ user }: { user: DashboardUser }) {
-  const currentTier = user.membershipTier
+  const currentTier = user.membershipTier ?? 'free'
   const [loading, setLoading] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [testSuccess, setTestSuccess] = useState<string | null>(null)
 
   async function handleUpgrade(tier: string) {
     setError(null)
+    setTestSuccess(null)
     setLoading(tier)
     try {
       const res = await fetch('/api/stripe/checkout', {
@@ -68,7 +108,15 @@ export function MembershipTab({ user }: { user: DashboardUser }) {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Checkout failed')
-      if (data.url) window.location.href = data.url
+      if (data.url) {
+        if (IS_TEST_MODE) {
+          // In test mode the server already updated the DB — just reload
+          setTestSuccess(`Tier set to "${tier}" — reloading…`)
+          setTimeout(() => window.location.reload(), 1200)
+        } else {
+          window.location.href = data.url
+        }
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.')
       setLoading(null)
@@ -98,6 +146,13 @@ export function MembershipTab({ user }: { user: DashboardUser }) {
         </p>
       </div>
 
+      {/* Test-mode banner */}
+      {IS_TEST_MODE && (
+        <div className="rounded-comfortable border border-amber-200 bg-amber-50 px-4 py-3 text-[13px] text-amber-800">
+          <strong>Test mode active</strong> — tier changes apply instantly without Stripe. No payment is processed.
+        </div>
+      )}
+
       {/* Error banner */}
       {error && (
         <div className="rounded-comfortable border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-700">
@@ -105,7 +160,14 @@ export function MembershipTab({ user }: { user: DashboardUser }) {
         </div>
       )}
 
-      {/* Current plan — dark accent */}
+      {/* Test success banner */}
+      {testSuccess && (
+        <div className="rounded-comfortable border border-emerald-200 bg-emerald-50 px-4 py-3 text-[13px] text-emerald-700">
+          {testSuccess}
+        </div>
+      )}
+
+      {/* Current plan */}
       <section className="rounded-comfortable bg-midnight p-6">
         <p className="mono-label mb-3 text-white/30">Current plan</p>
         <div className="flex flex-wrap items-end justify-between gap-4">
@@ -120,13 +182,13 @@ export function MembershipTab({ user }: { user: DashboardUser }) {
             )}
             {currentTier === 'free' && (
               <p className="mt-2 text-[13px] text-white/40">
-                Upgrade to unlock full peptide profiles, pharmacokinetics, and PubMed links.
+                Upgrade to unlock full mechanism profiles, pharmacokinetics, and PubMed links.
               </p>
             )}
           </div>
 
           {/* Manage billing — shown for paid subscribers with a Stripe customer */}
-          {currentTier !== 'free' && user.stripeCustomerId && (
+          {currentTier !== 'free' && user.stripeCustomerId && !IS_TEST_MODE && (
             <button
               onClick={handleManageBilling}
               disabled={loading === 'portal'}
@@ -138,45 +200,59 @@ export function MembershipTab({ user }: { user: DashboardUser }) {
         </div>
       </section>
 
-      {/* Tier comparison */}
+      {/* Tier comparison — 4 columns */}
       <section>
         <p className="mono-label mb-4 text-black/30">Compare plans</p>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {TIERS.map((tier) => {
             const isCurrent = tier.key === currentTier
-            const isUpgrade =
-              (currentTier === 'free' && tier.key !== 'free') ||
-              (currentTier === 'researcher' && tier.key === 'pro')
-            const isDowngrade =
-              (currentTier === 'pro' && tier.key === 'researcher') ||
-              (currentTier !== 'free' && tier.key === 'free')
+            const isUpgrade = tierRank(tier.key) > tierRank(currentTier)
+            const isDowngrade = tierRank(tier.key) < tierRank(currentTier) && tier.key !== 'free'
 
             return (
               <div
                 key={tier.key}
                 className={`rounded-comfortable border p-5 ${
-                  isCurrent ? 'border-lavender bg-lavender/[0.06]' : 'bg-white'
+                  tier.key === 'pro'
+                    ? 'border-lavender bg-lavender/[0.06]'
+                    : isCurrent
+                      ? 'border-black/20 bg-white'
+                      : 'bg-white'
                 }`}
-                style={!isCurrent ? { borderColor: 'var(--border-light)' } : {}}
+                style={tier.key !== 'pro' && !isCurrent ? { borderColor: 'var(--border-light)' } : {}}
               >
-                {/* Header */}
-                <div className="mb-4">
-                  <p className="text-[15px] font-medium tracking-subheading text-black">
-                    {tier.name}
-                  </p>
-                  <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-[28px] font-medium tracking-display text-black">
-                      {tier.price}
-                    </span>
-                    <span className="text-[13px] text-black/40">{tier.period}</span>
+                {/* Badge */}
+                <div className="mb-3 flex items-start justify-between">
+                  <div>
+                    <p className="text-[14px] font-medium tracking-subheading text-black">
+                      {tier.name}
+                    </p>
+                    {(tier as { badge?: string | null }).badge && (
+                      <span className="mt-1 inline-block rounded bg-lavender/10 px-1.5 py-0.5 font-mono text-[9px] tracking-mono text-lavender">
+                        {(tier as { badge?: string | null }).badge}
+                      </span>
+                    )}
                   </div>
+                  {isCurrent && (
+                    <span className="shrink-0 rounded-sharp bg-black/[0.06] px-2 py-0.5 font-mono text-[9px] tracking-mono text-black/40">
+                      Current
+                    </span>
+                  )}
+                </div>
+
+                {/* Price */}
+                <div className="mb-4 flex items-baseline gap-0.5">
+                  <span className="text-[28px] font-medium tracking-display text-black">
+                    {tier.price}
+                  </span>
+                  <span className="text-[13px] text-black/40">{tier.period}</span>
                 </div>
 
                 {/* Features */}
-                <ul className="space-y-2">
+                <ul className="mb-5 space-y-1.5">
                   {tier.features.map((feat) => (
-                    <li key={feat.label} className="flex items-start gap-2 text-[13px]">
-                      <span className={feat.included ? 'text-emerald-500' : 'text-black/20'}>
+                    <li key={feat.label} className="flex items-start gap-2 text-[12px]">
+                      <span className={feat.included ? 'text-emerald-500 shrink-0' : 'text-black/20 shrink-0'}>
                         {feat.included ? '✓' : '—'}
                       </span>
                       <span className={feat.included ? 'text-black/70' : 'text-black/30'}>
@@ -187,27 +263,36 @@ export function MembershipTab({ user }: { user: DashboardUser }) {
                 </ul>
 
                 {/* CTA */}
-                <div className="mt-5">
-                  {isCurrent ? (
-                    <span className="badge-light">Current plan</span>
-                  ) : isUpgrade ? (
-                    <button
-                      onClick={() => handleUpgrade(tier.key)}
-                      disabled={!!loading}
-                      className="btn-dark w-full justify-center text-[13px] disabled:opacity-60"
-                    >
-                      {loading === tier.key ? 'Redirecting…' : `Upgrade to ${tier.name}`}
-                    </button>
-                  ) : isDowngrade ? (
-                    <button
-                      onClick={handleManageBilling}
-                      disabled={!!loading}
-                      className="btn-outline w-full justify-center text-[13px] disabled:opacity-60"
-                    >
-                      {loading === 'portal' ? 'Redirecting…' : 'Manage billing'}
-                    </button>
-                  ) : null}
-                </div>
+                {isCurrent ? (
+                  <span className="block text-center rounded-comfortable bg-black/[0.04] px-3 py-2 font-mono text-[11px] tracking-mono text-black/30">
+                    Active plan
+                  </span>
+                ) : isUpgrade ? (
+                  <button
+                    onClick={() => handleUpgrade(tier.key)}
+                    disabled={!!loading}
+                    className={`w-full rounded-comfortable px-3 py-2 text-[13px] font-medium transition-colors disabled:opacity-60 ${
+                      tier.key === 'pro'
+                        ? 'bg-lavender text-white hover:bg-lavender/90'
+                        : 'bg-midnight text-white hover:bg-midnight/90'
+                    }`}
+                  >
+                    {loading === tier.key
+                      ? IS_TEST_MODE
+                        ? 'Activating…'
+                        : 'Redirecting…'
+                      : `Upgrade to ${tier.name.split(' ')[0]}`}
+                  </button>
+                ) : isDowngrade ? (
+                  <button
+                    onClick={handleManageBilling}
+                    disabled={!!loading}
+                    className="w-full rounded-comfortable border px-3 py-2 text-[13px] font-medium text-black/50 transition-colors hover:text-black/70 disabled:opacity-60"
+                    style={{ borderColor: 'var(--border-light)' }}
+                  >
+                    {loading === 'portal' ? 'Redirecting…' : 'Switch plan'}
+                  </button>
+                ) : null}
               </div>
             )
           })}
@@ -218,8 +303,10 @@ export function MembershipTab({ user }: { user: DashboardUser }) {
       <div className="card-light p-5">
         <p className="mono-label mb-2 text-black/30">Billing</p>
         <p className="text-[13px] text-black/50">
-          All subscriptions are billed monthly via Stripe. Cancel any time — you retain access
-          through the end of your billing period. Questions?{' '}
+          {IS_TEST_MODE
+            ? 'Test mode: upgrades apply immediately with no payment. Connect Stripe to enable real billing.'
+            : 'All subscriptions are billed monthly via Stripe. Cancel any time — you retain access through the end of your billing period.'}{' '}
+          Questions?{' '}
           <a
             href="mailto:support@peptidewiki.com"
             className="underline underline-offset-2 hover:text-black/70"

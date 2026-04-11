@@ -5,9 +5,16 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useAuth } from '@/lib/useAuth'
 
-type Tier = 'free' | 'researcher' | 'pro'
+export type Tier = 'free' | 'researcher' | 'pro' | 'clinic'
 
-const TIER_RANK: Record<Tier, number> = { free: 0, researcher: 1, pro: 2 }
+export const TIER_RANK: Record<Tier, number> = { free: 0, researcher: 1, pro: 2, clinic: 3 }
+
+const TIER_LABEL: Record<Tier, string> = {
+  free: 'Free',
+  researcher: 'Researcher',
+  pro: 'Pro',
+  clinic: 'Clinic',
+}
 
 function PaywallGateInner({
   minTier,
@@ -74,16 +81,14 @@ function PaywallGateInner({
         </div>
         <p className="text-[15px] font-medium text-white">{title}</p>
         <p className="mt-1 max-w-xs text-[13px] text-white/50">
-          {minTier === 'researcher'
-            ? 'Available on Researcher and Pro plans.'
-            : 'Available on the Pro plan.'}
+          Available on the {TIER_LABEL[minTier]} plan and above.
         </p>
         {user ? (
           <Link
-            href="/dashboard?tab=membership"
+            href={`/upgrade?highlight=${minTier}`}
             className="btn-dark mt-4 text-[13px]"
           >
-            Upgrade to {minTier === 'researcher' ? 'Researcher' : 'Pro'} →
+            Unlock with {TIER_LABEL[minTier]} →
           </Link>
         ) : (
           <div className="mt-4 flex gap-2">

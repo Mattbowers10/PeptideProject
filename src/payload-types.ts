@@ -142,7 +142,7 @@ export interface User {
   /**
    * Determines content access level across the app.
    */
-  membershipTier: 'free' | 'researcher' | 'pro';
+  membershipTier: 'free' | 'researcher' | 'pro' | 'clinic';
   /**
    * When the current paid membership period ends.
    */
