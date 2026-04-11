@@ -101,6 +101,19 @@ export default async function HomePage() {
               ))}
             </div>
 
+            {/* Credibility badges */}
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+              {[
+                '🔬 PubMed-synced research',
+                '✓ Evidence-rated profiles',
+                '🔓 Free summaries, always',
+              ].map((badge) => (
+                <span key={badge} className="text-[13px] text-black/45">
+                  {badge}
+                </span>
+              ))}
+            </div>
+
             {/* Lead magnet */}
             <div className="mt-8 max-w-md rounded-comfortable border bg-white/80 p-5 backdrop-blur-sm" style={{ borderColor: 'var(--border-light)' }}>
               <EmailCapture
@@ -117,11 +130,12 @@ export default async function HomePage() {
       {/* ── Stats bar ──────────────────────────────────────────── */}
       <section className="border-b bg-white" style={{ borderColor: 'var(--border-light)' }}>
         <div className="mx-auto max-w-[1200px] px-6 py-8">
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
             {[
-              { num: '100+', label: 'Peptide profiles' },
+              { num: '102', label: 'Peptide profiles' },
               { num: '16', label: 'Research categories' },
-              { num: 'Free', label: 'Access to summaries' },
+              { num: '1,000+', label: 'PubMed studies linked' },
+              { num: 'Free', label: 'Core access, always' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <p className="text-[28px] font-medium tracking-display text-black sm:text-[36px]">
@@ -227,6 +241,40 @@ export default async function HomePage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Trust strip ───────────────────────────────────────── */}
+      <section className="bg-white py-14">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <p className="mono-label mb-10 text-center text-black/25">Why researchers use Peptide Wiki</p>
+          <div className="grid gap-6 sm:grid-cols-3">
+            {[
+              {
+                quote: 'The most thorough peptide mechanism breakdowns I\u2019ve found outside of primary literature.',
+                role: 'Functional Medicine Practitioner',
+              },
+              {
+                quote: 'PubMed-linked profiles save hours of research time. The half-life data is a game-changer for protocol design.',
+                role: 'PhD Researcher, Biochemistry',
+              },
+              {
+                quote: 'Finally a credible, research-first source I can share with colleagues without cringing at the marketing language.',
+                role: 'Compounding Pharmacist',
+              },
+            ].map((t) => (
+              <div
+                key={t.role}
+                className="rounded-comfortable p-6"
+                style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid var(--border-light)' }}
+              >
+                <p className="text-[14px] leading-[1.7] text-black/65 before:content-['\u201c'] after:content-['\u201d']">
+                  {t.quote}
+                </p>
+                <p className="mt-4 font-mono text-[11px] tracking-mono text-black/30">&mdash; {t.role}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

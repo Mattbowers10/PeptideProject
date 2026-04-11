@@ -49,6 +49,12 @@ export function Header() {
             Compare
           </Link>
           <Link
+            href="/stacks"
+            className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
+          >
+            Stacks
+          </Link>
+          <Link
             href="/dashboard"
             className="text-sm tracking-tight text-white/70 transition-colors hover:text-white"
           >

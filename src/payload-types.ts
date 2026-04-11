@@ -77,6 +77,7 @@ export interface Config {
     media: Media;
     'email-subscribers': EmailSubscriber;
     articles: Article;
+    'peptide-lists': PeptideList;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -94,6 +95,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     'email-subscribers': EmailSubscribersSelect<false> | EmailSubscribersSelect<true>;
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
+    'peptide-lists': PeptideListsSelect<false> | PeptideListsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -973,6 +975,25 @@ export interface ArticlesSelect<T extends boolean = true> {
   tags?: T | { tag?: T; id?: T };
   seoTitle?: T;
   seoDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  id?: T;
+}
+
+export interface PeptideList {
+  id: number;
+  name: string;
+  owner: number | User;
+  peptides?: (number | Peptide)[] | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface PeptideListsSelect<T extends boolean = true> {
+  name?: T;
+  owner?: T;
+  peptides?: T;
+  notes?: T;
   updatedAt?: T;
   createdAt?: T;
   id?: T;

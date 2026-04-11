@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -13,6 +14,7 @@ import { MembershipTab } from '@/components/dashboard/MembershipTab'
 import { PartnerOverviewTab } from '@/components/dashboard/PartnerOverviewTab'
 import { AffiliateLinksTab } from '@/components/dashboard/AffiliateLinksTab'
 import { AnalyticsTab } from '@/components/dashboard/AnalyticsTab'
+import { ListsTab } from '@/components/dashboard/ListsTab'
 import type { User } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
@@ -143,6 +145,19 @@ export default async function DashboardPage({
         {tab === 'profile' && <ProfileTab user={user} />}
         {tab === 'activity' && <ActivityTab />}
         {tab === 'membership' && <MembershipTab user={user} />}
+        {tab === 'lists' && <ListsTab user={user} />}
+        {tab === 'stacks' && (
+          <div className="space-y-4">
+            <div>
+              <h1 className="text-[28px] font-medium tracking-heading text-black">Stack Builder</h1>
+              <p className="mt-1 text-[14px] text-black/50">Build multi-peptide research stacks with side-by-side profile comparison.</p>
+            </div>
+            <div className="rounded-comfortable border p-6 text-center" style={{ borderColor: 'var(--border-light)' }}>
+              <p className="text-[14px] text-black/60 mb-4">The Stack Builder is a full-page tool.</p>
+              <Link href="/stacks" className="btn-dark text-[14px]">Open Stack Builder →</Link>
+            </div>
+          </div>
+        )}
         {tab === 'partner' && isPartner && (
           <PartnerOverviewTab
             user={user}

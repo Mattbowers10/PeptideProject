@@ -9,6 +9,8 @@ const MEMBER_TABS = [
   { key: 'profile', label: 'Profile' },
   { key: 'activity', label: 'Activity' },
   { key: 'membership', label: 'Membership' },
+  { key: 'lists', label: 'Lists' },
+  { key: 'stacks', label: 'Stack Builder' },
 ]
 
 const PARTNER_TABS = [

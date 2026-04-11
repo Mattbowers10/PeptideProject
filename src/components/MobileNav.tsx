@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: '/research', label: 'Research' },
   { href: '/partners', label: 'Partners' },
   { href: '/compare', label: 'Compare' },
+  { href: '/stacks', label: 'Stacks' },
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/login', label: 'Sign in' },
 ]

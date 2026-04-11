@@ -11,6 +11,7 @@ import { RichTextRenderer } from '@/components/RichTextRenderer'
 import { PaywallGate } from '@/components/PaywallGate'
 import { AffiliateSection } from '@/components/AffiliateSection'
 import { StudiesSection } from '@/components/StudiesSection'
+import { SaveToListButton } from '@/components/SaveToListButton'
 import type { AffiliateLink, Category, Partner, Peptide, Study } from '@/payload-types'
 
 export const revalidate = 3600
@@ -264,12 +265,15 @@ export default async function PeptideDetailPage({
 
             <div className="mt-2 flex flex-col items-end gap-3">
               <ResearchBadge status={peptide.researchStatus} variant="dark" />
-              <Link
-                href={`/compare?a=${peptide.slug}`}
-                className="btn-glass text-[12px]"
-              >
-                Compare →
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link
+                  href={`/compare?a=${peptide.slug}`}
+                  className="btn-glass text-[12px]"
+                >
+                  Compare →
+                </Link>
+                <SaveToListButton peptideId={peptide.id} />
+              </div>
             </div>
           </div>
         </header>

@@ -13,7 +13,7 @@ export function Footer() {
         </div>
 
         {/* Footer link grid */}
-        <div className="grid gap-8 py-12 sm:grid-cols-3">
+        <div className="grid gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <p className="mono-label mb-4 text-white/30">Research</p>
             <div className="flex flex-col gap-2">
@@ -34,6 +34,9 @@ export function Footer() {
               </Link>
               <Link href="/research" className="text-sm text-white/50 transition-colors hover:text-white">
                 Research Hub
+              </Link>
+              <Link href="/stacks" className="text-sm text-white/50 transition-colors hover:text-white">
+                Stack Builder
               </Link>
             </div>
           </div>
@@ -61,6 +64,24 @@ export function Footer() {
               </Link>
               <Link href="/dashboard?tab=membership" className="text-sm text-white/50 transition-colors hover:text-white">
                 Manage Subscription
+              </Link>
+            </div>
+          </div>
+
+          <div>
+            <p className="mono-label mb-4 text-white/30">Company</p>
+            <div className="flex flex-col gap-2">
+              <Link href="/about" className="text-sm text-white/50 transition-colors hover:text-white">
+                About & Methodology
+              </Link>
+              <Link href="/disclaimer" className="text-sm text-white/50 transition-colors hover:text-white">
+                Disclaimer
+              </Link>
+              <Link href="/terms" className="text-sm text-white/50 transition-colors hover:text-white">
+                Terms
+              </Link>
+              <Link href="/privacy" className="text-sm text-white/50 transition-colors hover:text-white">
+                Privacy
               </Link>
             </div>
           </div>
