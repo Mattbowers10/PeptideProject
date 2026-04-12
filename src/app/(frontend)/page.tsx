@@ -63,9 +63,8 @@ export default async function HomePage() {
             <p className="mono-label mb-4 text-black/40 anim-fade-up anim-delay-1">Research encyclopedia</p>
 
             <h1 className="mt-4 text-[48px] font-medium leading-[1.05] tracking-display text-black sm:text-[64px] anim-fade-up anim-delay-2">
-              The peptide
-              <br />
-              <span className="text-gradient">reference.</span>
+              The Gold Standard<br />
+              <span className="text-gradient">for Peptide Research.</span>
             </h1>
 
             <p className="mt-5 max-w-lg text-[18px] leading-[1.4] tracking-tight text-black/60 anim-fade-up anim-delay-3">
