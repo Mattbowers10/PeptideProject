@@ -10,7 +10,7 @@ import type { Peptide } from '@/payload-types'
 export const revalidate = 86400
 
 export const metadata: Metadata = {
-  title: '10 Most Researched Peptides — Free Research Guide | Peptide Wiki',
+  title: '10 Most Researched Peptides — Free Research Guide | Peptide United',
   description:
     'A curated research guide covering the 10 most studied peptides — mechanisms, research status, and where to learn more.',
 }
@@ -81,9 +81,9 @@ export default async function GuidePage() {
 
       {/* ── Print-only header ──────────────────────────────────── */}
       <div className="hidden print:block px-6 pt-8 pb-4 border-b border-black/10">
-        <p className="text-[11px] uppercase tracking-[0.12em] text-black/40 mb-1">Peptide Wiki · Free Research Guide</p>
+        <p className="text-[11px] uppercase tracking-[0.12em] text-black/40 mb-1">Peptide United · Free Research Guide</p>
         <h1 className="text-[28px] font-medium text-black">10 Most Researched Peptides</h1>
-        <p className="text-[13px] text-black/50 mt-1">peptidewiki.com/guide</p>
+        <p className="text-[13px] text-black/50 mt-1">peptideunited.com/guide</p>
       </div>
 
       {/* ── Guide content ──────────────────────────────────────── */}
@@ -131,7 +131,7 @@ export default async function GuidePage() {
                     Full profile →
                   </Link>
                   <span className="hidden print:inline text-[11px] text-black/40">
-                    peptidewiki.com/peptides/{peptide.slug}
+                    peptideunited.com/peptides/{peptide.slug}
                   </span>
                 </div>
               </article>

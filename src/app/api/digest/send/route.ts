@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     if (docs[0]) {
       featuredPeptides.push({
         name: docs[0].name,
-        url: `https://peptidewiki.com/peptides/${slug}`,
+        url: `https://peptideunited.com/peptides/${slug}`,
         status: (docs[0] as { researchStatus?: string }).researchStatus ?? undefined,
       })
     }
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
 
   const articleData = articles.map(a => ({
     title: (a as { title: string }).title,
-    url: `https://peptidewiki.com/research/${(a as { slug: string }).slug}`,
+    url: `https://peptideunited.com/research/${(a as { slug: string }).slug}`,
     excerpt: (a as { excerpt?: string }).excerpt ?? undefined,
     category: ((a as { category?: string }).category) ?? 'Research',
   }))

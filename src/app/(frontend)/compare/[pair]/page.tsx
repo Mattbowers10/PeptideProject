@@ -51,7 +51,7 @@ async function getPeptideBySlug(payload: Awaited<ReturnType<typeof getPayload>>,
 export async function generateMetadata({ params }: { params: Promise<{ pair: string }> }): Promise<Metadata> {
   const { pair } = await params
   const [slugA, slugB] = pair.split('-vs-')
-  if (!slugA || !slugB) return { title: 'Peptide Comparison | Peptide Wiki' }
+  if (!slugA || !slugB) return { title: 'Peptide Comparison | Peptide United' }
 
   const payload = await getPayload({ config })
   const a = await getPeptideBySlug(payload, slugA)
@@ -61,14 +61,14 @@ export async function generateMetadata({ params }: { params: Promise<{ pair: str
   const nameB = b?.name ?? slugB
 
   return {
-    title: `${nameA} vs ${nameB} — Research Comparison | Peptide Wiki`,
+    title: `${nameA} vs ${nameB} — Research Comparison | Peptide United`,
     description: `Compare ${nameA} and ${nameB} side by side: research status, mechanism of action, pharmacokinetics, half-life, and administration routes.`,
     openGraph: {
-      title: `${nameA} vs ${nameB} | Peptide Wiki`,
+      title: `${nameA} vs ${nameB} | Peptide United`,
       description: `Side-by-side comparison of ${nameA} and ${nameB} — mechanisms, pharmacokinetics, research status, and routes.`,
     },
     alternates: {
-      canonical: `https://peptidewiki.com/compare/${pair}`,
+      canonical: `https://peptideunited.com/compare/${pair}`,
     },
   }
 }
@@ -113,7 +113,7 @@ export default async function PairComparisonPage({ params }: { params: Promise<{
 
   if (!peptideA || !peptideB) notFound()
 
-  const base = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://peptidewiki.com').replace(/\/$/, '')
+  const base = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://peptideunited.com').replace(/\/$/, '')
 
   const jsonLd = {
     '@context': 'https://schema.org',

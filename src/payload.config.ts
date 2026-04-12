@@ -20,7 +20,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     meta: {
-      titleSuffix: '— Peptide Wiki',
+      titleSuffix: '— Peptide United',
     },
   },
   collections: [

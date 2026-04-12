@@ -5,7 +5,7 @@
  * Vercel automatically passes Authorization: Bearer ${CRON_SECRET} when invoking.
  *
  * Can also be triggered manually:
- *   curl -X GET https://peptidewiki.com/api/cron/sync-pubmed \
+ *   curl -X GET https://peptideunited.com/api/cron/sync-pubmed \
  *     -H "Authorization: Bearer YOUR_CRON_SECRET"
  */
 

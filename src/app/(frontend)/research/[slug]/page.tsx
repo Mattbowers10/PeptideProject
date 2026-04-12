@@ -60,10 +60,10 @@ export async function generateMetadata({
   const description = article.seoDescription ?? article.excerpt ?? undefined
 
   return {
-    title: `${title} | Peptide Wiki`,
+    title: `${title} | Peptide United`,
     description,
     openGraph: {
-      title: `${title} — Peptide Wiki Research`,
+      title: `${title} — Peptide United Research`,
       description,
     },
   }
@@ -89,7 +89,7 @@ export default async function ArticleDetailPage({
   type LexicalData = { root: { children: unknown[] } }
   const body = article.body as LexicalData | null | undefined
 
-  const base = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://peptidewiki.com').replace(/\/$/, '')
+  const base = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://peptideunited.com').replace(/\/$/, '')
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -100,7 +100,7 @@ export default async function ArticleDetailPage({
     datePublished: article.publishedAt ?? undefined,
     publisher: {
       '@type': 'Organization',
-      name: 'Peptide Wiki',
+      name: 'Peptide United',
       url: base,
     },
   }
@@ -158,7 +158,7 @@ export default async function ArticleDetailPage({
             )}
             <ShareButtons
               url={`${base}/research/${article.slug}`}
-              title={`${article.title} | Peptide Wiki`}
+              title={`${article.title} | Peptide United`}
             />
           </div>
         </header>

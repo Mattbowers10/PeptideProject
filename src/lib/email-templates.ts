@@ -7,8 +7,8 @@ const BASE_STYLE = `
 
 const FOOTER_HTML = `
   <div style="border-top: 1px solid #f0f0f0; margin-top: 40px; padding-top: 24px; color: #999; font-size: 12px; line-height: 1.6;">
-    <p style="margin: 0;">Peptide Wiki · Research-first peptide encyclopedia</p>
-    <p style="margin: 4px 0 0;">You're receiving this because you subscribed at peptidewiki.com.</p>
+    <p style="margin: 0;">Peptide United · Research-first peptide encyclopedia</p>
+    <p style="margin: 4px 0 0;">You're receiving this because you subscribed at peptideunited.com.</p>
     <p style="margin: 4px 0 0;"><a href="{{UNSUBSCRIBE_URL}}" style="color: #999;">Unsubscribe</a></p>
   </div>
 `
@@ -16,16 +16,16 @@ const FOOTER_HTML = `
 export function welcomeEmail(opts: { name?: string; downloadUrl?: string }): { subject: string; html: string } {
   const greeting = opts.name ? `Hi ${opts.name}` : 'Welcome'
   return {
-    subject: 'Your free research guide is ready — Peptide Wiki',
+    subject: 'Your free research guide is ready — Peptide United',
     html: `
 <div style="${BASE_STYLE}">
   <div style="padding: 40px 40px 0;">
-    <p style="font-size: 12px; letter-spacing: 0.08em; color: #9d96ff; text-transform: uppercase; margin: 0 0 24px;">PEPTIDE WIKI</p>
+    <p style="font-size: 12px; letter-spacing: 0.08em; color: #9d96ff; text-transform: uppercase; margin: 0 0 24px;">PEPTIDE UNITED</p>
     <h1 style="font-size: 28px; font-weight: 600; color: #010120; letter-spacing: -0.02em; line-height: 1.2; margin: 0 0 16px;">${greeting} — your guide is ready.</h1>
     <p style="font-size: 15px; line-height: 1.7; color: #555; margin: 0 0 24px;">
-      Thanks for joining Peptide Wiki. Your free research guide — <strong>10 Most Researched Peptides</strong> — is ready to read.
+      Thanks for joining Peptide United. Your free research guide — <strong>10 Most Researched Peptides</strong> — is ready to read.
     </p>
-    <a href="${opts.downloadUrl ?? 'https://peptidewiki.com/guide'}"
+    <a href="${opts.downloadUrl ?? 'https://peptideunited.com/guide'}"
        style="display: inline-block; background: #010120; color: white; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-size: 14px; font-weight: 500; margin-bottom: 32px;">
       Read the Guide →
     </a>
@@ -41,13 +41,13 @@ export function welcomeEmail(opts: { name?: string; downloadUrl?: string }): { s
     <p style="font-size: 14px; color: #666; line-height: 1.7;">
       When you're ready to go deeper, the <strong>Researcher plan ($12/mo)</strong> unlocks full mechanism profiles, pharmacokinetics, PubMed study links, and evidence ratings.
     </p>
-    <a href="https://peptidewiki.com/upgrade"
+    <a href="https://peptideunited.com/upgrade"
        style="display: inline-block; border: 1px solid #e0e0e0; color: #333; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 13px; margin-top: 12px;">
       See plans →
     </a>
   </div>
   <div style="padding: 0 40px 40px;">
-    ${FOOTER_HTML.replace('{{UNSUBSCRIBE_URL}}', 'https://peptidewiki.com/unsubscribe')}
+    ${FOOTER_HTML.replace('{{UNSUBSCRIBE_URL}}', 'https://peptideunited.com/unsubscribe')}
   </div>
 </div>
     `.trim(),
@@ -74,11 +74,11 @@ export function weeklyDigestEmail(opts: {
   `).join('')
 
   return {
-    subject: `Peptide Wiki Weekly — ${opts.weekOf}`,
+    subject: `Peptide United Weekly — ${opts.weekOf}`,
     html: `
 <div style="${BASE_STYLE}">
   <div style="padding: 40px 40px 0;">
-    <p style="font-size: 12px; letter-spacing: 0.08em; color: #9d96ff; text-transform: uppercase; margin: 0 0 8px;">PEPTIDE WIKI</p>
+    <p style="font-size: 12px; letter-spacing: 0.08em; color: #9d96ff; text-transform: uppercase; margin: 0 0 8px;">PEPTIDE UNITED</p>
     <h1 style="font-size: 24px; font-weight: 600; color: #010120; letter-spacing: -0.02em; margin: 0 0 4px;">Weekly Research Digest</h1>
     <p style="font-size: 13px; color: #999; margin: 0 0 32px;">${opts.weekOf}</p>
 
@@ -96,11 +96,11 @@ export function weeklyDigestEmail(opts: {
 
     <div style="margin-top: 32px; background: #f8f9ff; border-radius: 8px; padding: 20px;">
       <p style="font-size: 13px; color: #555; margin: 0 0 12px;">Unlock deeper profiles with Researcher ($12/mo)</p>
-      <a href="https://peptidewiki.com/upgrade" style="display: inline-block; background: #010120; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 13px;">View plans →</a>
+      <a href="https://peptideunited.com/upgrade" style="display: inline-block; background: #010120; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 13px;">View plans →</a>
     </div>
   </div>
   <div style="padding: 0 40px 40px;">
-    ${FOOTER_HTML.replace('{{UNSUBSCRIBE_URL}}', 'https://peptidewiki.com/unsubscribe')}
+    ${FOOTER_HTML.replace('{{UNSUBSCRIBE_URL}}', 'https://peptideunited.com/unsubscribe')}
   </div>
 </div>
     `.trim(),

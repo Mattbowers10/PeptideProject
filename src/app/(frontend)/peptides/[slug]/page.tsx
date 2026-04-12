@@ -50,7 +50,7 @@ export async function generateMetadata({
   if (!peptide) return { title: 'Peptide Not Found' }
 
   return {
-    title: `${peptide.name} | Peptide Wiki`,
+    title: `${peptide.name} | Peptide United`,
     description: peptide.summary,
     openGraph: {
       title: `${peptide.name} — Peptide Research Profile`,
@@ -137,7 +137,7 @@ export default async function PeptideDetailPage({
 
   const hasGatedContent = moa || pk || findings || safety
 
-  const base = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://peptidewiki.com').replace(/\/$/, '')
+  const base = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://peptideunited.com').replace(/\/$/, '')
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -277,7 +277,7 @@ export default async function PeptideDetailPage({
               </div>
               <ShareButtons
                 url={`${base}/peptides/${peptide.slug}`}
-                title={`${peptide.name} — Research Profile | Peptide Wiki`}
+                title={`${peptide.name} — Research Profile | Peptide United`}
               />
             </div>
           </div>

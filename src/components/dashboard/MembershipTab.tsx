@@ -308,10 +308,10 @@ export function MembershipTab({ user }: { user: DashboardUser }) {
             : 'All subscriptions are billed monthly via Stripe. Cancel any time — you retain access through the end of your billing period.'}{' '}
           Questions?{' '}
           <a
-            href="mailto:support@peptidewiki.com"
+            href="mailto:support@peptideunited.com"
             className="underline underline-offset-2 hover:text-black/70"
           >
-            support@peptidewiki.com
+            support@peptideunited.com
           </a>
         </p>
       </div>

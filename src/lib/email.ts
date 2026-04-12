@@ -6,7 +6,7 @@ type EmailPayload = {
   replyTo?: string
 }
 
-const FROM_ADDRESS = process.env.EMAIL_FROM ?? 'Peptide Wiki <research@peptidewiki.com>'
+const FROM_ADDRESS = process.env.EMAIL_FROM ?? 'Peptide United <research@peptideunited.com>'
 
 export async function sendEmail(payload: EmailPayload): Promise<{ ok: boolean; error?: string }> {
   const apiKey = process.env.RESEND_API_KEY

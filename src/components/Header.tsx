@@ -13,7 +13,7 @@ export function Header() {
           href="/"
           className="flex items-center gap-2 text-white transition-opacity hover:opacity-80"
         >
-          <span className="text-base font-medium tracking-heading">Peptide Wiki</span>
+          <span className="text-base font-medium tracking-heading">Peptide United</span>
         </Link>
 
         {/* Desktop nav — hidden below sm */}

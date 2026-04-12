@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     })
 
     // Fire welcome email (non-blocking — don't fail the subscription if email fails)
-    const { subject, html } = welcomeEmail({ downloadUrl: 'https://peptidewiki.com/guide' })
+    const { subject, html } = welcomeEmail({ downloadUrl: 'https://peptideunited.com/guide' })
     sendEmail({ to: email.toLowerCase().trim(), subject, html }).catch(console.error)
 
     return NextResponse.json({ success: true })

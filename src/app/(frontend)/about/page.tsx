@@ -3,9 +3,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'About Peptide Wiki — Research Methodology & Mission',
+  title: 'About Peptide United — Research Methodology & Mission',
   description:
-    'Peptide Wiki is a research-first encyclopedia covering 100+ peptide compounds. Learn about our methodology, data sources, and commitment to evidence-based information.',
+    'Peptide United is a research-first encyclopedia covering 100+ peptide compounds. Learn about our methodology, data sources, and commitment to evidence-based information.',
 }
 
 export default function AboutPage() {
@@ -21,7 +21,7 @@ export default function AboutPage() {
             <span className="text-lavender">Always.</span>
           </h1>
           <p className="mt-5 text-[17px] leading-[1.65] tracking-tight text-black/55">
-            Peptide Wiki exists to bring the same rigour to peptide information that researchers
+            Peptide United exists to bring the same rigour to peptide information that researchers
             expect from primary literature — without the commercial noise.
           </p>
         </div>
@@ -156,7 +156,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[660px] px-6 text-center">
           <p className="mono-label mb-3 text-black/30">Research use only</p>
           <p className="text-[14px] leading-[1.75] text-black/55">
-            All content on Peptide Wiki is for educational and research purposes only. It refers to
+            All content on Peptide United is for educational and research purposes only. It refers to
             preclinical and clinical research literature and should not be interpreted as medical
             advice, treatment recommendations, or endorsement of any therapeutic use. Always consult
             qualified healthcare professionals before making any clinical decisions.

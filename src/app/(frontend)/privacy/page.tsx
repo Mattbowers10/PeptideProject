@@ -3,9 +3,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Peptide Wiki',
+  title: 'Privacy Policy | Peptide United',
   description:
-    'Privacy Policy for Peptide Wiki — how we collect, use, and protect your personal information.',
+    'Privacy Policy for Peptide United — how we collect, use, and protect your personal information.',
 }
 
 export default function PrivacyPage() {
@@ -23,7 +23,7 @@ export default function PrivacyPage() {
         {/* Intro */}
         <section>
           <p className="text-[15px] leading-[1.75] text-black/60">
-            Peptide Wiki (&ldquo;we,&rdquo; &ldquo;our,&rdquo; &ldquo;the Site&rdquo;) is committed to protecting your privacy.
+            Peptide United (&ldquo;we,&rdquo; &ldquo;our,&rdquo; &ldquo;the Site&rdquo;) is committed to protecting your privacy.
             This Privacy Policy explains how we collect, use, disclose, and safeguard your
             information when you visit our website and use our services.
           </p>
@@ -103,7 +103,7 @@ export default function PrivacyPage() {
               },
               {
                 title: 'Legal requirements',
-                body: 'When required by law, court order, or governmental authority, or to protect the rights, property, or safety of Peptide Wiki, our users, or the public.',
+                body: 'When required by law, court order, or governmental authority, or to protect the rights, property, or safety of Peptide United, our users, or the public.',
               },
               {
                 title: 'Business transfers',

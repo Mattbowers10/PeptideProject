@@ -7,7 +7,7 @@ import { CompareTable } from '@/components/compare/CompareTable'
 import type { Peptide } from '@/payload-types'
 
 export const metadata: Metadata = {
-  title: 'Compare Peptides | Peptide Wiki',
+  title: 'Compare Peptides | Peptide United',
   description:
     'Compare two peptides side-by-side — research status, half-life, administration routes, mechanisms, and more.',
 }
@@ -59,7 +59,7 @@ export default async function ComparePage({
     name: 'Peptide Comparison Tool',
     description:
       'Compare two peptides side-by-side: mechanism of action, pharmacokinetics, research status, and administration routes.',
-    url: 'https://peptidewiki.com/compare',
+    url: 'https://peptideunited.com/compare',
     applicationCategory: 'HealthApplication',
   }
 

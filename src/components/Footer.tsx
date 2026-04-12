@@ -8,7 +8,7 @@ export function Footer() {
         {/* Large wordmark */}
         <div className="border-b py-16" style={{ borderColor: 'var(--border-dark)' }}>
           <p className="text-5xl font-medium tracking-display text-white/10 sm:text-7xl">
-            peptide wiki
+            peptide united
           </p>
         </div>
 
@@ -90,7 +90,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col gap-3 border-t pb-8 pt-6 sm:flex-row sm:items-center sm:justify-between" style={{ borderColor: 'var(--border-dark)' }}>
           <p className="mono-label text-white/20">
-            © {new Date().getFullYear()} Peptide Wiki. All rights reserved.
+            © {new Date().getFullYear()} Peptide United. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-x-5 gap-y-1">
             <Link href="/terms" className="mono-label text-white/20 transition-colors hover:text-white/40">

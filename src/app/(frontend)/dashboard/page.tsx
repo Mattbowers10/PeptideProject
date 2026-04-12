@@ -20,8 +20,8 @@ import type { User } from '@/payload-types'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Dashboard | Peptide Wiki',
-  description: 'Manage your Peptide Wiki account, membership, and research activity.',
+  title: 'Dashboard | Peptide United',
+  description: 'Manage your Peptide United account, membership, and research activity.',
 }
 
 type SearchParams = { tab?: string; as?: string; tier?: string }

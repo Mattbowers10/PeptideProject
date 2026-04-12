@@ -12,17 +12,17 @@ import type { Category, Peptide } from '@/payload-types'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Peptide Wiki — Research-First Peptide Encyclopedia',
+  title: 'Peptide United — Research-First Peptide Encyclopedia',
   description:
     'Comprehensive, evidence-based profiles for 100+ peptides. Mechanisms of action, pharmacokinetics, clinical research, and trusted suppliers — all in one place.',
   openGraph: {
-    title: 'Peptide Wiki — Research-First Peptide Encyclopedia',
+    title: 'Peptide United — Research-First Peptide Encyclopedia',
     description:
       'Comprehensive, evidence-based profiles for 100+ peptides. Mechanisms, pharmacokinetics, studies, and trusted suppliers.',
     type: 'website',
   },
   alternates: {
-    canonical: 'https://peptidewiki.com',
+    canonical: 'https://peptideunited.com',
   },
 }
 
@@ -248,7 +248,7 @@ export default async function HomePage() {
       {/* ── Trust strip ───────────────────────────────────────── */}
       <section className="bg-white py-14">
         <div className="mx-auto max-w-[1200px] px-6">
-          <p className="mono-label mb-10 text-center text-black/25">Why researchers use Peptide Wiki</p>
+          <p className="mono-label mb-10 text-center text-black/25">Why researchers use Peptide United</p>
           <div className="grid gap-6 sm:grid-cols-3">
             {[
               {

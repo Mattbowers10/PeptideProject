@@ -46,10 +46,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     overrideAccess: true,
   })
   const partner = docs[0] as Partner | undefined
-  if (!partner) return { title: 'Partner Not Found | Peptide Wiki' }
+  if (!partner) return { title: 'Partner Not Found | Peptide United' }
 
   return {
-    title: `${partner.name} | Research Partners | Peptide Wiki`,
+    title: `${partner.name} | Research Partners | Peptide United`,
     description: partner.description ?? `Browse research peptides available from ${partner.name}.`,
   }
 }
@@ -161,7 +161,7 @@ export default async function PartnerDetailPage({ params }: Props) {
         {/* Disclosure */}
         <div className="mt-6 inline-block rounded-sharp border border-lavender/20 px-4 py-2">
           <p className="font-mono text-[11px] tracking-mono text-lavender/60">
-            Affiliate disclosure — Peptide Wiki earns a commission on purchases made through these links.
+            Affiliate disclosure — Peptide United earns a commission on purchases made through these links.
           </p>
         </div>
       </section>

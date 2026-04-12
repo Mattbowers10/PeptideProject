@@ -19,14 +19,14 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Peptide Wiki — Research-First Peptide Encyclopedia',
-    template: '%s | Peptide Wiki',
+    default: 'Peptide United — Research-First Peptide Encyclopedia',
+    template: '%s | Peptide United',
   },
   description:
     'Comprehensive, evidence-based profiles for 100+ peptides. Mechanisms, pharmacokinetics, studies, and trusted suppliers.',
   openGraph: {
     type: 'website',
-    siteName: 'Peptide Wiki',
+    siteName: 'Peptide United',
   },
 }
 

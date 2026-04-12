@@ -5,7 +5,7 @@ import Link from 'next/link'
 export const revalidate = false
 
 export const metadata: Metadata = {
-  title: 'Peptide Research Glossary | Peptide Wiki',
+  title: 'Peptide Research Glossary | Peptide United',
   description:
     'Definitions of key terms used across peptide research — half-life, bioavailability, pharmacokinetics, GHRPs, lyophilized, and more.',
 }
@@ -227,7 +227,7 @@ const TERMS: Term[] = [
     letter: 'M',
     slug: 'mechanism-of-action',
     definition:
-      'The specific biochemical interaction through which a compound produces its pharmacological effect. Understanding a peptide\'s MOA means knowing which receptor it binds, which signaling cascade it activates or inhibits, and what downstream cellular responses result. The MOA section of each Peptide Wiki profile describes the primary receptor targets and signaling pathways involved.',
+      'The specific biochemical interaction through which a compound produces its pharmacological effect. Understanding a peptide\'s MOA means knowing which receptor it binds, which signaling cascade it activates or inhibits, and what downstream cellular responses result. The MOA section of each Peptide United profile describes the primary receptor targets and signaling pathways involved.',
     searchQuery: 'mechanism of action',
   },
   {
@@ -286,7 +286,7 @@ const TERMS: Term[] = [
     letter: 'P',
     slug: 'pharmacodynamics',
     definition:
-      'The study of how a drug or compound affects the body — specifically its mechanism of action, receptor binding affinity, dose-response relationships, and therapeutic and adverse effects. If pharmacokinetics describes what the body does to the drug, pharmacodynamics describes what the drug does to the body. Both are profiled for each compound in the Peptide Wiki.',
+      'The study of how a drug or compound affects the body — specifically its mechanism of action, receptor binding affinity, dose-response relationships, and therapeutic and adverse effects. If pharmacokinetics describes what the body does to the drug, pharmacodynamics describes what the drug does to the body. Both are profiled for each compound in the Peptide United.',
     searchQuery: 'pharmacodynamics',
   },
   {
@@ -326,7 +326,7 @@ const TERMS: Term[] = [
     letter: 'P',
     slug: 'preclinical',
     definition:
-      'Research conducted prior to human clinical trials, typically including in vitro (cell culture) and in vivo (animal model) studies. Preclinical research establishes proof of concept, identifies potential mechanisms of action, and assesses initial safety and toxicity profiles. Most research peptides on the Peptide Wiki have preclinical data only — human evidence is noted where it exists.',
+      'Research conducted prior to human clinical trials, typically including in vitro (cell culture) and in vivo (animal model) studies. Preclinical research establishes proof of concept, identifies potential mechanisms of action, and assesses initial safety and toxicity profiles. Most research peptides on the Peptide United have preclinical data only — human evidence is noted where it exists.',
     searchQuery: 'preclinical research',
   },
   {
@@ -381,7 +381,7 @@ function buildJsonLd(terms: Term[]) {
         '@type': 'DefinedTerm',
         name: t.term,
         description: t.definition,
-        url: `https://peptidewiki.com/glossary#${t.slug}`,
+        url: `https://peptideunited.com/glossary#${t.slug}`,
       },
     })),
   }

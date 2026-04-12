@@ -4,11 +4,11 @@ import Link from 'next/link'
 import { UpgradeClient } from './UpgradeClient'
 
 export const metadata: Metadata = {
-  title: 'Pricing & Plans | Peptide Wiki',
+  title: 'Pricing & Plans | Peptide United',
   description:
     'Unlock full peptide research profiles, pharmacokinetics, PubMed links, and clinical tools. Choose the plan that fits your research depth.',
   openGraph: {
-    title: 'Peptide Wiki — Research Plans & Pricing',
+    title: 'Peptide United — Research Plans & Pricing',
     description: 'From free summaries to full clinical intelligence. Unlock the depth you need.',
   },
 }
@@ -191,7 +191,7 @@ const FAQ = [
     a: 'Yes. Upgrades apply immediately and are prorated. Downgrades take effect at the next renewal date.',
   },
   {
-    q: 'Is the information on Peptide Wiki medical advice?',
+    q: 'Is the information on Peptide United medical advice?',
     a: 'No. All content is for educational and research purposes only. It refers to preclinical and clinical research literature and should not be used for self-treatment or clinical decision-making without appropriate professional oversight.',
   },
   {

@@ -21,7 +21,7 @@ export function AffiliateSection({ links }: { links: PopulatedLink[] }) {
     <section className="card-dark p-6">
       <p className="mono-label mb-1 text-white/30">Where to Source</p>
       <p className="mb-5 text-[12px] text-white/25">
-        Affiliate links — Peptide Wiki may earn a commission on purchases. This does not
+        Affiliate links — Peptide United may earn a commission on purchases. This does not
         affect our editorial independence.
       </p>
 

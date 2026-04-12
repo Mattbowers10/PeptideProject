@@ -3,9 +3,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Research Disclaimer | Peptide Wiki',
+  title: 'Research Disclaimer | Peptide United',
   description:
-    'Research disclaimer for Peptide Wiki — important information about the nature of the content and its limitations.',
+    'Research disclaimer for Peptide United — important information about the nature of the content and its limitations.',
 }
 
 export default function DisclaimerPage() {
@@ -22,7 +22,7 @@ export default function DisclaimerPage() {
       <div className="mb-10 rounded-comfortable border-l-4 border-amber-400 bg-amber-50 px-6 py-5">
         <p className="text-[14px] font-medium text-amber-900">Important Notice</p>
         <p className="mt-1 text-[14px] leading-[1.7] text-amber-800">
-          Peptide Wiki provides information for research and educational purposes only. Nothing on
+          Peptide United provides information for research and educational purposes only. Nothing on
           this site should be interpreted as medical advice, diagnosis, or a recommendation to use
           any substance. Consult a licensed healthcare provider before considering any peptide
           compound.
@@ -35,7 +35,7 @@ export default function DisclaimerPage() {
         <section>
           <h2 className="mb-3 text-[18px] font-medium tracking-tight text-black">1. Not Medical Advice</h2>
           <p className="text-[15px] leading-[1.75] text-black/60">
-            The content on Peptide Wiki — including peptide profiles, mechanism of action
+            The content on Peptide United — including peptide profiles, mechanism of action
             descriptions, pharmacokinetic data, research summaries, and safety information — is
             compiled from publicly available scientific literature and is intended solely for
             educational and research purposes.
@@ -105,7 +105,7 @@ export default function DisclaimerPage() {
           <p className="mt-3 text-[15px] leading-[1.75] text-black/60">
             It is your sole responsibility to research and comply with the laws applicable in
             your jurisdiction before acquiring, possessing, or working with any compound
-            referenced on this Site. Peptide Wiki takes no responsibility for any legal
+            referenced on this Site. Peptide United takes no responsibility for any legal
             consequences arising from your use of information provided here.
           </p>
         </section>
@@ -114,7 +114,7 @@ export default function DisclaimerPage() {
         <section>
           <h2 className="mb-3 text-[18px] font-medium tracking-tight text-black">5. Affiliate Partner Disclosure</h2>
           <p className="text-[15px] leading-[1.75] text-black/60">
-            Peptide Wiki links to third-party research chemical suppliers (&ldquo;Partners&rdquo;) through
+            Peptide United links to third-party research chemical suppliers (&ldquo;Partners&rdquo;) through
             an affiliate program. When you purchase from a Partner using our tracking links, we
             may receive a commission. This financial relationship does not influence our editorial
             assessments or research summaries.
@@ -131,7 +131,7 @@ export default function DisclaimerPage() {
         <section>
           <h2 className="mb-3 text-[18px] font-medium tracking-tight text-black">6. No Endorsement of Self-Experimentation</h2>
           <p className="text-[15px] leading-[1.75] text-black/60">
-            Peptide Wiki does not endorse, encourage, or provide guidance on human
+            Peptide United does not endorse, encourage, or provide guidance on human
             self-experimentation with any compound. Self-administering research peptides outside
             of a licensed clinical setting carries significant risks including but not limited
             to: unknown impurities, incorrect dosing, adverse reactions, drug interactions,
@@ -143,7 +143,7 @@ export default function DisclaimerPage() {
         <section>
           <h2 className="mb-3 text-[18px] font-medium tracking-tight text-black">7. Limitation of Liability</h2>
           <p className="text-[15px] leading-[1.75] text-black/60">
-            Peptide Wiki, its operators, contributors, and affiliates expressly disclaim all
+            Peptide United, its operators, contributors, and affiliates expressly disclaim all
             liability for any harm — direct, indirect, incidental, or consequential — that may
             arise from reliance on the information provided on this Site, including decisions
             to acquire or use any peptide compound.
@@ -154,7 +154,7 @@ export default function DisclaimerPage() {
         <section>
           <h2 className="mb-3 text-[18px] font-medium tracking-tight text-black">8. Who This Site Is For</h2>
           <p className="text-[15px] leading-[1.75] text-black/60">
-            Peptide Wiki is designed for:
+            Peptide United is designed for:
           </p>
           <ul className="mt-3 space-y-2 pl-4">
             {[

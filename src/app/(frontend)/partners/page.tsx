@@ -8,9 +8,9 @@ import type { Partner, AffiliateLink, Peptide } from '@/payload-types'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Research Partners | Peptide Wiki',
+  title: 'Research Partners | Peptide United',
   description:
-    'Verified suppliers and research partners listed on Peptide Wiki. Affiliate links are clearly disclosed.',
+    'Verified suppliers and research partners listed on Peptide United. Affiliate links are clearly disclosed.',
 }
 
 const TIER_LABEL: Record<string, string> = {
@@ -88,7 +88,7 @@ export default async function PartnersPage() {
         {/* Disclosure */}
         <div className="mt-6 inline-block rounded-sharp border border-lavender/20 px-4 py-2">
           <p className="font-mono text-[11px] tracking-mono text-lavender/60">
-            Affiliate disclosure — Peptide Wiki earns a commission on purchases made through partner links.
+            Affiliate disclosure — Peptide United earns a commission on purchases made through partner links.
           </p>
         </div>
       </section>
@@ -188,7 +188,7 @@ export default async function PartnersPage() {
         <div className="text-center">
           <p className="mono-label mb-2 text-white/30">Partner program</p>
           <h2 className="text-[24px] font-medium tracking-heading text-white">
-            List your peptides on Peptide Wiki
+            List your peptides on Peptide United
           </h2>
           <p className="mx-auto mt-3 max-w-sm text-[14px] leading-[1.55] text-white/40">
             We work with verified research suppliers. Affiliate links, featured placement,

@@ -35,7 +35,7 @@ export function getMockUser(params?: MockSearchParams): DashboardUser {
 
   return {
     id: 1,
-    email: 'demo@peptidewiki.com',
+    email: 'demo@peptideunited.com',
     name: 'Alex Chen',
     role: isPartner ? 'partner' : 'member',
     membershipTier: tier,

@@ -28,7 +28,7 @@ export async function generateMetadata({
   const category = await getCategory(slug)
   if (!category) return { title: 'Category Not Found' }
   return {
-    title: `${category.name} | Peptide Wiki`,
+    title: `${category.name} | Peptide United`,
     description: category.description ?? undefined,
   }
 }

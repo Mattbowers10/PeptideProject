@@ -59,7 +59,7 @@ export default async function OgImage({ params }: { params: Promise<{ slug: stri
             fontWeight: 600,
             textTransform: 'uppercase',
           }}>
-            PEPTIDE WIKI · RESEARCH HUB
+            PEPTIDE UNITED · RESEARCH HUB
           </div>
           {categoryLabel && (
             <div style={{
@@ -110,7 +110,7 @@ export default async function OgImage({ params }: { params: Promise<{ slug: stri
           paddingTop: '24px',
         }}>
           <div style={{ color: 'rgba(10,10,46,0.3)', fontSize: '14px', letterSpacing: '0.05em' }}>
-            peptidewiki.com
+            peptideunited.com
           </div>
           <div style={{ color: 'rgba(10,10,46,0.25)', fontSize: '14px' }}>
             Research use only

@@ -78,7 +78,7 @@ const articles = [
       p(t('It is critical to note that all of these findings come from animal studies — predominantly in rats and mice. The pharmacokinetics, efficacy, and safety profile in humans remain unknown, as BPC-157 has not advanced to controlled human clinical trials. Any extrapolation from preclinical data to human use represents a significant inferential leap. Researchers interested in this compound should treat it strictly as an investigational tool and consult primary literature for up-to-date study protocols.')),
     ),
     relatedPeptides: [],
-    seoTitle: 'BPC-157 Complete Research Guide | Peptide Wiki',
+    seoTitle: 'BPC-157 Complete Research Guide | Peptide United',
     seoDescription: 'A comprehensive research overview of BPC-157 covering molecular mechanisms, gastrointestinal research, musculoskeletal applications, and the limits of current preclinical evidence.',
   },
   {
@@ -103,7 +103,7 @@ const articles = [
       p(t('When evaluating preclinical peptide studies, researchers should critically assess whether dosing frequency was appropriate for the compound\'s known half-life. A once-daily injection of a peptide with a 10-minute half-life creates a very different exposure profile than the same dose given as a continuous infusion — and may produce qualitatively different outcomes depending on whether the mechanism requires sustained receptor occupancy or is amenable to pulsatile stimulation. Growth hormone secretagogues (GHRPs and GHRHs) are a canonical example: their downstream effect on GH pulsatility depends on the timing of receptor activation relative to the endogenous GH pulse cycle.')),
     ),
     relatedPeptides: [],
-    seoTitle: 'Peptide Half-Lives Explained | Peptide Wiki Research',
+    seoTitle: 'Peptide Half-Lives Explained | Peptide United Research',
     seoDescription: 'A pharmacokinetics guide covering why peptides degrade rapidly, the key variables affecting half-life, and what this means for experimental study design.',
   },
   {
@@ -129,7 +129,7 @@ const articles = [
       p(t('All three of these peptides remain in the investigational category for most applications. Sermorelin has received FDA approval for the specific indication of growth hormone deficiency diagnosis and treatment in children, which provides a regulatory anchor for its pharmacological profile. Ipamorelin and CJC-1295 do not have approved human indications. Researchers and clinicians should consult current regulatory guidance and treat any extrapolation from animal models to human physiology with appropriate scientific caution.')),
     ),
     relatedPeptides: [],
-    seoTitle: 'Growth Hormone Peptides Comparison: Ipamorelin vs CJC-1295 vs Sermorelin | Peptide Wiki',
+    seoTitle: 'Growth Hormone Peptides Comparison: Ipamorelin vs CJC-1295 vs Sermorelin | Peptide United',
     seoDescription: 'A mechanistic comparison of Ipamorelin, CJC-1295, and Sermorelin — covering receptor targets, pharmacokinetics, and research design implications for growth hormone secretagogues.',
   },
 ]

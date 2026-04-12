@@ -8,10 +8,10 @@ import type { Article } from '@/payload-types'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Research Hub | Peptide Wiki',
+  title: 'Research Hub | Peptide United',
   description: 'In-depth guides, clinical context, and mechanism deep dives across 100+ peptide compounds.',
   openGraph: {
-    title: 'Peptide Wiki Research Hub — Guides & Deep Dives',
+    title: 'Peptide United Research Hub — Guides & Deep Dives',
     description: 'Curated research articles on peptide mechanisms, protocols, and clinical context.',
   },
 }

@@ -3,9 +3,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Peptide Wiki',
+  title: 'Terms of Service | Peptide United',
   description:
-    'Terms of Service for Peptide Wiki — conditions governing use of our research database and platform.',
+    'Terms of Service for Peptide United — conditions governing use of our research database and platform.',
 }
 
 export default function TermsPage() {
@@ -24,7 +24,7 @@ export default function TermsPage() {
         <section>
           <h2 className="mb-3 text-[18px] font-medium tracking-tight text-black">1. Acceptance of Terms</h2>
           <p className="text-[15px] leading-[1.75] text-black/60">
-            By accessing or using Peptide Wiki (&ldquo;the Site,&rdquo; &ldquo;we,&rdquo; &ldquo;our&rdquo;), you agree to be bound by
+            By accessing or using Peptide United (&ldquo;the Site,&rdquo; &ldquo;we,&rdquo; &ldquo;our&rdquo;), you agree to be bound by
             these Terms of Service and all applicable laws and regulations. If you do not agree with
             any of these terms, you are prohibited from using the Site. These terms apply to all
             visitors, users, and members.
@@ -35,7 +35,7 @@ export default function TermsPage() {
         <section>
           <h2 className="mb-3 text-[18px] font-medium tracking-tight text-black">2. Research and Educational Use Only</h2>
           <p className="text-[15px] leading-[1.75] text-black/60">
-            All content on Peptide Wiki is provided strictly for research and educational purposes.
+            All content on Peptide United is provided strictly for research and educational purposes.
             Nothing on this Site constitutes medical advice, diagnosis, or treatment recommendations.
             You must not use any information from this Site to make decisions about your health or
             the health of others. Always consult a qualified healthcare professional before
@@ -68,7 +68,7 @@ export default function TermsPage() {
         <section>
           <h2 className="mb-3 text-[18px] font-medium tracking-tight text-black">4. Affiliate Relationships and Disclosures</h2>
           <p className="text-[15px] leading-[1.75] text-black/60">
-            Peptide Wiki participates in affiliate programs with certain research chemical suppliers
+            Peptide United participates in affiliate programs with certain research chemical suppliers
             (&ldquo;Partners&rdquo;). When you click on a Partner link, we may receive a commission if you
             make a purchase. Partner links are clearly disclosed throughout the Site. Our editorial
             content and research summaries are not influenced by these affiliate relationships;
@@ -81,7 +81,7 @@ export default function TermsPage() {
           <h2 className="mb-3 text-[18px] font-medium tracking-tight text-black">5. Intellectual Property</h2>
           <p className="text-[15px] leading-[1.75] text-black/60">
             All content on this Site — including text, research summaries, data compilations,
-            graphics, and software — is the property of Peptide Wiki or its content providers and
+            graphics, and software — is the property of Peptide United or its content providers and
             is protected by applicable intellectual property laws. You may not reproduce, distribute,
             modify, or create derivative works from any content without our express written permission.
           </p>
@@ -112,7 +112,7 @@ export default function TermsPage() {
         <section>
           <h2 className="mb-3 text-[18px] font-medium tracking-tight text-black">7. Limitation of Liability</h2>
           <p className="text-[15px] leading-[1.75] text-black/60">
-            To the maximum extent permitted by applicable law, Peptide Wiki and its operators,
+            To the maximum extent permitted by applicable law, Peptide United and its operators,
             employees, and affiliates shall not be liable for any indirect, incidental, special,
             consequential, or punitive damages — including but not limited to loss of profits, data,
             goodwill, or other intangible losses — arising out of your use of or inability to use
