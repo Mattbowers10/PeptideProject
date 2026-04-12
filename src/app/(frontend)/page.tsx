@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { CategoryCard } from '@/components/CategoryCard'
 import { PeptideCard } from '@/components/PeptideCard'
 import { RecentlyViewed } from '@/components/RecentlyViewed'
 import { EmailCapture } from '@/components/EmailCapture'
@@ -26,12 +25,22 @@ export const metadata: Metadata = {
   },
 }
 
+const STATUS_LABEL: Record<string, string> = {
+  preclinical: 'Preclinical',
+  phase1: 'Phase I',
+  phase2: 'Phase II',
+  phase3: 'Phase III',
+  approved: 'FDA Approved',
+  discontinued: 'Discontinued',
+}
+
 async function getData() {
   const payload = await getPayload({ config })
 
-  const [categoriesResult, peptidesResult] = await Promise.all([
+  const [categoriesResult, featuredResult, indexResult] = await Promise.all([
     payload.find({ collection: 'categories', limit: 100, sort: 'name' }),
-    payload.find({ collection: 'peptides', limit: 6, depth: 1, sort: 'name' }),
+    payload.find({ collection: 'peptides', limit: 8, depth: 1, sort: 'name' }),
+    payload.find({ collection: 'peptides', limit: 24, depth: 0, sort: 'name' }),
   ])
 
   const countMap: Record<number, number> = {}
@@ -46,197 +55,262 @@ async function getData() {
 
   return {
     categories: categoriesResult.docs as Category[],
-    featuredPeptides: peptidesResult.docs as Peptide[],
+    featuredPeptides: featuredResult.docs as Peptide[],
+    indexPeptides: indexResult.docs as Peptide[],
     countMap,
   }
 }
 
 export default async function HomePage() {
-  const { categories, featuredPeptides, countMap } = await getData()
+  const { categories, featuredPeptides, indexPeptides, countMap } = await getData()
+  const hero = featuredPeptides[0]
 
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="gradient-pastel py-24 sm:py-32">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <div className="max-w-2xl">
-            <p className="mono-label mb-4 text-black/40 anim-fade-up anim-delay-1">
-              Peptide research encyclopedia
-            </p>
-
-            <h1 className="mt-4 text-[48px] font-medium leading-[1.05] tracking-display text-black sm:text-[64px] anim-fade-up anim-delay-2">
-              The Gold Standard<br />
-              <span className="text-gradient">for Peptide Research.</span>
-            </h1>
-
-            <p className="mt-5 max-w-lg text-[18px] leading-[1.4] tracking-tight text-black/60 anim-fade-up anim-delay-3">
-              Evidence-based profiles for 100+ peptides. Mechanisms of action,
-              pharmacokinetics, and direct links to PubMed-indexed studies — written
-              for practitioners and researchers, not marketing departments.
-            </p>
-
-            {/* Search */}
-            <form action="/peptides" method="GET" className="mt-8 flex gap-2 anim-fade-up anim-delay-4">
-              <input
-                name="q"
-                type="search"
-                placeholder="Search BPC-157, Retatrutide, GHK-Cu…"
-                className="w-full max-w-sm rounded-sharp border bg-white px-4 py-3 text-sm tracking-tight text-black placeholder:text-black/30 focus:outline-none focus:ring-2 focus:ring-sunrise-500/30"
-                style={{ borderColor: 'var(--border-light)' }}
-              />
-              <button type="submit" className="btn-dark">
-                Search
-              </button>
-            </form>
-
-            {/* Popular searches — high-traffic, low-competition targets */}
-            <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-[13px] anim-fade-up anim-delay-5">
-              <span className="text-black/30">Popular:</span>
-              {['BPC-157', 'Retatrutide', 'GHK-Cu', 'Tesamorelin', 'Ipamorelin'].map((name) => (
-                <Link
-                  key={name}
-                  href={`/peptides?q=${encodeURIComponent(name)}`}
-                  className="text-black/50 underline-offset-2 transition-colors hover:text-black hover:underline"
-                >
-                  {name}
-                </Link>
-              ))}
-            </div>
-
-            {/* Credibility indicators */}
-            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 anim-fade-up anim-delay-5">
-              {[
-                '1,200+ PubMed citations linked',
-                'Evidence-rated profiles',
-                'Free access, always',
-              ].map((badge) => (
-                <span key={badge} className="text-[13px] text-black/45">
-                  {badge}
-                </span>
-              ))}
-            </div>
-
-            {/* Lead magnet */}
-            <div className="anim-fade-up anim-delay-6 relative z-10 mt-8 max-w-md -mb-12 rounded-comfortable border bg-white p-5 shadow-warm-lg" style={{ borderColor: 'var(--border-light)' }}>
-              <EmailCapture
-                leadMagnet
-                source="lead-magnet"
-                variant="homepage"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Stats bar ─────────────────────────────────────────── */}
+      {/* ── Hero ────────────────────────────────────────────────────────
+          White. Asymmetric. The statement, then the search, then the
+          product itself — a live compound record — sitting beside it.
+      ──────────────────────────────────────────────────────────────── */}
       <section className="border-b bg-white" style={{ borderColor: 'var(--border-light)' }}>
-        <div className="mx-auto max-w-[1200px] px-6 pt-20 pb-8">
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-            {[
-              { num: '102', label: 'Peptide profiles' },
-              { num: '16', label: 'Research categories' },
-              { num: '1,200+', label: 'PubMed studies linked' },
-              { num: 'Free', label: 'Core access, always' },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <p className="text-[28px] font-medium tracking-display text-black sm:text-[36px]">
-                  {stat.num}
-                </p>
-                <p className="mono-label mt-1 text-black/30">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        <div className="mx-auto max-w-[1200px] px-6 py-16 sm:py-24">
+          <div className="grid gap-12 lg:grid-cols-[1fr_360px] lg:items-center">
 
-      {/* ── Quick Answer — featured snippet target ─────────────── */}
-      <section className="border-b py-14" style={{ background: 'var(--stone-50)', borderColor: 'var(--border-light)' }}>
-        <div className="mx-auto max-w-[1200px] px-6">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+            {/* Left — statement + search */}
             <div>
-              <p className="mono-label mb-3 text-black/30">Quick reference</p>
-              <h2 className="text-[24px] font-medium tracking-heading text-black">
-                What are research peptides?
-              </h2>
-              <p className="mt-4 text-[15px] leading-[1.75] text-black/60">
-                Research peptides are short chains of amino acids — typically 2 to 50
-                residues — studied for their roles in tissue repair, immune regulation,
-                hormone secretion, and neurological function. Unlike small-molecule drugs,
-                they act with high receptor specificity and degrade naturally into amino
-                acids. Most are administered subcutaneously due to low oral bioavailability.
+              <h1 className="text-[46px] font-medium leading-[1.04] tracking-display text-black sm:text-[60px] anim-fade-up anim-delay-1">
+                The research record<br />
+                for <span className="text-gradient">peptide science.</span>
+              </h1>
+
+              <p className="mt-5 max-w-md text-[17px] leading-[1.6] text-black/55 anim-fade-up anim-delay-2">
+                102 evidence-graded profiles. Every mechanism traced to primary literature.
+                Free to read.
               </p>
-              <Link href="/glossary" className="mt-4 inline-block text-[13px] text-black/40 underline-offset-2 transition-colors hover:text-black hover:underline">
-                Read the full glossary →
-              </Link>
-            </div>
-            <div>
-              <p className="mono-label mb-4 text-black/30">Categories covered</p>
-              <div className="space-y-2">
-                {[
-                  { category: 'Growth hormone secretagogues', examples: 'GHRP-2, Ipamorelin, CJC-1295, Tesamorelin' },
-                  { category: 'Tissue repair and wound healing', examples: 'BPC-157, TB-500, GHK-Cu' },
-                  { category: 'Metabolic and GLP-1 analogs', examples: 'Semaglutide, Tirzepatide, Retatrutide, AOD-9604' },
-                  { category: 'Cognitive function', examples: 'Semax, Selank, Dihexa' },
-                  { category: 'Immune modulation', examples: 'Thymosin Alpha-1, KPV, LL-37' },
-                  { category: 'Longevity and telomere biology', examples: 'Epithalon, MOTS-c, Humanin' },
-                ].map((row) => (
-                  <div
-                    key={row.category}
-                    className="rounded-comfortable px-4 py-3"
-                    style={{ background: 'rgba(30,21,17,0.03)', border: '1px solid var(--border-light)' }}
+
+              <form action="/peptides" method="GET" className="mt-8 flex max-w-lg gap-2 anim-fade-up anim-delay-3">
+                <input
+                  name="q"
+                  type="search"
+                  placeholder="BPC-157, Retatrutide, GHK-Cu…"
+                  className="flex-1 rounded-sharp border bg-white px-4 py-3 text-[15px] tracking-tight text-black placeholder:text-black/30 focus:outline-none focus:ring-2 focus:ring-sunrise-500/30"
+                  style={{ borderColor: 'var(--border-light)' }}
+                />
+                <button type="submit" className="btn-dark shrink-0">Search</button>
+              </form>
+
+              <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[13px] anim-fade-up anim-delay-3">
+                <span className="text-black/30">Popular:</span>
+                {['BPC-157', 'Retatrutide', 'GHK-Cu', 'Tesamorelin', 'Ipamorelin'].map((name) => (
+                  <Link
+                    key={name}
+                    href={`/peptides?q=${encodeURIComponent(name)}`}
+                    className="text-black/50 transition-colors underline-offset-2 hover:text-black hover:underline"
                   >
-                    <p className="text-[13px] font-medium text-black/80">{row.category}</p>
-                    <p className="mt-0.5 font-mono text-[11px] text-black/35">{row.examples}</p>
+                    {name}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Inline stats — no separate section */}
+              <div
+                className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t pt-8 anim-fade-up anim-delay-4"
+                style={{ borderColor: 'var(--border-light)' }}
+              >
+                {[
+                  { n: '102', l: 'peptide profiles' },
+                  { n: '16', l: 'research categories' },
+                  { n: '1,200+', l: 'PubMed citations' },
+                ].map((s) => (
+                  <div key={s.l} className="flex items-baseline gap-2">
+                    <span className="text-[32px] font-medium tracking-display text-black">{s.n}</span>
+                    <span className="text-[13px] text-black/40">{s.l}</span>
                   </div>
                 ))}
               </div>
             </div>
+
+            {/* Right — live compound record (desktop only) */}
+            {hero && (
+              <div className="hidden lg:block anim-fade-up anim-delay-3">
+                <div
+                  className="overflow-hidden rounded-comfortable border bg-white shadow-warm-xl"
+                  style={{ borderColor: 'var(--border-light)' }}
+                >
+                  {/* Record header */}
+                  <div className="border-b px-5 py-4" style={{ borderColor: 'var(--border-light)' }}>
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/25">
+                          Compound record
+                        </p>
+                        <p className="mt-1 text-[22px] font-medium tracking-tight text-black">
+                          {hero.name}
+                        </p>
+                      </div>
+                      <span
+                        className="mt-1 shrink-0 rounded px-2 py-1 font-mono text-[9px] uppercase tracking-[0.1em]"
+                        style={{ background: 'rgba(232,98,42,0.1)', color: 'var(--sunrise-500)' }}
+                      >
+                        {STATUS_LABEL[hero.researchStatus] ?? hero.researchStatus}
+                      </span>
+                    </div>
+                    {hero.summary && (
+                      <p className="mt-3 text-[12px] leading-[1.65] text-black/45 line-clamp-3">
+                        {hero.summary}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Key data rows */}
+                  <div className="divide-y" style={{ borderColor: 'var(--border-light)' }}>
+                    {[
+                      { label: 'HALF-LIFE', value: hero.halfLife ?? '—' },
+                      { label: 'MOL. WEIGHT', value: hero.molecularWeight ?? '—' },
+                      { label: 'FORMULA', value: hero.molecularFormula ?? '—' },
+                      { label: 'CAS', value: hero.casNumber ?? '—' },
+                    ].map((row) => (
+                      <div
+                        key={row.label}
+                        className="flex items-center justify-between px-5 py-2.5"
+                        style={{ borderColor: 'var(--border-light)' }}
+                      >
+                        <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-black/25">
+                          {row.label}
+                        </span>
+                        <span className="text-right font-mono text-[12px] tracking-tight text-black/65">
+                          {row.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* CTA */}
+                  <div className="px-5 py-4">
+                    <Link
+                      href={`/peptides/${hero.slug}`}
+                      className="btn-dark w-full justify-center text-[13px]"
+                    >
+                      View full profile →
+                    </Link>
+                    <p className="mt-2 text-center font-mono text-[10px] text-black/25">
+                      Mechanism · Pharmacokinetics · Studies
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* ── Categories ─────────────────────────────────────────── */}
-      <section className="mx-auto max-w-[1200px] px-6 py-16">
-        <div className="mb-8 flex items-end justify-between">
-          <div>
-            <p className="mono-label mb-2 text-black/30">Browse by category</p>
-            <h2 className="text-[28px] font-medium tracking-heading text-black">
-              Research areas
-            </h2>
+      {/* ── Compound index ticker ────────────────────────────────────────
+          A horizontal scroll of compound names. Feels like a research
+          index, not a marketing section.
+      ──────────────────────────────────────────────────────────────── */}
+      <div
+        className="border-b overflow-x-auto scrollbar-hide"
+        style={{ borderColor: 'var(--border-light)', background: 'rgba(30,21,17,0.018)' }}
+      >
+        <div className="flex items-stretch" style={{ width: 'max-content' }}>
+          <div
+            className="flex shrink-0 items-center border-r px-5 py-0"
+            style={{ borderColor: 'var(--border-light)' }}
+          >
+            <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-black/25">
+              Index
+            </span>
           </div>
-          <Link href="/categories" className="text-sm tracking-tight text-black/40 transition-colors hover:text-black">
-            View all →
+          {indexPeptides.map((p, i) => (
+            <Link
+              key={p.id}
+              href={`/peptides/${p.slug}`}
+              className="flex shrink-0 items-center border-r px-5 py-3 font-mono text-[11px] tracking-tight text-black/40 transition-colors hover:bg-black/[0.025] hover:text-black"
+              style={{ borderColor: 'var(--border-light)' }}
+            >
+              <span
+                className="mr-2 h-1.5 w-1.5 rounded-full"
+                style={{
+                  background: p.researchStatus === 'approved'
+                    ? '#22c55e'
+                    : p.researchStatus === 'preclinical'
+                    ? 'rgba(0,0,0,0.2)'
+                    : 'var(--sunrise-500)',
+                }}
+              />
+              {p.name}
+            </Link>
+          ))}
+          <Link
+            href="/peptides"
+            className="flex shrink-0 items-center px-5 py-3 font-mono text-[11px] transition-colors hover:text-black"
+            style={{ color: 'var(--sunrise-500)' }}
+          >
+            All 102+ →
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {categories.map((cat) => (
-            <CategoryCard
-              key={cat.id}
-              category={cat}
-              count={countMap[cat.id]}
-            />
-          ))}
+      </div>
+
+      {/* ── Research categories ────────────────────────────────────────── */}
+      <section className="border-b bg-white py-14" style={{ borderColor: 'var(--border-light)' }}>
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="mb-8 flex items-baseline justify-between">
+            <h2 className="text-[22px] font-medium tracking-heading text-black">
+              16 research areas
+            </h2>
+            <Link
+              href="/categories"
+              className="text-[13px] tracking-tight text-black/40 transition-colors hover:text-black"
+            >
+              Browse all →
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
+            {categories.slice(0, 12).map((cat) => (
+              <Link
+                key={cat.id}
+                href={`/peptides?category=${cat.slug}`}
+                className="group flex items-start justify-between rounded-sharp border bg-white px-4 py-3.5 transition-all hover:-translate-y-px hover:shadow-warm"
+                style={{ borderColor: 'var(--border-light)' }}
+              >
+                <div>
+                  <p className="text-[13px] font-medium tracking-tight text-black transition-colors group-hover:text-midnight">
+                    {cat.name}
+                  </p>
+                  {countMap[cat.id] !== undefined && (
+                    <p className="mt-0.5 font-mono text-[10px] text-black/30">
+                      {countMap[cat.id]} compounds
+                    </p>
+                  )}
+                </div>
+                <span className="mt-0.5 font-mono text-[11px] text-black/20 transition-colors group-hover:text-black/40">→</span>
+              </Link>
+            ))}
+          </div>
+          {categories.length > 12 && (
+            <div className="mt-4 text-center">
+              <Link href="/categories" className="text-[13px] text-black/40 hover:text-black">
+                +{categories.length - 12} more categories
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* ── Featured peptides ──────────────────────────────────── */}
+      {/* ── Compound grid ───────────────────────────────────────────────── */}
       <section className="bg-midnight">
-        <div className="mx-auto max-w-[1200px] px-6 py-16">
-          <div className="mb-8 flex items-end justify-between">
-            <div>
-              <p className="mono-label mb-2 text-white/30">Specimen index</p>
-              <h2 className="text-[28px] font-medium tracking-heading text-white">
-                Explore peptides
-              </h2>
-            </div>
+        <div className="mx-auto max-w-[1200px] px-6 py-14">
+          <div className="mb-7 flex items-baseline justify-between">
+            <h2 className="text-[22px] font-medium tracking-heading text-white">
+              Specimen index
+            </h2>
             <Link
               href="/peptides"
-              className="text-sm tracking-tight text-white/40 transition-colors hover:text-white"
+              className="text-[13px] tracking-tight text-white/40 transition-colors hover:text-white"
             >
-              View all 100+ →
+              All 102+ →
             </Link>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
             {featuredPeptides.map((peptide) => (
               <PeptideCard key={peptide.id} peptide={peptide} />
             ))}
@@ -244,102 +318,200 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── How we research — E-E-A-T ──────────────────────────── */}
-      <section className="border-b py-16" style={{ borderColor: 'var(--border-light)' }}>
+      {/* ── Editorial methodology ───────────────────────────────────────
+          Two-column running text. No icons. No cards. Reads like a
+          journal editor's note, not a features list.
+      ──────────────────────────────────────────────────────────────── */}
+      <section className="border-b bg-white py-16" style={{ borderColor: 'var(--border-light)' }}>
         <div className="mx-auto max-w-[1200px] px-6">
-          <div className="mb-10">
-            <p className="mono-label mb-3 text-black/30">Editorial standards</p>
-            <h2 className="text-[28px] font-medium tracking-heading text-black">
-              How we research
+          <div className="mb-10 max-w-lg">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-black/30">
+              Editorial
+            </p>
+            <h2 className="mt-2 text-[30px] font-medium leading-[1.1] tracking-display text-black">
+              How this works.
             </h2>
           </div>
-          <div className="grid gap-8 lg:grid-cols-3">
-            <div>
-              <p className="text-[15px] font-medium text-black mb-3">Primary literature first</p>
-              <p className="text-[14px] leading-[1.75] text-black/55">
-                Every profile starts with a PubMed search, not a product page. We pull
-                primary literature, note the study design — in vitro, animal model, or
-                human trial — and rate the evidence accordingly. You will always know
-                whether a claim comes from a rat study or a randomized controlled trial.
+
+          <div className="grid gap-12 border-t pt-10 lg:grid-cols-2" style={{ borderColor: 'var(--border-light)' }}>
+            <div className="space-y-6">
+              <p className="text-[15px] leading-[1.8] text-black/60">
+                Every profile starts with a PubMed search — not a supplier's product page.
+                We identify the primary literature, note the study design (in vitro, animal model,
+                or human trial), and rate the evidence accordingly. You will always know whether a
+                claim comes from a rat study or a randomized controlled trial.
+              </p>
+              <p className="text-[15px] leading-[1.8] text-black/60">
+                Profiles follow a fixed structure: mechanism of action, pharmacokinetics
+                (half-life, bioavailability, routes of administration), clinical evidence
+                with direct study links, and a standardized safety profile. The format
+                does not change based on commercial interest in the compound.
               </p>
             </div>
-            <div>
-              <p className="text-[15px] font-medium text-black mb-3">Standardized profile format</p>
-              <p className="text-[14px] leading-[1.75] text-black/55">
-                Profiles follow a consistent structure: mechanism of action,
-                pharmacokinetics (half-life, bioavailability, routes), clinical evidence
-                with study links, and administration context. The format does not change
-                based on who makes the compound.
+            <div className="space-y-6">
+              <p className="text-[15px] leading-[1.8] text-black/60">
+                Vetted suppliers appear in our partner directory because they publish
+                third-party certificates of analysis and pass our sourcing review —
+                not because they advertise with us. Research profiles are written before
+                any commercial relationship is established, and editorial findings are
+                never altered by partner status.
               </p>
-            </div>
-            <div>
-              <p className="text-[15px] font-medium text-black mb-3">No paid placements</p>
-              <p className="text-[14px] leading-[1.75] text-black/55">
-                Vetted suppliers appear in our directory because they publish third-party
-                certificates of analysis and pass our sourcing criteria, not because they
-                advertise with us. Research findings are editorially independent of
-                commercial relationships.
-              </p>
+              <div
+                className="rounded-sharp border-l-2 py-1 pl-5"
+                style={{ borderColor: 'var(--sunrise-500)' }}
+              >
+                <p className="text-[14px] leading-[1.7] text-black/50">
+                  If you find an error — a miscited study, an outdated half-life figure,
+                  a mechanism described incorrectly — email us. We correct it publicly
+                  and note the revision in the profile.
+                </p>
+              </div>
             </div>
           </div>
-          <div className="mt-10 grid grid-cols-3 gap-4 border-t pt-10" style={{ borderColor: 'var(--border-light)' }}>
+
+          {/* Three concise commitments — horizontal rule style, not cards */}
+          <div
+            className="mt-12 grid grid-cols-3 gap-8 border-t pt-8"
+            style={{ borderColor: 'var(--border-light)' }}
+          >
             {[
-              { stat: 'PubMed-sourced', sub: 'Every citation links to its primary study' },
-              { stat: 'Standardized profiles', sub: 'Same format, every entry' },
-              { stat: 'No paid placements', sub: 'Supplier directory is editorially independent' },
+              { label: 'PubMed-sourced', note: 'Every citation links to its primary study' },
+              { label: 'Standardized format', note: 'Same structure, every profile' },
+              { label: 'No paid placements', note: 'Editorial independent of supplier relationships' },
             ].map((item) => (
-              <div key={item.stat} className="text-center">
-                <p className="text-[14px] font-medium text-black">{item.stat}</p>
-                <p className="mt-1 text-[12px] text-black/40">{item.sub}</p>
+              <div key={item.label}>
+                <p className="text-[13px] font-medium text-black">{item.label}</p>
+                <p className="mt-0.5 text-[12px] text-black/40">{item.note}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Upgrade conversion strip ───────────────────────────── */}
-      <section className="border-b py-14" style={{ borderColor: 'var(--border-light)' }}>
+      {/* ── Upgrade — show the product, not a feature table ─────────────
+          A real partial profile. The gate is visible. The pitch is
+          implicit.
+      ──────────────────────────────────────────────────────────────── */}
+      <section className="border-b py-16" style={{ borderColor: 'var(--border-light)', background: 'rgba(30,21,17,0.018)' }}>
         <div className="mx-auto max-w-[1200px] px-6">
-          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <div>
-              <p className="mono-label mb-3 text-black/30">Researcher plan</p>
-              <h2 className="text-[28px] font-medium tracking-heading text-black">
-                Free summaries cover what a peptide is. Full profiles cover how it works.
-              </h2>
-              <p className="mt-4 text-[15px] leading-[1.75] text-black/55">
-                The free tier gives you research status, a compound overview, and
-                administration routes. The Researcher plan adds the mechanism of action,
-                pharmacokinetics data, PubMed study links, evidence ratings, and the
-                peptide comparison tool. $12/month.
+              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-black/30">
+                Researcher plan
               </p>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Link href="/upgrade" className="btn-dark text-[14px]">
-                  See plans →
-                </Link>
-                <Link href="/guide" className="btn-outline text-[14px]">
-                  Free research guide
-                </Link>
+              <h2 className="mt-2 text-[30px] font-medium leading-[1.1] tracking-display text-black">
+                Free summaries say what.<br />
+                Full profiles say why.
+              </h2>
+              <p className="mt-5 text-[15px] leading-[1.75] text-black/55">
+                The free tier covers research status, an overview, and administration
+                routes. The Researcher plan adds the full mechanism of action, pharmacokinetic
+                data, direct PubMed study links with evidence grades, and the compound
+                comparison tool. $12/month.
+              </p>
+              <div className="mt-6 flex gap-3">
+                <Link href="/upgrade" className="btn-dark text-[14px]">See plans →</Link>
+                <Link href="/guide" className="btn-outline text-[14px]">Free guide</Link>
               </div>
             </div>
-            <div className="grid gap-2">
-              {[
-                { free: true,  label: 'Peptide summary and research status' },
-                { free: true,  label: 'Category browsing and search' },
-                { free: true,  label: 'Administration routes overview' },
-                { free: false, label: 'Full mechanism of action profile' },
-                { free: false, label: 'Pharmacokinetics and half-life data' },
-                { free: false, label: 'PubMed study links and evidence ratings' },
-                { free: false, label: 'Peptide comparison tool' },
-              ].map((row) => (
-                <div
-                  key={row.label}
-                  className="flex items-center gap-3 rounded-comfortable px-4 py-2.5 text-[13px]"
-                  style={{ background: row.free ? 'rgba(0,0,0,0.02)' : 'rgba(232,98,42,0.06)', borderLeft: row.free ? '2px solid rgba(0,0,0,0.08)' : '2px solid rgba(232,98,42,0.25)' }}
-                >
-                  <span className={`font-mono text-[10px] tracking-wide ${row.free ? 'text-emerald-600' : 'text-lavender'}`}>
-                    {row.free ? 'FREE' : 'RESEARCHER'}
+
+            {/* Partial profile preview */}
+            <div
+              className="overflow-hidden rounded-comfortable border bg-white shadow-warm"
+              style={{ borderColor: 'var(--border-light)' }}
+            >
+              <div className="border-b px-5 py-4" style={{ borderColor: 'var(--border-light)' }}>
+                <div className="flex items-center justify-between">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-black/30">
+                    Research profile
+                  </p>
+                  <span
+                    className="rounded px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em]"
+                    style={{ background: 'rgba(232,98,42,0.1)', color: 'var(--sunrise-500)' }}
+                  >
+                    Preclinical
                   </span>
-                  <span className={row.free ? 'text-black/60' : 'text-black/80'}>{row.label}</span>
+                </div>
+                <p className="mt-1 text-[18px] font-medium tracking-tight text-black">BPC-157</p>
+              </div>
+
+              {/* Free section — visible */}
+              <div className="border-b px-5 py-4" style={{ borderColor: 'var(--border-light)' }}>
+                <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-emerald-600">
+                  Free
+                </p>
+                <p className="mt-2 text-[13px] leading-[1.65] text-black/60">
+                  A 15-amino acid partial sequence of Body Protection Compound, derived from
+                  human gastric juice. Studied extensively in rodent models for tissue repair,
+                  tendon healing, and gastrointestinal protection.
+                </p>
+              </div>
+
+              {/* Gated section — blurred */}
+              <div className="relative">
+                <div className="select-none px-5 py-4 blur-[3px]">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-black/30">
+                    Mechanism of action
+                  </p>
+                  <p className="mt-2 text-[13px] leading-[1.65] text-black/60">
+                    BPC-157 upregulates vascular endothelial growth factor (VEGF) and its
+                    receptor VEGFR2, promoting angiogenesis at injury sites. It also
+                    sensitizes growth hormone receptors on tendon fibroblasts via the
+                    FAK-paxillin pathway, and modulates nitric oxide synthesis through…
+                  </p>
+                </div>
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 backdrop-blur-[2px]">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-black/30">
+                    Researcher plan
+                  </p>
+                  <Link href="/upgrade" className="btn-dark mt-2 text-[13px]">
+                    Unlock for $12/mo →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Social proof — one strong quote, not three equal cards ──────── */}
+      <section className="border-b bg-white py-16" style={{ borderColor: 'var(--border-light)' }}>
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="grid gap-16 lg:grid-cols-[2fr_1fr] lg:items-start">
+            {/* Dominant quote */}
+            <div>
+              <p
+                className="text-[24px] font-medium leading-[1.5] tracking-tight text-black sm:text-[26px]"
+              >
+                &ldquo;The mechanism breakdowns go further than anything I&rsquo;ve found
+                outside of primary literature. I&rsquo;ve started sending patients here
+                before appointments.&rdquo;
+              </p>
+              <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.12em] text-black/30">
+                Functional medicine practitioner
+              </p>
+            </div>
+
+            {/* Supporting quotes — smaller, stacked */}
+            <div
+              className="space-y-6 border-l pl-10"
+              style={{ borderColor: 'var(--border-light)' }}
+            >
+              {[
+                {
+                  q: 'PubMed-linked profiles cut my pre-protocol research time in half.',
+                  role: 'PhD researcher, biochemistry',
+                },
+                {
+                  q: 'Finally something I can share with colleagues. No anecdotes dressed up as evidence.',
+                  role: 'Compounding pharmacist',
+                },
+              ].map((t) => (
+                <div key={t.role}>
+                  <p className="text-[13px] leading-[1.7] text-black/55">&ldquo;{t.q}&rdquo;</p>
+                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.1em] text-black/25">
+                    {t.role}
+                  </p>
                 </div>
               ))}
             </div>
@@ -347,102 +519,45 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Testimonials ───────────────────────────────────────── */}
-      <section className="bg-white py-14">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <p className="mono-label mb-10 text-center text-black/25">
-            Why researchers use Peptide United
-          </p>
-          <div className="grid gap-6 sm:grid-cols-3">
-            {[
-              {
-                quote: 'The mechanism breakdowns go further than anything I\'ve found outside of primary literature. I\'ve started sending patients here before appointments.',
-                role: 'Functional medicine practitioner',
-              },
-              {
-                quote: 'PubMed-linked profiles cut my pre-protocol research time in half. The half-life data alone is worth the subscription.',
-                role: 'PhD researcher, biochemistry',
-              },
-              {
-                quote: 'Finally something I can share with colleagues. No marketing language, no anecdotes dressed up as evidence.',
-                role: 'Compounding pharmacist',
-              },
-            ].map((t) => (
-              <div
-                key={t.role}
-                className="rounded-comfortable p-6"
-                style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid var(--border-light)' }}
-              >
-                <p className="text-[14px] leading-[1.75] text-black/65">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <p className="mt-4 font-mono text-[11px] tracking-mono text-black/30">
-                  &mdash; {t.role}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Recently viewed ─────────────────────────────────────── */}
-      <div className="mx-auto max-w-[1200px] px-6">
+      {/* ── Recently viewed ─────────────────────────────────────────────── */}
+      <div className="mx-auto max-w-[1200px] px-6 py-4">
         <RecentlyViewed />
       </div>
 
-      {/* ── Email capture ───────────────────────────────────────── */}
-      <section className="bg-midnight py-16">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-            <div>
-              <p className="mono-label mb-3 text-white/30">Research updates</p>
-              <EmailCapture
-                variant="dark"
-                source="homepage"
-                heading="New peptide research, once a week."
-                subheading="PubMed updates, new compound profiles, and research summaries. Not a newsletter about selling you something."
-              />
-            </div>
-            <div className="space-y-5">
-              {[
-                { label: 'Weekly digest', text: 'New PubMed studies across 16 research categories, summarized and linked.' },
-                { label: 'Profile updates', text: 'When new pharmacokinetics or mechanism data is published, relevant profiles are flagged.' },
-                { label: 'Early access', text: 'New peptide profiles and research tools go to subscribers first.' },
-              ].map((item) => (
-                <div key={item.label} className="flex items-start gap-4">
-                  <div
-                    className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded"
-                    style={{ background: 'rgba(232,98,42,0.15)' }}
-                  >
-                    <span className="font-mono text-[9px] font-medium text-sunrise-300 tracking-wide" style={{ color: 'var(--sunrise-300)' }}>
-                      {item.label.slice(0, 2).toUpperCase()}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-[13px] font-medium text-white/70">{item.label}</p>
-                    <p className="mt-0.5 text-[13px] leading-[1.6] text-white/40">{item.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+      {/* ── Email — one line, no bullet points ──────────────────────────── */}
+      <section className="border-t bg-midnight py-14" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+        <div className="mx-auto max-w-[680px] px-6 text-center">
+          <h2 className="text-[26px] font-medium tracking-heading text-white">
+            New peptide research, once a week.
+          </h2>
+          <p className="mx-auto mt-3 max-w-sm text-[14px] leading-[1.6] text-white/40">
+            PubMed updates and new profiles. Not a sales email.
+          </p>
+          <div className="mt-7">
+            <EmailCapture
+              variant="dark"
+              source="homepage"
+            />
           </div>
         </div>
       </section>
 
-      {/* ── Bottom CTA ──────────────────────────────────────────── */}
-      <section className="border-t py-16" style={{ borderColor: 'var(--border-light)' }}>
-        <div className="mx-auto max-w-[1200px] px-6 text-center">
-          <p className="mono-label mb-3 text-black/30">Open access</p>
-          <h2 className="mx-auto max-w-md text-[28px] font-medium tracking-heading text-black">
-            Start with the database.
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-[15px] leading-[1.6] text-black/50">
-            Every profile has a free summary, research status, and administration routes.
-            No login required.
-          </p>
-          <Link href="/peptides" className="btn-dark mt-6">
-            Browse all peptides
-          </Link>
+      {/* ── Bottom CTA ──────────────────────────────────────────────────── */}
+      <section className="gradient-pastel py-16">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-[28px] font-medium tracking-display text-black sm:text-[34px]">
+                Start with the database.
+              </p>
+              <p className="mt-1 text-[15px] text-black/50">
+                Every profile has a free summary. No account required.
+              </p>
+            </div>
+            <Link href="/peptides" className="btn-dark shrink-0">
+              Browse 102 peptides →
+            </Link>
+          </div>
         </div>
       </section>
     </>
