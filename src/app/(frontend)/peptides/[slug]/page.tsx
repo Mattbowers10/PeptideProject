@@ -13,6 +13,7 @@ import { AffiliateSection } from '@/components/AffiliateSection'
 import { StudiesSection } from '@/components/StudiesSection'
 import { SaveToListButton } from '@/components/SaveToListButton'
 import { ShareButtons } from '@/components/ShareButtons'
+import { PeptideUpgradeCTA } from '@/components/PeptideUpgradeCTA'
 import type { AffiliateLink, Category, Partner, Peptide, Study } from '@/payload-types'
 
 export const revalidate = 3600
@@ -449,19 +450,8 @@ export default async function PeptideDetailPage({
                 </dl>
               </div>
 
-              {/* Upgrade CTA — shown if any content is gated */}
-              {hasGatedContent && (
-                <div className="card-dark border-lavender/20 p-5">
-                  <p className="mono-label mb-2 text-lavender/60">Unlock Full Profile</p>
-                  <p className="mb-4 text-[13px] leading-[1.6] text-white/50">
-                    Mechanism of action, pharmacokinetics, research findings, and safety
-                    data are available on the Researcher plan.
-                  </p>
-                  <Link href="/upgrade" className="btn-dark w-full justify-center text-[13px]">
-                    Unlock with Researcher →
-                  </Link>
-                </div>
-              )}
+              {/* Upgrade CTA — hidden for users who already have researcher+ access */}
+              {hasGatedContent && <PeptideUpgradeCTA minTier="researcher" />}
 
               {/* Research disclaimer */}
               <div className="card-dark border-lavender/20 p-5">
