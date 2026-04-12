@@ -85,11 +85,16 @@ export default async function PartnersPage() {
           partnerships.
         </p>
 
-        {/* Disclosure */}
-        <div className="mt-6 inline-block rounded-sharp border border-lavender/20 px-4 py-2">
-          <p className="font-mono text-[11px] tracking-mono text-lavender/60">
-            Affiliate disclosure — Peptide United earns a commission on purchases made through partner links.
-          </p>
+        {/* Disclosure + CTA row */}
+        <div className="mt-6 flex flex-wrap items-center gap-4">
+          <div className="inline-block rounded-sharp border border-lavender/20 px-4 py-2">
+            <p className="font-mono text-[11px] tracking-mono text-lavender/60">
+              Affiliate disclosure — Peptide United earns a commission on purchases made through partner links.
+            </p>
+          </div>
+          <Link href="/partners/join" className="btn-glass text-[13px]">
+            List your brand →
+          </Link>
         </div>
       </section>
 
@@ -194,8 +199,8 @@ export default async function PartnersPage() {
             We work with verified research suppliers. Affiliate links, featured placement,
             and COA upload capability available for verified partners.
           </p>
-          <Link href="/dashboard" className="btn-dark mt-6">
-            Apply via Dashboard →
+          <Link href="/partners/join" className="btn-dark mt-6">
+            Learn about the partner program →
           </Link>
         </div>
       </section>

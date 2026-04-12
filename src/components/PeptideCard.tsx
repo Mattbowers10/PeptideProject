@@ -3,9 +3,11 @@ import Link from 'next/link'
 import type { Peptide, Category } from '@/payload-types'
 import { ResearchBadge } from './ResearchBadge'
 
-type Props = { peptide: Peptide }
+export type ProviderInfo = { name: string; slug: string; tier: string }
 
-export function PeptideCard({ peptide }: Props) {
+type Props = { peptide: Peptide; providers?: ProviderInfo[] }
+
+export function PeptideCard({ peptide, providers }: Props) {
   const categories = (peptide.categories ?? []).filter(
     (c): c is Category => typeof c === 'object',
   )
@@ -59,6 +61,28 @@ export function PeptideCard({ peptide }: Props) {
               </span>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Provider chips */}
+      {providers && providers.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center gap-1.5">
+          <span className="font-mono text-[9px] tracking-mono text-black/30 uppercase mr-0.5">
+            Available from
+          </span>
+          {providers.slice(0, 3).map((p) => (
+            <span
+              key={p.slug}
+              className="rounded px-2 py-0.5 font-mono text-[11px] bg-black/5 text-black/50"
+            >
+              {p.name}
+            </span>
+          ))}
+          {providers.length > 3 && (
+            <span className="rounded px-2 py-0.5 font-mono text-[11px] bg-black/5 text-black/30">
+              +{providers.length - 3} more
+            </span>
+          )}
         </div>
       )}
     </Link>

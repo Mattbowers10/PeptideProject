@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { PeptideCard } from '@/components/PeptideCard'
-import type { Category, Peptide } from '@/payload-types'
+import type { ProviderInfo } from '@/components/PeptideCard'
+import type { Category, Peptide, Partner, AffiliateLink } from '@/payload-types'
 import type { Where } from 'payload'
 
 export const dynamic = 'force-dynamic'
@@ -20,6 +21,12 @@ type SearchParams = {
   category?: string
   status?: string
   page?: string
+  provider?: string
+}
+
+type PopulatedLink = Omit<AffiliateLink, 'partner' | 'peptide'> & {
+  partner: Partner | number
+  peptide: Peptide | number
 }
 
 const STATUS_OPTIONS = [
@@ -63,6 +70,62 @@ async function getData(params: SearchParams) {
     }
   }
 
+  // Fetch all active affiliate links (depth:1 to populate partner + peptide)
+  const { docs: allLinks } = await payload.find({
+    collection: 'affiliate-links',
+    where: { isActive: { equals: true } },
+    limit: 2000,
+    depth: 1,
+    overrideAccess: true,
+  })
+
+  const links = allLinks as PopulatedLink[]
+
+  // Build providerMap: peptideId → array of provider info
+  const providerMap: Record<number, ProviderInfo[]> = {}
+  for (const link of links) {
+    const peptideId = typeof link.peptide === 'object' ? link.peptide.id : link.peptide
+    const partner = typeof link.partner === 'object' ? link.partner : null
+    if (!partner || !peptideId) continue
+    if (!providerMap[peptideId]) providerMap[peptideId] = []
+    // Avoid duplicates (a partner may have multiple links per peptide)
+    if (!providerMap[peptideId].some((p) => p.slug === partner.slug)) {
+      providerMap[peptideId].push({
+        name: partner.name,
+        slug: partner.slug,
+        tier: partner.verificationTier ?? 'basic',
+      })
+    }
+  }
+
+  // Fetch all active partners for the provider dropdown
+  const { docs: allPartners } = await payload.find({
+    collection: 'partners',
+    where: { status: { equals: 'active' } },
+    limit: 100,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  // If a provider filter is active, restrict to peptide IDs that partner carries
+  let providerFilteredIds: number[] | null = null
+  let activeProviderName: string | null = null
+  if (params.provider) {
+    const matchingPartner = (allPartners as Partner[]).find((p) => p.slug === params.provider)
+    if (matchingPartner) {
+      activeProviderName = matchingPartner.name
+      providerFilteredIds = Object.entries(providerMap)
+        .filter(([, providers]) => providers.some((p) => p.slug === params.provider))
+        .map(([id]) => Number(id))
+      if (providerFilteredIds.length > 0) {
+        where.id = { in: providerFilteredIds }
+      } else {
+        // No peptides for this partner — force empty result
+        where.id = { in: [-1] }
+      }
+    }
+  }
+
   const peptidesResult = await payload.find({
     collection: 'peptides',
     where,
@@ -83,6 +146,9 @@ async function getData(params: SearchParams) {
     totalPages: peptidesResult.totalPages,
     currentPage,
     categories: categoriesResult.docs as Category[],
+    partners: allPartners as Partner[],
+    providerMap,
+    activeProviderName,
   }
 }
 
@@ -92,7 +158,16 @@ export default async function PeptidesPage({
   searchParams: Promise<SearchParams>
 }) {
   const params = await searchParams
-  const { peptides, totalDocs, totalPages, currentPage, categories } = await getData(params)
+  const {
+    peptides,
+    totalDocs,
+    totalPages,
+    currentPage,
+    categories,
+    partners,
+    providerMap,
+    activeProviderName,
+  } = await getData(params)
 
   const buildUrl = (overrides: Partial<SearchParams>) => {
     const next = { ...params, ...overrides }
@@ -100,12 +175,13 @@ export default async function PeptidesPage({
     if (next.q) qs.set('q', next.q)
     if (next.category) qs.set('category', next.category)
     if (next.status) qs.set('status', next.status)
+    if (next.provider) qs.set('provider', next.provider)
     if (next.page && next.page !== '1') qs.set('page', next.page)
     const str = qs.toString()
     return `/peptides${str ? `?${str}` : ''}`
   }
 
-  const hasFilters = !!(params.q || params.category || params.status)
+  const hasFilters = !!(params.q || params.category || params.status || params.provider)
 
   return (
     <>
@@ -136,6 +212,9 @@ export default async function PeptidesPage({
                 )}
                 {params.status && (
                   <input type="hidden" name="status" value={params.status} />
+                )}
+                {params.provider && (
+                  <input type="hidden" name="provider" value={params.provider} />
                 )}
                 <p className="mono-label mb-2 text-black/30">Search</p>
                 <input
@@ -201,11 +280,60 @@ export default async function PeptidesPage({
                   ))}
                 </div>
               </div>
+
+              {/* Provider filter */}
+              {partners.length > 0 && (
+                <div className="mt-6">
+                  <p className="mono-label mb-2 text-black/30">Find by provider</p>
+                  <div className="flex flex-col gap-0.5">
+                    <Link
+                      href={buildUrl({ provider: '', page: '1' })}
+                      className={`rounded-sharp px-3 py-1.5 text-[13px] tracking-tight transition-colors ${
+                        !params.provider
+                          ? 'bg-midnight text-white font-medium'
+                          : 'text-black/60 hover:bg-black/[0.04]'
+                      }`}
+                    >
+                      All Providers
+                    </Link>
+                    {partners.map((p) => (
+                      <Link
+                        key={p.id}
+                        href={buildUrl({ provider: p.slug, page: '1' })}
+                        className={`rounded-sharp px-3 py-1.5 text-[13px] tracking-tight transition-colors ${
+                          params.provider === p.slug
+                            ? 'bg-midnight text-white font-medium'
+                            : 'text-black/60 hover:bg-black/[0.04]'
+                        }`}
+                      >
+                        {p.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </aside>
 
           {/* Results grid */}
           <div className="flex-1">
+            {/* Active provider filter chip */}
+            {params.provider && activeProviderName && (
+              <div className="mb-4 flex items-center gap-2">
+                <span className="mono-label text-black/40">Filtered by:</span>
+                <span className="inline-flex items-center gap-1.5 rounded-sharp bg-lavender/10 px-3 py-1 font-mono text-[12px] tracking-mono text-lavender">
+                  {activeProviderName}
+                  <Link
+                    href={buildUrl({ provider: '', page: '1' })}
+                    className="ml-1 font-mono text-[11px] text-lavender/60 hover:text-lavender"
+                    aria-label="Clear provider filter"
+                  >
+                    ✕
+                  </Link>
+                </span>
+              </div>
+            )}
+
             {peptides.length === 0 ? (
               <div className="card-light p-12 text-center">
                 <p className="text-[18px] font-medium tracking-heading text-black">
@@ -222,7 +350,11 @@ export default async function PeptidesPage({
               <>
                 <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                   {peptides.map((peptide) => (
-                    <PeptideCard key={peptide.id} peptide={peptide} />
+                    <PeptideCard
+                      key={peptide.id}
+                      peptide={peptide}
+                      providers={providerMap[peptide.id]}
+                    />
                   ))}
                 </div>
 

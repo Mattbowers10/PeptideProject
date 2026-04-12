@@ -15,6 +15,7 @@ import { Media } from './collections/Media'
 import { EmailSubscribers } from './collections/EmailSubscribers'
 import { Articles } from './collections/Articles'
 import { PeptideLists } from './collections/PeptideLists'
+import { PartnerApplications } from './collections/PartnerApplications'
 
 export default buildConfig({
   admin: {
@@ -35,6 +36,7 @@ export default buildConfig({
     EmailSubscribers,
     Articles,
     PeptideLists,
+    PartnerApplications,
   ],
   editor: lexicalEditor({}),
   db: postgresAdapter({
