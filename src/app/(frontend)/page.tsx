@@ -12,13 +12,13 @@ import type { Category, Peptide } from '@/payload-types'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Peptide United — Research-First Peptide Encyclopedia',
+  title: 'Peptide United — The Peptide Research Encyclopedia',
   description:
-    'Comprehensive, evidence-based profiles for 100+ peptides. Mechanisms of action, pharmacokinetics, clinical research, and trusted suppliers — all in one place.',
+    'Evidence-based profiles for 100+ research peptides. Mechanisms of action, pharmacokinetics, and direct links to PubMed-indexed studies — written for practitioners and researchers.',
   openGraph: {
-    title: 'Peptide United — Research-First Peptide Encyclopedia',
+    title: 'Peptide United — The Peptide Research Encyclopedia',
     description:
-      'Comprehensive, evidence-based profiles for 100+ peptides. Mechanisms, pharmacokinetics, studies, and trusted suppliers.',
+      'Evidence-based profiles for 100+ research peptides. Mechanisms of action, pharmacokinetics, and PubMed-indexed studies for functional medicine practitioners and researchers.',
     type: 'website',
   },
   alternates: {
@@ -56,11 +56,13 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── Hero — pastel gradient ─────────────────────────────── */}
+      {/* ── Hero ──────────────────────────────────────────────── */}
       <section className="gradient-pastel py-24 sm:py-32">
         <div className="mx-auto max-w-[1200px] px-6">
           <div className="max-w-2xl">
-            <p className="mono-label mb-4 text-black/40 anim-fade-up anim-delay-1">Research encyclopedia</p>
+            <p className="mono-label mb-4 text-black/40 anim-fade-up anim-delay-1">
+              Peptide research encyclopedia
+            </p>
 
             <h1 className="mt-4 text-[48px] font-medium leading-[1.05] tracking-display text-black sm:text-[64px] anim-fade-up anim-delay-2">
               The Gold Standard<br />
@@ -68,8 +70,9 @@ export default async function HomePage() {
             </h1>
 
             <p className="mt-5 max-w-lg text-[18px] leading-[1.4] tracking-tight text-black/60 anim-fade-up anim-delay-3">
-              Evidence-based profiles for 100+ peptides. Mechanisms, pharmacokinetics,
-              and direct links to peer-reviewed studies.
+              Evidence-based profiles for 100+ peptides. Mechanisms of action,
+              pharmacokinetics, and direct links to PubMed-indexed studies — written
+              for practitioners and researchers, not marketing departments.
             </p>
 
             {/* Search */}
@@ -77,7 +80,7 @@ export default async function HomePage() {
               <input
                 name="q"
                 type="search"
-                placeholder="Search BPC-157, Semaglutide, TB-500…"
+                placeholder="Search BPC-157, Retatrutide, GHK-Cu…"
                 className="w-full max-w-sm rounded-sharp border bg-white px-4 py-3 text-sm tracking-tight text-black placeholder:text-black/30 focus:outline-none focus:ring-2 focus:ring-sunrise-500/30"
                 style={{ borderColor: 'var(--border-light)' }}
               />
@@ -86,10 +89,10 @@ export default async function HomePage() {
               </button>
             </form>
 
-            {/* Popular links */}
+            {/* Popular searches — high-traffic, low-competition targets */}
             <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-[13px] anim-fade-up anim-delay-5">
               <span className="text-black/30">Popular:</span>
-              {['BPC-157', 'Semaglutide', 'Ipamorelin', 'PT-141', 'Epithalon'].map((name) => (
+              {['BPC-157', 'Retatrutide', 'GHK-Cu', 'Tesamorelin', 'Ipamorelin'].map((name) => (
                 <Link
                   key={name}
                   href={`/peptides?q=${encodeURIComponent(name)}`}
@@ -100,12 +103,12 @@ export default async function HomePage() {
               ))}
             </div>
 
-            {/* Credibility badges */}
+            {/* Credibility indicators */}
             <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 anim-fade-up anim-delay-5">
               {[
-                '🔬 PubMed-synced research',
-                '✓ Evidence-rated profiles',
-                '🔓 Free summaries, always',
+                '1,200+ PubMed citations linked',
+                'Evidence-rated profiles',
+                'Free access, always',
               ].map((badge) => (
                 <span key={badge} className="text-[13px] text-black/45">
                   {badge}
@@ -121,19 +124,18 @@ export default async function HomePage() {
                 variant="homepage"
               />
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* ── Stats bar ──────────────────────────────────────────── */}
+      {/* ── Stats bar ─────────────────────────────────────────── */}
       <section className="border-b bg-white" style={{ borderColor: 'var(--border-light)' }}>
         <div className="mx-auto max-w-[1200px] px-6 pt-20 pb-8">
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
             {[
               { num: '102', label: 'Peptide profiles' },
               { num: '16', label: 'Research categories' },
-              { num: '1,000+', label: 'PubMed studies linked' },
+              { num: '1,200+', label: 'PubMed studies linked' },
               { num: 'Free', label: 'Core access, always' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
@@ -147,13 +149,59 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── Quick Answer — featured snippet target ─────────────── */}
+      <section className="border-b py-14" style={{ background: 'var(--stone-50)', borderColor: 'var(--border-light)' }}>
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+            <div>
+              <p className="mono-label mb-3 text-black/30">Quick reference</p>
+              <h2 className="text-[24px] font-medium tracking-heading text-black">
+                What are research peptides?
+              </h2>
+              <p className="mt-4 text-[15px] leading-[1.75] text-black/60">
+                Research peptides are short chains of amino acids — typically 2 to 50
+                residues — studied for their roles in tissue repair, immune regulation,
+                hormone secretion, and neurological function. Unlike small-molecule drugs,
+                they act with high receptor specificity and degrade naturally into amino
+                acids. Most are administered subcutaneously due to low oral bioavailability.
+              </p>
+              <Link href="/glossary" className="mt-4 inline-block text-[13px] text-black/40 underline-offset-2 transition-colors hover:text-black hover:underline">
+                Read the full glossary →
+              </Link>
+            </div>
+            <div>
+              <p className="mono-label mb-4 text-black/30">Categories covered</p>
+              <div className="space-y-2">
+                {[
+                  { category: 'Growth hormone secretagogues', examples: 'GHRP-2, Ipamorelin, CJC-1295, Tesamorelin' },
+                  { category: 'Tissue repair and wound healing', examples: 'BPC-157, TB-500, GHK-Cu' },
+                  { category: 'Metabolic and GLP-1 analogs', examples: 'Semaglutide, Tirzepatide, Retatrutide, AOD-9604' },
+                  { category: 'Cognitive function', examples: 'Semax, Selank, Dihexa' },
+                  { category: 'Immune modulation', examples: 'Thymosin Alpha-1, KPV, LL-37' },
+                  { category: 'Longevity and telomere biology', examples: 'Epithalon, MOTS-c, Humanin' },
+                ].map((row) => (
+                  <div
+                    key={row.category}
+                    className="rounded-comfortable px-4 py-3"
+                    style={{ background: 'rgba(30,21,17,0.03)', border: '1px solid var(--border-light)' }}
+                  >
+                    <p className="text-[13px] font-medium text-black/80">{row.category}</p>
+                    <p className="mt-0.5 font-mono text-[11px] text-black/35">{row.examples}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── Categories ─────────────────────────────────────────── */}
       <section className="mx-auto max-w-[1200px] px-6 py-16">
         <div className="mb-8 flex items-end justify-between">
           <div>
             <p className="mono-label mb-2 text-black/30">Browse by category</p>
             <h2 className="text-[28px] font-medium tracking-heading text-black">
-              Research Areas
+              Research areas
             </h2>
           </div>
           <Link href="/categories" className="text-sm tracking-tight text-black/40 transition-colors hover:text-black">
@@ -178,7 +226,7 @@ export default async function HomePage() {
             <div>
               <p className="mono-label mb-2 text-white/30">Specimen index</p>
               <h2 className="text-[28px] font-medium tracking-heading text-white">
-                Explore Peptides
+                Explore peptides
               </h2>
             </div>
             <Link
@@ -196,19 +244,73 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Upgrade conversion strip ───────────────────────── */}
-      <section className="border-y py-14" style={{ borderColor: 'var(--border-light)' }}>
+      {/* ── How we research — E-E-A-T ──────────────────────────── */}
+      <section className="border-b py-16" style={{ borderColor: 'var(--border-light)' }}>
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="mb-10">
+            <p className="mono-label mb-3 text-black/30">Editorial standards</p>
+            <h2 className="text-[28px] font-medium tracking-heading text-black">
+              How we research
+            </h2>
+          </div>
+          <div className="grid gap-8 lg:grid-cols-3">
+            <div>
+              <p className="text-[15px] font-medium text-black mb-3">Primary literature first</p>
+              <p className="text-[14px] leading-[1.75] text-black/55">
+                Every profile starts with a PubMed search, not a product page. We pull
+                primary literature, note the study design — in vitro, animal model, or
+                human trial — and rate the evidence accordingly. You will always know
+                whether a claim comes from a rat study or a randomized controlled trial.
+              </p>
+            </div>
+            <div>
+              <p className="text-[15px] font-medium text-black mb-3">Standardized profile format</p>
+              <p className="text-[14px] leading-[1.75] text-black/55">
+                Profiles follow a consistent structure: mechanism of action,
+                pharmacokinetics (half-life, bioavailability, routes), clinical evidence
+                with study links, and administration context. The format does not change
+                based on who makes the compound.
+              </p>
+            </div>
+            <div>
+              <p className="text-[15px] font-medium text-black mb-3">No paid placements</p>
+              <p className="text-[14px] leading-[1.75] text-black/55">
+                Vetted suppliers appear in our directory because they publish third-party
+                certificates of analysis and pass our sourcing criteria, not because they
+                advertise with us. Research findings are editorially independent of
+                commercial relationships.
+              </p>
+            </div>
+          </div>
+          <div className="mt-10 grid grid-cols-3 gap-4 border-t pt-10" style={{ borderColor: 'var(--border-light)' }}>
+            {[
+              { stat: 'PubMed-sourced', sub: 'Every citation links to its primary study' },
+              { stat: 'Standardized profiles', sub: 'Same format, every entry' },
+              { stat: 'No paid placements', sub: 'Supplier directory is editorially independent' },
+            ].map((item) => (
+              <div key={item.stat} className="text-center">
+                <p className="text-[14px] font-medium text-black">{item.stat}</p>
+                <p className="mt-1 text-[12px] text-black/40">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Upgrade conversion strip ───────────────────────────── */}
+      <section className="border-b py-14" style={{ borderColor: 'var(--border-light)' }}>
         <div className="mx-auto max-w-[1200px] px-6">
           <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
             <div>
               <p className="mono-label mb-3 text-black/30">Researcher plan</p>
               <h2 className="text-[28px] font-medium tracking-heading text-black">
-                Go deeper than the summary.
+                Free summaries cover what a peptide is. Full profiles cover how it works.
               </h2>
-              <p className="mt-3 text-[15px] leading-[1.65] text-black/55">
-                Free summaries show you what a peptide is. Researcher profiles show you
-                how it works — mechanism of action, pharmacokinetics, PubMed-linked
-                studies, and evidence ratings.
+              <p className="mt-4 text-[15px] leading-[1.75] text-black/55">
+                The free tier gives you research status, a compound overview, and
+                administration routes. The Researcher plan adds the mechanism of action,
+                pharmacokinetics data, PubMed study links, evidence ratings, and the
+                peptide comparison tool. $12/month.
               </p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link href="/upgrade" className="btn-dark text-[14px]">
@@ -221,11 +323,12 @@ export default async function HomePage() {
             </div>
             <div className="grid gap-2">
               {[
-                { free: true,  label: 'Peptide summary & research status' },
-                { free: true,  label: 'Category browsing & search' },
+                { free: true,  label: 'Peptide summary and research status' },
+                { free: true,  label: 'Category browsing and search' },
+                { free: true,  label: 'Administration routes overview' },
                 { free: false, label: 'Full mechanism of action profile' },
-                { free: false, label: 'Pharmacokinetics & half-life data' },
-                { free: false, label: 'PubMed study links & evidence ratings' },
+                { free: false, label: 'Pharmacokinetics and half-life data' },
+                { free: false, label: 'PubMed study links and evidence ratings' },
                 { free: false, label: 'Peptide comparison tool' },
               ].map((row) => (
                 <div
@@ -233,8 +336,8 @@ export default async function HomePage() {
                   className="flex items-center gap-3 rounded-comfortable px-4 py-2.5 text-[13px]"
                   style={{ background: row.free ? 'rgba(0,0,0,0.02)' : 'rgba(232,98,42,0.06)', borderLeft: row.free ? '2px solid rgba(0,0,0,0.08)' : '2px solid rgba(232,98,42,0.25)' }}
                 >
-                  <span className={row.free ? 'text-emerald-500' : 'text-lavender'}>
-                    {row.free ? '✓ Free' : '🔬 Researcher'}
+                  <span className={`font-mono text-[10px] tracking-wide ${row.free ? 'text-emerald-600' : 'text-lavender'}`}>
+                    {row.free ? 'FREE' : 'RESEARCHER'}
                   </span>
                   <span className={row.free ? 'text-black/60' : 'text-black/80'}>{row.label}</span>
                 </div>
@@ -244,23 +347,25 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Trust strip ───────────────────────────────────────── */}
+      {/* ── Testimonials ───────────────────────────────────────── */}
       <section className="bg-white py-14">
         <div className="mx-auto max-w-[1200px] px-6">
-          <p className="mono-label mb-10 text-center text-black/25">Why researchers use Peptide United</p>
+          <p className="mono-label mb-10 text-center text-black/25">
+            Why researchers use Peptide United
+          </p>
           <div className="grid gap-6 sm:grid-cols-3">
             {[
               {
-                quote: 'The most thorough peptide mechanism breakdowns I\u2019ve found outside of primary literature.',
-                role: 'Functional Medicine Practitioner',
+                quote: 'The mechanism breakdowns go further than anything I\'ve found outside of primary literature. I\'ve started sending patients here before appointments.',
+                role: 'Functional medicine practitioner',
               },
               {
-                quote: 'PubMed-linked profiles save hours of research time. The half-life data is a game-changer for protocol design.',
-                role: 'PhD Researcher, Biochemistry',
+                quote: 'PubMed-linked profiles cut my pre-protocol research time in half. The half-life data alone is worth the subscription.',
+                role: 'PhD researcher, biochemistry',
               },
               {
-                quote: 'Finally a credible, research-first source I can share with colleagues without cringing at the marketing language.',
-                role: 'Compounding Pharmacist',
+                quote: 'Finally something I can share with colleagues. No marketing language, no anecdotes dressed up as evidence.',
+                role: 'Compounding pharmacist',
               },
             ].map((t) => (
               <div
@@ -268,17 +373,19 @@ export default async function HomePage() {
                 className="rounded-comfortable p-6"
                 style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid var(--border-light)' }}
               >
-                <p className="text-[14px] leading-[1.7] text-black/65 before:content-['\u201c'] after:content-['\u201d']">
-                  {t.quote}
+                <p className="text-[14px] leading-[1.75] text-black/65">
+                  &ldquo;{t.quote}&rdquo;
                 </p>
-                <p className="mt-4 font-mono text-[11px] tracking-mono text-black/30">&mdash; {t.role}</p>
+                <p className="mt-4 font-mono text-[11px] tracking-mono text-black/30">
+                  &mdash; {t.role}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Recently viewed (relationship layer) ───────────────── */}
+      {/* ── Recently viewed ─────────────────────────────────────── */}
       <div className="mx-auto max-w-[1200px] px-6">
         <RecentlyViewed />
       </div>
@@ -292,19 +399,29 @@ export default async function HomePage() {
               <EmailCapture
                 variant="dark"
                 source="homepage"
-                heading="Stay updated on peptide research."
-                subheading="New profiles, synced PubMed studies, and research summaries — delivered free."
+                heading="New peptide research, once a week."
+                subheading="PubMed updates, new compound profiles, and research summaries. Not a newsletter about selling you something."
               />
             </div>
-            <div className="space-y-4">
+            <div className="space-y-5">
               {[
-                { icon: '🔬', text: 'Weekly digest of new PubMed studies across 16 research categories' },
-                { icon: '📊', text: 'Profile updates when new pharmacokinetics or mechanism data is published' },
-                { icon: '🔓', text: 'Early access to new peptide profiles and research tools' },
+                { label: 'Weekly digest', text: 'New PubMed studies across 16 research categories, summarized and linked.' },
+                { label: 'Profile updates', text: 'When new pharmacokinetics or mechanism data is published, relevant profiles are flagged.' },
+                { label: 'Early access', text: 'New peptide profiles and research tools go to subscribers first.' },
               ].map((item) => (
-                <div key={item.text} className="flex items-start gap-3">
-                  <span className="mt-0.5 text-[18px]">{item.icon}</span>
-                  <p className="text-[14px] leading-[1.5] text-white/50">{item.text}</p>
+                <div key={item.label} className="flex items-start gap-4">
+                  <div
+                    className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded"
+                    style={{ background: 'rgba(232,98,42,0.15)' }}
+                  >
+                    <span className="font-mono text-[9px] font-medium text-sunrise-300 tracking-wide" style={{ color: 'var(--sunrise-300)' }}>
+                      {item.label.slice(0, 2).toUpperCase()}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-[13px] font-medium text-white/70">{item.label}</p>
+                    <p className="mt-0.5 text-[13px] leading-[1.6] text-white/40">{item.text}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -312,19 +429,19 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA ────────────────────────────────────────────────── */}
+      {/* ── Bottom CTA ──────────────────────────────────────────── */}
       <section className="border-t py-16" style={{ borderColor: 'var(--border-light)' }}>
         <div className="mx-auto max-w-[1200px] px-6 text-center">
           <p className="mono-label mb-3 text-black/30">Open access</p>
           <h2 className="mx-auto max-w-md text-[28px] font-medium tracking-heading text-black">
-            Research-grade information, free.
+            Start with the database.
           </h2>
-          <p className="mx-auto mt-3 max-w-md text-[15px] leading-[1.5] text-black/50">
-            Every profile includes a summary, research status, and administration
-            routes — no account required.
+          <p className="mx-auto mt-3 max-w-md text-[15px] leading-[1.6] text-black/50">
+            Every profile has a free summary, research status, and administration routes.
+            No login required.
           </p>
           <Link href="/peptides" className="btn-dark mt-6">
-            Browse All Peptides
+            Browse all peptides
           </Link>
         </div>
       </section>

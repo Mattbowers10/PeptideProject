@@ -25,11 +25,11 @@ export function EmailCapture({
 
   // Resolve effective values based on leadMagnet mode
   const effectiveSource = leadMagnet ? 'lead-magnet' : source
-  const effectiveHeading = heading ?? (leadMagnet ? 'Get the free research guide' : 'Stay updated on peptide research.')
+  const effectiveHeading = heading ?? (leadMagnet ? 'Free: 2025 Peptide Research Primer' : 'New peptide research, once a week.')
   const effectiveSubheading = subheading ?? (leadMagnet
-    ? '10 Most Researched Peptides — free PDF guide for researchers.'
-    : 'New profiles, synced PubMed studies, and research summaries — delivered free.')
-  const buttonText = leadMagnet ? 'Download free guide' : 'Get updates'
+    ? '10 compounds, mechanisms, and administration basics. No sales pitch.'
+    : 'PubMed updates, new compound profiles, and research summaries. Not a newsletter about selling you something.')
+  const buttonText = leadMagnet ? 'Get the guide →' : 'Subscribe'
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -105,8 +105,8 @@ export function EmailCapture({
           required
           className={`flex-1 rounded-sharp border px-4 py-2.5 text-[14px] tracking-tight focus:outline-none focus:ring-2 ${
             isDark
-              ? 'bg-white/[0.06] border-white/10 text-white placeholder:text-white/30 focus:ring-lavender/40'
-              : 'bg-white border-black/10 text-black placeholder:text-black/30 focus:ring-lavender/40'
+              ? 'bg-white/[0.06] border-white/10 text-white placeholder:text-white/30 focus:ring-sunrise-500/30'
+              : 'bg-white border-black/10 text-black placeholder:text-black/30 focus:ring-sunrise-500/30'
           }`}
         />
         <button
