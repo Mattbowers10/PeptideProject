@@ -4,133 +4,181 @@
 
 @layer base {
   :root {
-    --midnight: #010120;
-    --magenta: #ef2cc1;
-    --brand-orange: #fc4c02;
-    --lavender: #bdbbff;
-    --border-light: rgba(0, 0, 0, 0.08);
-    --border-dark: rgba(255, 255, 255, 0.12);
-    --glass-light: rgba(255, 255, 255, 0.12);
-    --glass-dark: rgba(0, 0, 0, 0.08);
+    /* Sunrise palette */
+    --sunrise-50:  #FFF8F2;
+    --sunrise-100: #FEF0E3;
+    --sunrise-200: #FDDBB8;
+    --sunrise-300: #FAB87A;
+    --sunrise-400: #F49048;
+    --sunrise-500: #E8622A;
+    --sunrise-600: #C94B1A;
+    --sunrise-700: #A83912;
+
+    /* Warm stone neutrals */
+    --stone-50:  #FDFAF7;
+    --stone-100: #F5EFE8;
+    --stone-200: #EDE3D8;
+    --stone-300: #D9CABF;
+    --stone-400: #B8A396;
+
+    /* Semantic tokens — keep old var names for compatibility */
+    --midnight:     #1E1511;
+    --lavender:     #E8622A;
+    --brand-orange: #E8622A;
+    --border-light: rgba(30,21,17,0.09);
+    --border-dark:  rgba(255,255,255,0.10);
+    --glass-light:  rgba(255,255,255,0.12);
+    --glass-dark:   rgba(0,0,0,0.08);
   }
 
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: #FDFAF7;
   }
 
-  /* Selection — lavender tint */
   ::selection {
-    background: rgba(189, 187, 255, 0.3);
+    background: rgba(232,98,42,0.20);
   }
 }
 
 @layer components {
-  /* Mono label — the technical marker pattern */
+  /* ── Mono label ─────────────────────────────────────────── */
   .mono-label {
     @apply font-mono text-[11px] font-medium uppercase;
     letter-spacing: 0.055em;
   }
-
   .mono-label-sm {
     @apply font-mono text-[10px] font-normal uppercase;
     letter-spacing: 0.05em;
   }
 
-  /* Sharp badge — 4px radius, subtle bg */
+  /* ── Badges ─────────────────────────────────────────────── */
   .badge-light {
     @apply inline-flex items-center border px-2 py-0.5 font-mono text-[11px] font-medium uppercase;
     border-radius: 4px;
     letter-spacing: 0.05em;
     border-color: var(--border-light);
-    background: rgba(0, 0, 0, 0.04);
+    background: rgba(30,21,17,0.04);
   }
-
   .badge-dark {
     @apply inline-flex items-center border px-2 py-0.5 font-mono text-[11px] font-medium uppercase text-white;
     border-radius: 4px;
     letter-spacing: 0.05em;
     border-color: var(--border-dark);
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255,255,255,0.10);
   }
 
-  /* Glass button */
+  /* ── Buttons ─────────────────────────────────────────────── */
   .btn-glass {
     @apply inline-flex items-center px-5 py-2.5 text-sm font-medium text-white transition-all;
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255,255,255,0.12);
     letter-spacing: -0.01em;
   }
-  .btn-glass:hover {
-    background: rgba(255, 255, 255, 0.18);
-  }
+  .btn-glass:hover { background: rgba(255,255,255,0.18); }
 
-  /* Dark solid button */
+  /* Primary dark button → now sunrise orange */
   .btn-dark {
     @apply inline-flex items-center px-5 py-2.5 text-sm font-medium text-white transition-all;
     border-radius: 4px;
-    background: #010120;
+    background: var(--sunrise-500);
     letter-spacing: -0.01em;
   }
   .btn-dark:hover {
-    background: #0a0a3a;
+    background: var(--sunrise-600);
+    box-shadow: 0 4px 14px rgba(232,98,42,0.28);
   }
+  .btn-dark:active { transform: scale(0.97); }
 
-  /* Outlined button */
   .btn-outline {
     @apply inline-flex items-center border bg-transparent px-5 py-2.5 text-sm font-medium transition-all;
     border-radius: 4px;
     border-color: var(--border-light);
     letter-spacing: -0.01em;
   }
-  .btn-outline:hover {
-    background: rgba(0, 0, 0, 0.04);
-  }
+  .btn-outline:hover { background: var(--stone-100); border-color: var(--stone-300); }
+  .btn-outline:active { transform: scale(0.97); }
 
-  /* Card — the specimen container */
+  /* ── Cards ───────────────────────────────────────────────── */
   .card-light {
     @apply border bg-white;
     border-radius: 8px;
     border-color: var(--border-light);
-    box-shadow: rgba(1, 1, 32, 0.1) 0px 4px 10px;
+    box-shadow: rgba(30,21,17,0.06) 0px 4px 10px;
   }
-
   .card-dark {
     @apply border;
     border-radius: 8px;
     border-color: var(--border-dark);
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255,255,255,0.05);
   }
 
-  /* Thin rule — annotation divider */
-  .rule {
-    @apply border-t;
-    border-color: var(--border-light);
-  }
+  /* ── Rules ───────────────────────────────────────────────── */
+  .rule      { @apply border-t; border-color: var(--border-light); }
+  .rule-dark { @apply border-t; border-color: var(--border-dark); }
 
-  .rule-dark {
-    @apply border-t;
-    border-color: var(--border-dark);
-  }
-
-  /* Pastel gradient hero background */
+  /* ── Hero gradient — sunrise ─────────────────────────────── */
   .gradient-pastel {
-    background: linear-gradient(
-      135deg,
-      rgba(252, 231, 243, 0.7) 0%,
-      rgba(189, 187, 255, 0.35) 35%,
-      rgba(219, 234, 254, 0.4) 65%,
-      rgba(255, 255, 255, 1) 100%
-    );
+    background: linear-gradient(160deg, #FFF4EC 0%, #FDDFC4 35%, #F9C4A0 65%, #F4A97E 100%);
+    position: relative;
+    overflow: hidden;
   }
+  /* Grain texture overlay */
+  .gradient-pastel::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    opacity: 0.09;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    z-index: 0;
+  }
+  /* Make children sit above the grain */
+  .gradient-pastel > * { position: relative; z-index: 1; }
+
+  /* ── Dark section dot pattern ────────────────────────────── */
+  .bg-midnight {
+    background: var(--midnight) !important;
+    position: relative;
+  }
+  .bg-midnight::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bg-midnight > * { position: relative; z-index: 1; }
 }
 
 @layer utilities {
-  /* Tracking presets matching DESIGN.md */
-  .tracking-display {
-    letter-spacing: -0.03em;
+  .tracking-display  { letter-spacing: -0.03em; }
+  .tracking-section  { letter-spacing: -0.02em; }
+
+  /* Gradient text utility */
+  .text-gradient {
+    background: linear-gradient(100deg, var(--sunrise-500) 0%, var(--sunrise-400) 50%, var(--sunrise-300) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .tracking-section {
-    letter-spacing: -0.02em;
+
+  /* Stagger entrance animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
+  .anim-fade-up {
+    opacity: 0;
+    animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .anim-delay-1 { animation-delay: 0.05s; }
+  .anim-delay-2 { animation-delay: 0.13s; }
+  .anim-delay-3 { animation-delay: 0.21s; }
+  .anim-delay-4 { animation-delay: 0.30s; }
+  .anim-delay-5 { animation-delay: 0.40s; }
+  .anim-delay-6 { animation-delay: 0.50s; }
 }

@@ -13,7 +13,7 @@ export function PeptideCard({ peptide }: Props) {
   return (
     <Link
       href={`/peptides/${peptide.slug}`}
-      className="card-light group flex flex-col p-5 transition-all hover:shadow-blue-lg"
+      className="card-light group flex flex-col p-5 transition-all hover:-translate-y-0.5 hover:shadow-warm"
     >
       {/* Specimen header: name + status */}
       <div className="mb-1.5 flex items-start justify-between gap-2">

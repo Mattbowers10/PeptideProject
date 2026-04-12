@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peptide United — Sunrise Palette Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Martian+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    /* ── Sunrise Palette ──────────────────────────────────────── */
+    :root {
+      /* Core */
+      --sunrise-50:  #FFF8F2;   /* near-white warm cream */
+      --sunrise-100: #FEF0E3;   /* light peach blush */
+      --sunrise-200: #FDDBB8;   /* soft amber */
+      --sunrise-300: #FAB87A;   /* warm gold */
+      --sunrise-400: #F49048;   /* amber glow */
+      --sunrise-500: #E8622A;   /* sunrise orange — primary accent */
+      --sunrise-600: #C94B1A;   /* deep terracotta */
+      --sunrise-700: #A83912;   /* rich ember */
+
+      /* Neutrals — warm-tinted, not cool grey */
+      --stone-50:  #FDFAF7;
+      --stone-100: #F5EFE8;
+      --stone-200: #EDE3D8;
+      --stone-300: #D9CABF;
+      --stone-400: #B8A396;
+      --stone-500: #8C7268;
+      --stone-700: #3D2E27;
+      --stone-900: #1E1511;   /* warm charcoal — clearly warm without going full espresso */
+
+      /* Semantic */
+      --bg:         var(--stone-50);
+      --bg-warm:    var(--sunrise-50);
+      --surface:    #FFFFFF;
+      --border:     #EDE3D8;
+      --border-dark: rgba(255,255,255,0.10);
+      --accent:     var(--sunrise-500);
+      --accent-light: var(--sunrise-100);
+      --dark:       var(--stone-900);
+      --text:       #1E1511;
+      --text-muted: rgba(30,21,17,0.50);
+      --text-faint: rgba(30,21,17,0.30);
+    }
+
+    body {
+      font-family: 'Sora', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Typography ───────────────────────────────────────────── */
+    .display   { letter-spacing: -0.04em; }
+    .heading   { letter-spacing: -0.025em; }
+    .mono      { font-family: 'Martian Mono', monospace; }
+    .mono-label {
+      font-family: 'Martian Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ── Layout ───────────────────────────────────────────────── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Animations ──────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .anim { opacity: 0; animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards; }
+    .anim-1 { animation-delay: 0.05s; }
+    .anim-2 { animation-delay: 0.13s; }
+    .anim-3 { animation-delay: 0.21s; }
+    .anim-4 { animation-delay: 0.30s; }
+    .anim-5 { animation-delay: 0.40s; }
+    .anim-6 { animation-delay: 0.50s; }
+
+    /* ── Buttons ──────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px;
+      font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+      font-family: 'Sora', sans-serif;
+      border-radius: 6px;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--sunrise-600); box-shadow: 0 4px 14px rgba(232,98,42,0.30); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--stone-400); background: var(--stone-100); }
+
+    .btn-ghost-light {
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.85);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-ghost-light:hover { background: rgba(255,255,255,0.20); }
+
+    /* ── Utility ──────────────────────────────────────────────── */
+    .pill {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-family: 'Martian Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .pill-orange { background: var(--sunrise-100); color: var(--sunrise-600); }
+    .pill-stone  { background: var(--stone-100); color: var(--stone-500); }
+    .pill-green  { background: #ECFDF5; color: #065F46; }
+    .pill-amber  { background: #FFFBEB; color: #92400E; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .card-dark {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 10px;
+    }
+
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    /* ─────────────────────────────────────────────────────────── */
+    /* NAV                                                         */
+    /* ─────────────────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(253,250,247,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      font-size: 15px; font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex; align-items: center; gap: 24px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px; color: var(--text-muted);
+      text-decoration: none; letter-spacing: -0.01em;
+      transition: color 0.12s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+    /* ─────────────────────────────────────────────────────────── */
+    /* HERO                                                        */
+    /* ─────────────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(160deg, #FFF4EC 0%, #FDDFC4 35%, #F9C4A0 65%, #F4A97E 100%);
+      padding: 96px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Grain texture overlay */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+      opacity: 0.09;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+    }
+    /* Radial glow accent */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -60px; right: -100px;
+      width: 580px; height: 580px;
+      background: radial-gradient(ellipse, rgba(232,98,42,0.13) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(44px, 6vw, 66px);
+      font-weight: 500;
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+      color: var(--text);
+    }
+    .hero h1 .accent {
+      background: linear-gradient(100deg, var(--sunrise-500) 0%, var(--sunrise-400) 50%, var(--sunrise-300) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      margin-top: 20px;
+      font-size: 17px;
+      line-height: 1.55;
+      letter-spacing: -0.01em;
+      color: var(--text-muted);
+      max-width: 480px;
+    }
+
+    /* Search bar */
+    .search-row {
+      margin-top: 36px;
+      display: flex; gap: 8px;
+      max-width: 480px;
+    }
+    .search-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.90);
+      font-size: 14px; font-family: inherit;
+      color: var(--text);
+      outline: none;
+      letter-spacing: -0.01em;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .search-input::placeholder { color: var(--text-faint); }
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(232,98,42,0.12);
+    }
+
+    /* Popular tags */
+    .popular-row {
+      margin-top: 14px;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+    }
+    .popular-row span { font-size: 12px; color: var(--text-faint); }
+    .popular-tag {
+      font-size: 12px; color: var(--text-muted);
+      text-decoration: none; padding: 3px 10px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.70);
+      transition: all 0.12s;
+    }
+    .popular-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--sunrise-50);
+    }
+
+    /* Badges */
+    .badge-row {
+      margin-top: 28px;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 20px;
+    }
+    .badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-muted);
+    }
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); opacity: 0.7;
+      flex-shrink: 0;
+    }
+
+    /* Lead magnet card — bleeds into stats bar */
+    .hero-cta-card {
+      margin-top: 36px;
+      margin-bottom: -48px;
+      position: relative;
+      z-index: 2;
+      max-width: 420px;
+      padding: 20px 22px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(30,21,17,0.10);
+    }
+    .hero-cta-card h3 {
+      font-size: 14px; font-weight: 500; letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .hero-cta-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
+    .email-row { display: flex; gap: 8px; }
+    .email-input {
+      flex: 1; padding: 9px 12px;
+      border: 1.5px solid var(--border); border-radius: 7px;
+      font-size: 13px; font-family: inherit; outline: none;
+      background: #fff;
+    }
+    .email-input:focus { border-color: var(--accent); }
+
+    /* ─────────────────────────────────────────────────────────── */
+    /* STATS BAR                                                   */
+    /* ─────────────────────────────────────────────────────────── */
+    .stats-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 0 28px;
+      padding-top: 68px; /* compensates for hero card overlap */
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 16px; text-align: center;
+    }
+    .stat-num {
+      font-size: 34px; font-weight: 500;
+      letter-spacing: -0.04em; color: var(--text);
+      line-height: 1;
+    }
+    .stat-num .highlight { color: var(--accent); }
+    .stat-label {
+      margin-top: 4px;
+      font-family: 'Martian Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    /* ─────────────────────────────────────────────────────────── */
+    /* CATEGORIES                                                  */
+    /* ─────────────────────────────────────────────────────────── */
+    .section { padding: 72px 0; }
+    .section-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .section-eyebrow { font-family: 'Martian Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 8px; }
+    .section-title { font-size: 26px; font-weight: 500; letter-spacing: -0.03em; }
+    .section-link { font-size: 13px; color: var(--text-faint); text-decoration: none; transition: color 0.12s; }
+    .section-link:hover { color: var(--accent); }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .category-card.featured { grid-column: span 2; flex-direction: row; align-items: center; gap: 16px; display: flex; }
+    .category-card.featured .category-icon { margin-bottom: 0; flex-shrink: 0; width: 44px; height: 44px; font-size: 20px; }
+    .category-card {
+      padding: 18px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .category-card:hover {
+      border-color: var(--sunrise-300);
+      box-shadow: 0 6px 24px rgba(232,98,42,0.12);
+      transform: translateY(-3px);
+    }
+    .category-icon {
+      width: 36px; height: 36px;
+      background: var(--sunrise-100);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    .category-name { font-size: 13px; font-weight: 500; letter-spacing: -0.01em; color: var(--text); margin-bottom: 2px; }
+    .category-count { font-size: 11px; color: var(--text-faint); font-family: 'Martian Mono', monospace; }
+
+    /* ─────────────────────────────────────────────────────────── */
+    /* PEPTIDE CARDS — dark section                               */
+    /* ─────────────────────────────────────────────────────────── */
+    .dark-section {
+      background: var(--dark);
+      padding: 72px 0;
+      position: relative;
+    }
+    .dark-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+    .dark-section .section-eyebrow { color: rgba(255,255,255,0.30); }
+    .dark-section .section-title { color: #fff; }
+    .dark-section .section-link { color: rgba(255,255,255,0.35); }
+    .dark-section .section-link:hover { color: var(--sunrise-300); }
+
+    .peptides-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      position: relative; z-index: 1;
+    }
+    .dark-section .section-header { position: relative; z-index: 1; }
+    .peptide-card {
+      padding: 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+    .peptide-card:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(232,98,42,0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+    }
+    .peptide-card-top {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .peptide-name { font-size: 15px; font-weight: 500; letter-spacing: -0.02em; color: #fff; }
+    .peptide-formula { font-family: 'Martian Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 2px; }
+    .peptide-summary { font-size: 12px; line-height: 1.6; color: rgba(255,255,255,0.45); margin-bottom: 14px; }
+    .peptide-card-footer { display: flex; align-items: center; justify-content: space-between; }
+    .status-dot { display: flex; align-items: center; gap: 5px; font-size: 11px; font-family: 'Martian Mono', monospace; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-human  { background: #34D399; }
+    .dot-animal { background: #FBBF24; }
+    .dot-approved { background: #60A5FA; }
+    .arrow-link { font-size: 11px; color: rgba(255,255,255,0.25); font-family: 'Martian Mono', monospace; }
+
+    /* ─────────────────────────────────────────────────────────── */
+    /* UPGRADE STRIP                                               */
+    /* ─────────────────────────────────────────────────────────── */
+    .upgrade-section {
+      padding: 72px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .upgrade-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+    .upgrade-title { font-size: 28px; font-weight: 500; letter-spacing: -0.03em; margin-bottom: 12px; }
+    .upgrade-body { font-size: 14px; line-height: 1.7; color: var(--text-muted); margin-bottom: 24px; }
+    .upgrade-actions { display: flex; gap: 10px; }
+
+    .feature-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .feature-row.free   { background: rgba(26,14,9,0.03); border-left: 2px solid rgba(26,14,9,0.10); }
+    .feature-row.locked { background: rgba(232,98,42,0.06); border-left: 2px solid rgba(232,98,42,0.30); }
+    .feature-label-free   { font-size: 10px; font-family: 'Martian Mono', monospace; color: #059669; flex-shrink: 0; }
+    .feature-label-locked { font-size: 10px; font-family: 'Martian Mono', monospace; color: var(--sunrise-600); flex-shrink: 0; }
+    .feature-text.free   { color: var(--text-muted); }
+    .feature-text.locked { color: var(--text); }
+
+    /* ─────────────────────────────────────────────────────────── */
+    /* TESTIMONIALS                                                */
+    /* ─────────────────────────────────────────────────────────── */
+    .testimonials-section {
+      padding: 72px 0;
+      background: var(--sunrise-50);
+    }
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-top: 36px;
+    }
+    .testimonial-card {
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .testimonial-quote-mark {
+      font-size: 36px; line-height: 1;
+      color: var(--sunrise-200);
+      font-family: Georgia, serif;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .testimonial-body { font-size: 13px; line-height: 1.75; color: var(--text-muted); }
+    .testimonial-author {
+      margin-top: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .author-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--sunrise-200), var(--sunrise-300));
+      flex-shrink: 0;
+    }
+    .author-role { font-family: 'Martian Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: var(--text-faint); text-transform: uppercase; }
+
+    /* ─────────────────────────────────────────────────────────── */
+    /* EMAIL CAPTURE — dark warm                                   */
+    /* ─────────────────────────────────────────────────────────── */
+    .email-section {
+      background: var(--dark);
+      padding: 72px 0;
+    }
+    .email-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+    .email-eyebrow { font-family: 'Martian Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.30); margin-bottom: 12px; }
+    .email-title { font-size: 26px; font-weight: 500; letter-spacing: -0.03em; color: #fff; margin-bottom: 10px; }
+    .email-sub { font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.45); margin-bottom: 22px; }
+    .email-form { display: flex; gap: 8px; }
+    .email-input-dark {
+      flex: 1; padding: 11px 14px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 7px;
+      font-size: 13px; font-family: inherit; color: #fff; outline: none;
+    }
+    .email-input-dark::placeholder { color: rgba(255,255,255,0.30); }
+    .email-input-dark:focus { border-color: var(--sunrise-400); }
+
+    .email-benefit { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+    .benefit-icon {
+      width: 32px; height: 32px;
+      background: rgba(232,98,42,0.15);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0; margin-top: 2px;
+    }
+    .benefit-text { font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.45); }
+
+    /* ─────────────────────────────────────────────────────────── */
+    /* BOTTOM CTA                                                  */
+    /* ─────────────────────────────────────────────────────────── */
+    .bottom-cta {
+      padding: 80px 0;
+      text-align: center;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+    .bottom-cta-title { font-size: 30px; font-weight: 500; letter-spacing: -0.03em; max-width: 400px; margin: 0 auto 12px; }
+    .bottom-cta-sub { font-size: 14px; color: var(--text-muted); max-width: 380px; margin: 0 auto 28px; line-height: 1.6; }
+
+    /* ─────────────────────────────────────────────────────────── */
+    /* FOOTER                                                      */
+    /* ─────────────────────────────────────────────────────────── */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.5);
+    }
+    .footer-wordmark {
+      padding: 56px 0 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 56px; font-weight: 500; letter-spacing: -0.04em;
+      color: rgba(255,255,255,0.07);
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 32px; padding: 40px 0;
+    }
+    .footer-col-label { font-family: 'Martian Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 14px; }
+    .footer-links { display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a { font-size: 13px; color: rgba(255,255,255,0.40); text-decoration: none; transition: color 0.12s; }
+    .footer-links a:hover { color: rgba(255,255,255,0.80); }
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0 32px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-family: 'Martian Mono', monospace; font-size: 10px;
+      letter-spacing: 0.06em; color: rgba(255,255,255,0.20);
+    }
+    .footer-bottom-links { display: flex; gap: 20px; }
+    .footer-bottom-links a { color: rgba(255,255,255,0.20); text-decoration: none; }
+
+    /* ─────────────────────────────────────────────────────────── */
+    /* MOCKUP BANNER                                               */
+    /* ─────────────────────────────────────────────────────────── */
+    .mockup-banner {
+      position: fixed; bottom: 20px; right: 20px;
+      background: var(--dark);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-family: 'Martian Mono', monospace;
+      letter-spacing: 0.04em;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.30);
+      z-index: 9999;
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .mockup-banner strong { color: var(--sunrise-300); }
+  </style>
+</head>
+<body>
+
+<!-- ── Mockup Label ───────────────────────────────────────────── -->
+<div class="mockup-banner">
+  🎨 Design mockup — <strong>Sunrise palette</strong>
+</div>
+
+<!-- ── Navigation ────────────────────────────────────────────── -->
+<nav>
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">peptide <span>united</span></a>
+      <ul class="nav-links">
+        <li><a href="#">Peptides</a></li>
+        <li><a href="#">Research</a></li>
+        <li><a href="#">Compare</a></li>
+        <li><a href="#">Stack Builder</a></li>
+        <li><a href="#">Glossary</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#" class="btn btn-outline" style="padding:7px 14px;">Log in</a>
+        <a href="#" class="btn btn-primary" style="padding:7px 14px;">Get started</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ──────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+
+    <div class="hero-eyebrow anim anim-1">
+      <span class="mono-label" style="color: var(--text-faint)">Research encyclopedia</span>
+      <span class="pill pill-orange">Free access</span>
+    </div>
+
+    <h1 class="display anim anim-2">
+      The peptide<br />
+      <span class="accent">reference.</span>
+    </h1>
+
+    <p class="hero-sub anim anim-3">
+      Evidence-based profiles for 100+ peptides. Mechanisms of action, pharmacokinetics, and direct links to peer-reviewed studies.
+    </p>
+
+    <div class="search-row anim anim-4">
+      <input class="search-input" type="search" placeholder="Search BPC-157, Semaglutide, TB-500…" />
+      <button class="btn btn-primary">Search</button>
+    </div>
+
+    <div class="popular-row anim anim-5">
+      <span>Popular:</span>
+      <a class="popular-tag" href="#">BPC-157</a>
+      <a class="popular-tag" href="#">Semaglutide</a>
+      <a class="popular-tag" href="#">Ipamorelin</a>
+      <a class="popular-tag" href="#">PT-141</a>
+      <a class="popular-tag" href="#">Epithalon</a>
+    </div>
+
+    <div class="badge-row anim anim-5">
+      <div class="badge"><span class="badge-dot"></span> PubMed-synced research</div>
+      <div class="badge"><span class="badge-dot"></span> Evidence-rated profiles</div>
+      <div class="badge"><span class="badge-dot"></span> Free summaries, always</div>
+    </div>
+
+    <div class="hero-cta-card anim anim-6">
+      <h3>Free Peptide Research Guide</h3>
+      <p>The 2025 researcher's primer — 10 essential peptides, mechanisms, and protocol basics.</p>
+      <div class="email-row">
+        <input class="email-input" type="email" placeholder="your@email.com" />
+        <button class="btn btn-primary" style="padding:9px 16px; font-size:12px;">Get guide →</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Stats Bar ──────────────────────────────────────────────── -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-num">10<span class="highlight">2</span></div>
+        <div class="stat-label">Peptide profiles</div>
+      </div>
+      <div>
+        <div class="stat-num">16</div>
+        <div class="stat-label">Research categories</div>
+      </div>
+      <div>
+        <div class="stat-num">1,000<span class="highlight">+</span></div>
+        <div class="stat-label">PubMed studies linked</div>
+      </div>
+      <div>
+        <div class="stat-num" style="color: var(--accent);">Free</div>
+        <div class="stat-label">Core access, always</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Categories ────────────────────────────────────────────── -->
+<section class="section" style="background: var(--bg);">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Browse by category</div>
+        <h2 class="section-title heading">Research Areas</h2>
+      </div>
+      <a class="section-link" href="#">View all →</a>
+    </div>
+    <div class="categories-grid">
+      <a class="category-card featured" href="#">
+        <div class="category-icon">🔬</div>
+        <div>
+          <div class="category-name">GH Secretagogues</div>
+          <div class="category-count">14 peptides</div>
+        </div>
+      </a>
+      <a class="category-card featured" href="#">
+        <div class="category-icon">⚖️</div>
+        <div>
+          <div class="category-name">Metabolic</div>
+          <div class="category-count">12 peptides</div>
+        </div>
+      </a>
+      <a class="category-card" href="#">
+        <div class="category-icon">🧠</div>
+        <div class="category-name">Cognitive & Neuro</div>
+        <div class="category-count">9 peptides</div>
+      </a>
+      <a class="category-card" href="#">
+        <div class="category-icon">🫀</div>
+        <div class="category-name">Cardiovascular</div>
+        <div class="category-count">7 peptides</div>
+      </a>
+      <a class="category-card" href="#">
+        <div class="category-icon">💪</div>
+        <div class="category-name">Muscle & Recovery</div>
+        <div class="category-count">10 peptides</div>
+      </a>
+      <a class="category-card" href="#">
+        <div class="category-icon">🌙</div>
+        <div class="category-name">Sleep & Longevity</div>
+        <div class="category-count">8 peptides</div>
+      </a>
+      <a class="category-card" href="#">
+        <div class="category-icon">🔵</div>
+        <div class="category-name">Anti-Inflammatory</div>
+        <div class="category-count">9 peptides</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Featured Peptides — dark ───────────────────────────────── -->
+<section class="dark-section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Specimen index</div>
+        <h2 class="section-title heading" style="color:#fff;">Explore Peptides</h2>
+      </div>
+      <a class="section-link" href="#">View all 100+ →</a>
+    </div>
+    <div class="peptides-grid">
+
+      <a class="peptide-card" href="#">
+        <div class="peptide-card-top">
+          <div>
+            <div class="peptide-name">BPC-157</div>
+            <div class="peptide-formula">C62H98N16O22</div>
+          </div>
+          <span class="pill" style="background:rgba(52,211,153,0.12); color:#34D399; font-size:9px;">Human trials</span>
+        </div>
+        <div class="peptide-summary">15-amino acid partial sequence of body protection compound isolated from human gastric juice. Studied for musculoskeletal repair and gut healing.</div>
+        <div class="peptide-card-footer">
+          <div class="status-dot">
+            <span class="dot dot-human"></span>
+            <span style="color:rgba(255,255,255,0.30); font-size:10px;">Human trials</span>
+          </div>
+          <span class="arrow-link">View profile →</span>
+        </div>
+      </a>
+
+      <a class="peptide-card" href="#">
+        <div class="peptide-card-top">
+          <div>
+            <div class="peptide-name">Semaglutide</div>
+            <div class="peptide-formula">C187H291N45O59</div>
+          </div>
+          <span class="pill" style="background:rgba(96,165,250,0.12); color:#60A5FA; font-size:9px;">FDA approved</span>
+        </div>
+        <div class="peptide-summary">GLP-1 receptor agonist approved for type 2 diabetes and obesity. Studied for cardiovascular risk reduction and weight management.</div>
+        <div class="peptide-card-footer">
+          <div class="status-dot">
+            <span class="dot dot-approved"></span>
+            <span style="color:rgba(255,255,255,0.30); font-size:10px;">FDA Approved</span>
+          </div>
+          <span class="arrow-link">View profile →</span>
+        </div>
+      </a>
+
+      <a class="peptide-card" href="#">
+        <div class="peptide-card-top">
+          <div>
+            <div class="peptide-name">TB-500</div>
+            <div class="peptide-formula">C212H350N56O78S</div>
+          </div>
+          <span class="pill" style="background:rgba(251,191,36,0.12); color:#FBBF24; font-size:9px;">Animal studies</span>
+        </div>
+        <div class="peptide-summary">Synthetic version of thymosin beta-4. Studied for wound healing, inflammation reduction, and angiogenesis in preclinical models.</div>
+        <div class="peptide-card-footer">
+          <div class="status-dot">
+            <span class="dot dot-animal"></span>
+            <span style="color:rgba(255,255,255,0.30); font-size:10px;">Animal studies</span>
+          </div>
+          <span class="arrow-link">View profile →</span>
+        </div>
+      </a>
+
+      <a class="peptide-card" href="#">
+        <div class="peptide-card-top">
+          <div>
+            <div class="peptide-name">Ipamorelin</div>
+            <div class="peptide-formula">C38H49N9O5</div>
+          </div>
+          <span class="pill" style="background:rgba(52,211,153,0.12); color:#34D399; font-size:9px;">Human trials</span>
+        </div>
+        <div class="peptide-summary">Selective GHRP with minimal cortisol or prolactin elevation. Used in GH pulse amplification research with favorable safety profile.</div>
+        <div class="peptide-card-footer">
+          <div class="status-dot">
+            <span class="dot dot-human"></span>
+            <span style="color:rgba(255,255,255,0.30); font-size:10px;">Human trials</span>
+          </div>
+          <span class="arrow-link">View profile →</span>
+        </div>
+      </a>
+
+      <a class="peptide-card" href="#">
+        <div class="peptide-card-top">
+          <div>
+            <div class="peptide-name">PT-141</div>
+            <div class="peptide-formula">C50H68N14O10</div>
+          </div>
+          <span class="pill" style="background:rgba(96,165,250,0.12); color:#60A5FA; font-size:9px;">FDA approved</span>
+        </div>
+        <div class="peptide-summary">Bremelanotide — melanocortin receptor agonist approved for hypoactive sexual desire disorder. Works via CNS rather than vascular pathways.</div>
+        <div class="peptide-card-footer">
+          <div class="status-dot">
+            <span class="dot dot-approved"></span>
+            <span style="color:rgba(255,255,255,0.30); font-size:10px;">FDA Approved</span>
+          </div>
+          <span class="arrow-link">View profile →</span>
+        </div>
+      </a>
+
+      <a class="peptide-card" href="#">
+        <div class="peptide-card-top">
+          <div>
+            <div class="peptide-name">Epithalon</div>
+            <div class="peptide-formula">C14H22N4O9</div>
+          </div>
+          <span class="pill" style="background:rgba(251,191,36,0.12); color:#FBBF24; font-size:9px;">Animal studies</span>
+        </div>
+        <div class="peptide-summary">Tetrapeptide derived from the pineal gland. Studied for telomerase activation and longevity signaling in rodent aging models.</div>
+        <div class="peptide-card-footer">
+          <div class="status-dot">
+            <span class="dot dot-animal"></span>
+            <span style="color:rgba(255,255,255,0.30); font-size:10px;">Animal studies</span>
+          </div>
+          <span class="arrow-link">View profile →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Upgrade Strip ──────────────────────────────────────────── -->
+<section class="upgrade-section">
+  <div class="container">
+    <div class="upgrade-grid">
+      <div>
+        <div class="mono-label" style="color:var(--text-faint); margin-bottom:12px;">Researcher plan</div>
+        <h2 class="upgrade-title heading">Go deeper than the summary.</h2>
+        <p class="upgrade-body">Free summaries show you what a peptide is. Researcher profiles show you how it works — mechanism of action, pharmacokinetics, PubMed-linked studies, and evidence ratings.</p>
+        <div class="upgrade-actions">
+          <a href="#" class="btn btn-primary">See plans →</a>
+          <a href="#" class="btn btn-outline">Free research guide</a>
+        </div>
+      </div>
+      <div>
+        <div class="feature-row free">
+          <span class="feature-label-free">✓ Free</span>
+          <span class="feature-text free">Peptide summary &amp; research status</span>
+        </div>
+        <div class="feature-row free">
+          <span class="feature-label-free">✓ Free</span>
+          <span class="feature-text free">Category browsing &amp; search</span>
+        </div>
+        <div class="feature-row locked">
+          <span class="feature-label-locked">🔬 Researcher</span>
+          <span class="feature-text locked">Full mechanism of action profile</span>
+        </div>
+        <div class="feature-row locked">
+          <span class="feature-label-locked">🔬 Researcher</span>
+          <span class="feature-text locked">Pharmacokinetics &amp; half-life data</span>
+        </div>
+        <div class="feature-row locked">
+          <span class="feature-label-locked">🔬 Researcher</span>
+          <span class="feature-text locked">PubMed study links &amp; evidence ratings</span>
+        </div>
+        <div class="feature-row locked">
+          <span class="feature-label-locked">🔬 Researcher</span>
+          <span class="feature-text locked">Peptide comparison tool</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Testimonials ───────────────────────────────────────────── -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="mono-label" style="color:var(--text-faint); text-align:center;">Why researchers use Peptide United</div>
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card">
+        <span class="testimonial-quote-mark">"</span>
+        <p class="testimonial-body">The most thorough peptide mechanism breakdowns I've found outside of primary literature.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar"></div>
+          <div class="author-role">Functional Medicine Practitioner</div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <span class="testimonial-quote-mark">"</span>
+        <p class="testimonial-body">PubMed-linked profiles save hours of research time. The half-life data is a game-changer for protocol design.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background: linear-gradient(135deg, #FDE68A, #F59E0B);"></div>
+          <div class="author-role">PhD Researcher, Biochemistry</div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <span class="testimonial-quote-mark">"</span>
+        <p class="testimonial-body">Finally a credible, research-first source I can share with colleagues without cringing at the marketing language.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background: linear-gradient(135deg, #FCA5A5, #F87171);"></div>
+          <div class="author-role">Compounding Pharmacist</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Email Capture ──────────────────────────────────────────── -->
+<section class="email-section">
+  <div class="container">
+    <div class="email-grid">
+      <div>
+        <div class="email-eyebrow">Research updates</div>
+        <h2 class="email-title heading">Stay updated on peptide research.</h2>
+        <p class="email-sub">New profiles, synced PubMed studies, and research summaries — delivered free.</p>
+        <div class="email-form">
+          <input class="email-input-dark" type="email" placeholder="your@email.com" />
+          <button class="btn btn-primary">Subscribe</button>
+        </div>
+      </div>
+      <div>
+        <div class="email-benefit">
+          <div class="benefit-icon">🔬</div>
+          <p class="benefit-text">Weekly digest of new PubMed studies across 16 research categories</p>
+        </div>
+        <div class="email-benefit">
+          <div class="benefit-icon">📊</div>
+          <p class="benefit-text">Profile updates when new pharmacokinetics or mechanism data is published</p>
+        </div>
+        <div class="email-benefit">
+          <div class="benefit-icon">🔓</div>
+          <p class="benefit-text">Early access to new peptide profiles and research tools</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Bottom CTA ─────────────────────────────────────────────── -->
+<section class="bottom-cta">
+  <div class="mono-label" style="color:var(--text-faint); margin-bottom:14px;">Open access</div>
+  <h2 class="bottom-cta-title heading">Research-grade information, free.</h2>
+  <p class="bottom-cta-sub">Every profile includes a summary, research status, and administration routes — no account required.</p>
+  <a href="#" class="btn btn-primary" style="font-size:14px; padding:12px 24px;">Browse All Peptides</a>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-wordmark">peptide united</div>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-col-label">Research</div>
+        <div class="footer-links">
+          <a href="#">All Peptides</a>
+          <a href="#">Categories</a>
+          <a href="#">Research Hub</a>
+          <a href="#">Glossary</a>
+          <a href="#">Stack Builder</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-label">Tools</div>
+        <div class="footer-links">
+          <a href="#">Compare Peptides</a>
+          <a href="#">Saved Lists</a>
+          <a href="#">Partner Directory</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-label">Account</div>
+        <div class="footer-links">
+          <a href="#">Dashboard</a>
+          <a href="#">Pricing &amp; Plans</a>
+          <a href="#">Manage Subscription</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-label">Company</div>
+        <div class="footer-links">
+          <a href="#">About &amp; Methodology</a>
+          <a href="#">Disclaimer</a>
+          <a href="#">Terms</a>
+          <a href="#">Privacy</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Peptide United. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Disclaimer</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

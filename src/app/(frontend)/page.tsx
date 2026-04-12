@@ -60,26 +60,26 @@ export default async function HomePage() {
       <section className="gradient-pastel py-24 sm:py-32">
         <div className="mx-auto max-w-[1200px] px-6">
           <div className="max-w-2xl">
-            <p className="mono-label mb-4 text-black/40">Research encyclopedia</p>
+            <p className="mono-label mb-4 text-black/40 anim-fade-up anim-delay-1">Research encyclopedia</p>
 
-            <h1 className="text-[48px] font-medium leading-[1.05] tracking-display text-black sm:text-[64px]">
+            <h1 className="mt-4 text-[48px] font-medium leading-[1.05] tracking-display text-black sm:text-[64px] anim-fade-up anim-delay-2">
               The peptide
               <br />
-              <span className="text-lavender">reference.</span>
+              <span className="text-gradient">reference.</span>
             </h1>
 
-            <p className="mt-5 max-w-lg text-[18px] leading-[1.4] tracking-tight text-black/60">
+            <p className="mt-5 max-w-lg text-[18px] leading-[1.4] tracking-tight text-black/60 anim-fade-up anim-delay-3">
               Evidence-based profiles for 100+ peptides. Mechanisms, pharmacokinetics,
               and direct links to peer-reviewed studies.
             </p>
 
             {/* Search */}
-            <form action="/peptides" method="GET" className="mt-8 flex gap-2">
+            <form action="/peptides" method="GET" className="mt-8 flex gap-2 anim-fade-up anim-delay-4">
               <input
                 name="q"
                 type="search"
                 placeholder="Search BPC-157, Semaglutide, TB-500…"
-                className="w-full max-w-sm rounded-sharp border bg-white px-4 py-3 text-sm tracking-tight text-black placeholder:text-black/30 focus:outline-none focus:ring-2 focus:ring-lavender/50"
+                className="w-full max-w-sm rounded-sharp border bg-white px-4 py-3 text-sm tracking-tight text-black placeholder:text-black/30 focus:outline-none focus:ring-2 focus:ring-sunrise-500/30"
                 style={{ borderColor: 'var(--border-light)' }}
               />
               <button type="submit" className="btn-dark">
@@ -88,7 +88,7 @@ export default async function HomePage() {
             </form>
 
             {/* Popular links */}
-            <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-[13px]">
+            <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-[13px] anim-fade-up anim-delay-5">
               <span className="text-black/30">Popular:</span>
               {['BPC-157', 'Semaglutide', 'Ipamorelin', 'PT-141', 'Epithalon'].map((name) => (
                 <Link
@@ -102,7 +102,7 @@ export default async function HomePage() {
             </div>
 
             {/* Credibility badges */}
-            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 anim-fade-up anim-delay-5">
               {[
                 '🔬 PubMed-synced research',
                 '✓ Evidence-rated profiles',
@@ -115,7 +115,7 @@ export default async function HomePage() {
             </div>
 
             {/* Lead magnet */}
-            <div className="mt-8 max-w-md rounded-comfortable border bg-white/80 p-5 backdrop-blur-sm" style={{ borderColor: 'var(--border-light)' }}>
+            <div className="anim-fade-up anim-delay-6 relative z-10 mt-8 max-w-md -mb-12 rounded-comfortable border bg-white p-5 shadow-warm-lg" style={{ borderColor: 'var(--border-light)' }}>
               <EmailCapture
                 leadMagnet
                 source="lead-magnet"
@@ -129,7 +129,7 @@ export default async function HomePage() {
 
       {/* ── Stats bar ──────────────────────────────────────────── */}
       <section className="border-b bg-white" style={{ borderColor: 'var(--border-light)' }}>
-        <div className="mx-auto max-w-[1200px] px-6 py-8">
+        <div className="mx-auto max-w-[1200px] px-6 pt-20 pb-8">
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
             {[
               { num: '102', label: 'Peptide profiles' },
@@ -232,7 +232,7 @@ export default async function HomePage() {
                 <div
                   key={row.label}
                   className="flex items-center gap-3 rounded-comfortable px-4 py-2.5 text-[13px]"
-                  style={{ background: row.free ? 'rgba(0,0,0,0.02)' : 'rgba(108,99,255,0.06)', borderLeft: row.free ? '2px solid rgba(0,0,0,0.08)' : '2px solid rgba(108,99,255,0.3)' }}
+                  style={{ background: row.free ? 'rgba(0,0,0,0.02)' : 'rgba(232,98,42,0.06)', borderLeft: row.free ? '2px solid rgba(0,0,0,0.08)' : '2px solid rgba(232,98,42,0.25)' }}
                 >
                   <span className={row.free ? 'text-emerald-500' : 'text-lavender'}>
                     {row.free ? '✓ Free' : '🔬 Researcher'}
