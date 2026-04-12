@@ -8,7 +8,7 @@ import type { Article } from '@/payload-types'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Research Hub | Peptide United',
+  title: 'Research Hub',
   description: 'In-depth guides, clinical context, and mechanism deep dives across 100+ peptide compounds.',
   openGraph: {
     title: 'Peptide United Research Hub — Guides & Deep Dives',

@@ -12,7 +12,7 @@ import type { Category, Peptide } from '@/payload-types'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Peptide United — The Peptide Research Encyclopedia',
+  title: { absolute: 'Peptide United — The Peptide Research Encyclopedia' },
   description:
     'Evidence-based profiles for 100+ research peptides. Mechanisms of action, pharmacokinetics, and direct links to PubMed-indexed studies — written for practitioners and researchers.',
   openGraph: {

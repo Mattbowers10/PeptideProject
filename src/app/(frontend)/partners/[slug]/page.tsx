@@ -46,10 +46,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     overrideAccess: true,
   })
   const partner = docs[0] as Partner | undefined
-  if (!partner) return { title: 'Partner Not Found | Peptide United' }
+  if (!partner) return { title: 'Partner Not Found' }
 
   return {
-    title: `${partner.name} | Research Partners | Peptide United`,
+    title: { absolute: `${partner.name} | Research Partners | Peptide United` },
     description: partner.description ?? `Browse research peptides available from ${partner.name}.`,
   }
 }

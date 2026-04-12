@@ -7,7 +7,7 @@ import { CompareTable } from '@/components/compare/CompareTable'
 import type { Peptide } from '@/payload-types'
 
 export const metadata: Metadata = {
-  title: 'Compare Peptides | Peptide United',
+  title: 'Compare Peptides',
   description:
     'Compare two peptides side-by-side — research status, half-life, administration routes, mechanisms, and more.',
 }

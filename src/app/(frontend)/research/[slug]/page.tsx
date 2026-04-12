@@ -60,7 +60,7 @@ export async function generateMetadata({
   const description = article.seoDescription ?? article.excerpt ?? undefined
 
   return {
-    title: `${title} | Peptide United`,
+    title: { absolute: `${title} | Peptide United` },
     description,
     openGraph: {
       title: `${title} — Peptide United Research`,

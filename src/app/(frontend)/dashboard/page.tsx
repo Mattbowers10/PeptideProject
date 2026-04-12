@@ -20,7 +20,7 @@ import type { User } from '@/payload-types'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Dashboard | Peptide United',
+  title: 'Dashboard',
   description: 'Manage your Peptide United account, membership, and research activity.',
 }
 

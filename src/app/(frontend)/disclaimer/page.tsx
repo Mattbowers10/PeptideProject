@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Research Disclaimer | Peptide United',
+  title: 'Research Disclaimer',
   description:
     'Research disclaimer for Peptide United — important information about the nature of the content and its limitations.',
 }

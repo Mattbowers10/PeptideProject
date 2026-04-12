@@ -50,7 +50,7 @@ export async function generateMetadata({
   if (!peptide) return { title: 'Peptide Not Found' }
 
   return {
-    title: `${peptide.name} | Peptide United`,
+    title: { absolute: `${peptide.name} | Peptide United` },
     description: peptide.summary,
     openGraph: {
       title: `${peptide.name} — Peptide Research Profile`,

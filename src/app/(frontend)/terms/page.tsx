@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Peptide United',
+  title: 'Terms of Service',
   description:
     'Terms of Service for Peptide United — conditions governing use of our research database and platform.',
 }

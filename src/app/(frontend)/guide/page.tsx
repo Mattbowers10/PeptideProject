@@ -10,7 +10,7 @@ import type { Peptide } from '@/payload-types'
 export const revalidate = 86400
 
 export const metadata: Metadata = {
-  title: '10 Most Researched Peptides — Free Research Guide | Peptide United',
+  title: '10 Most Researched Peptides — Free Research Guide',
   description:
     'A curated research guide covering the 10 most studied peptides — mechanisms, research status, and where to learn more.',
 }

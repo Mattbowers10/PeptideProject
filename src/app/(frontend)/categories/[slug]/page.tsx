@@ -685,7 +685,7 @@ export async function generateMetadata({
     content?.metaDescription ?? category.description ?? undefined
 
   return {
-    title,
+    title: { absolute: title },
     description,
     openGraph: {
       title,

@@ -10,7 +10,7 @@ import type { Where } from 'payload'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'All Peptides | Peptide United',
+  title: 'All Peptides',
   description:
     'Browse 100+ peptide profiles with research status, mechanism of action, and administration routes.',
 }

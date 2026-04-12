@@ -9,7 +9,7 @@ import type { Category } from '@/payload-types'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Find Peptides By Goal | Peptide United',
+  title: 'Find Peptides By Goal',
   description:
     'Browse 100+ research peptides by goal — performance, longevity, cognitive enhancement, body composition, recovery, and more.',
 }

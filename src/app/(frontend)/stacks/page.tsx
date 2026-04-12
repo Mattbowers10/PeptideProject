@@ -5,7 +5,7 @@ import { StackBuilderClient } from './StackBuilderClient'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Peptide Stack Builder | Peptide United',
+  title: 'Peptide Stack Builder',
   description: 'Build and save custom peptide research stacks. View mechanism interactions, route compatibility, and half-life data side by side.',
 }
 

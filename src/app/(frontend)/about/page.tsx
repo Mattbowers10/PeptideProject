@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'About Peptide United — Research Methodology & Mission',
+  title: { absolute: 'About Peptide United — Research Methodology & Mission' },
   description:
     'Peptide United is a research-first encyclopedia covering 100+ peptide compounds. Learn about our methodology, data sources, and commitment to evidence-based information.',
 }

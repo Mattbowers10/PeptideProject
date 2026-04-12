@@ -5,7 +5,7 @@ import Link from 'next/link'
 export const revalidate = false
 
 export const metadata: Metadata = {
-  title: 'Peptide Research Glossary | Peptide United',
+  title: 'Peptide Research Glossary',
   description:
     'Definitions of key terms used across peptide research — half-life, bioavailability, pharmacokinetics, GHRPs, lyophilized, and more.',
 }

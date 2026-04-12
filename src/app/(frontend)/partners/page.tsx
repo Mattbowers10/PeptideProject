@@ -8,7 +8,7 @@ import type { Partner, AffiliateLink, Peptide } from '@/payload-types'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Research Partners | Peptide United',
+  title: 'Research Partners',
   description:
     'Verified suppliers and research partners listed on Peptide United. Affiliate links are clearly disclosed.',
 }

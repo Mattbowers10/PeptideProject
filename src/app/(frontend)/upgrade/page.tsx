@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { UpgradeClient } from './UpgradeClient'
 
 export const metadata: Metadata = {
-  title: 'Pricing & Plans | Peptide United',
+  title: 'Pricing & Plans',
   description:
     'Unlock full peptide research profiles, pharmacokinetics, PubMed links, and clinical tools. Choose the plan that fits your research depth.',
   openGraph: {
