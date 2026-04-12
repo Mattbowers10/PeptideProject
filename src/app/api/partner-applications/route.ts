@@ -27,7 +27,8 @@ export async function POST(req: NextRequest) {
 
     const testMode = process.env.BILLING_TEST_MODE === 'true'
 
-    const doc = await payload.create({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const doc = await (payload.create as any)({
       collection: 'partner-applications',
       data: {
         companyName: companyName.trim(),
