@@ -24,6 +24,10 @@ export const metadata: Metadata = {
   },
   description:
     'Comprehensive, evidence-based profiles for 100+ peptides. Mechanisms, pharmacokinetics, studies, and trusted suppliers.',
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
   openGraph: {
     type: 'website',
     siteName: 'Peptide United',

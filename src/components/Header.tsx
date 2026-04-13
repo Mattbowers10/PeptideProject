@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { MobileNav } from './MobileNav'
 import { UserNav } from './UserNav'
 import { SearchTrigger } from './SearchTrigger'
@@ -11,9 +12,16 @@ export function Header() {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 text-white transition-opacity hover:opacity-80"
+          className="flex items-center transition-opacity hover:opacity-80"
         >
-          <span className="text-base font-medium tracking-heading">Peptide United</span>
+          <Image
+            src="/logo.png"
+            alt="Peptide United"
+            width={180}
+            height={26}
+            className="h-[26px] w-auto"
+            priority
+          />
         </Link>
 
         {/* Desktop nav — hidden below sm */}

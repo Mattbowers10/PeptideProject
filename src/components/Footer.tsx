@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export function Footer() {
   return (
@@ -7,9 +8,13 @@ export function Footer() {
       <div className="mx-auto max-w-[1200px] px-6">
         {/* Large wordmark */}
         <div className="border-b py-16" style={{ borderColor: 'var(--border-dark)' }}>
-          <p className="text-5xl font-medium tracking-display text-white/10 sm:text-7xl">
-            peptide united
-          </p>
+          <Image
+            src="/logo.png"
+            alt="Peptide United"
+            width={320}
+            height={47}
+            className="h-auto w-[200px] opacity-15 sm:w-[280px]"
+          />
         </div>
 
         {/* Footer link grid */}
