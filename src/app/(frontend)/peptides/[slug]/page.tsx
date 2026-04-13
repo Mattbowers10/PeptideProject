@@ -119,6 +119,22 @@ export default async function PeptideDetailPage({
     relatedPeptides = docs as Peptide[]
   }
 
+  // Evidence updates for this peptide
+  const payload3 = await getPayload({ config })
+  const evidenceUpdatesResult = await (payload3.find as any)({
+    collection: 'evidence-updates',
+    where: {
+      and: [
+        { peptide: { equals: peptide.id } },
+        { status: { equals: 'published' } },
+      ],
+    },
+    sort: '-publishedAt',
+    limit: 3,
+    depth: 0,
+  })
+  const peptideEvidenceUpdates = evidenceUpdatesResult.docs ?? []
+
   // Studies — populated at depth 2
   const studies = ((peptide.studies ?? []).filter(
     (s): s is Study => typeof s === 'object',
@@ -492,6 +508,52 @@ export default async function PeptideDetailPage({
                   not be used for self-treatment.
                 </p>
               </div>
+
+              {/* Evidence updates for this compound */}
+              {peptideEvidenceUpdates.length > 0 && (
+                <div className="card-dark p-5">
+                  <p className="mono-label mb-3 text-white/30">Evidence Updates</p>
+                  <div className="space-y-3">
+                    {peptideEvidenceUpdates.map((update: any) => (
+                      <div key={update.id} className="border-t pt-3 first:border-0 first:pt-0" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <span
+                            className="h-1.5 w-1.5 rounded-full shrink-0"
+                            style={{
+                              background:
+                                update.significance === 'major'    ? 'var(--sunrise-500)' :
+                                update.significance === 'moderate' ? '#eab308' :
+                                                                     'rgba(255,255,255,0.25)',
+                            }}
+                          />
+                          <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-white/25">
+                            {update.changeType?.replace(/-/g, ' ')}
+                          </span>
+                          <span className="ml-auto font-mono text-[9px] text-white/20">
+                            {update.publishedAt
+                              ? new Date(update.publishedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+                              : ''}
+                          </span>
+                        </div>
+                        <p className="text-[12px] leading-[1.45] text-white/65">{update.title}</p>
+                        {update.studyLink && (
+                          <a
+                            href={update.studyLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-1 block font-mono text-[10px] text-white/30 hover:text-white/60"
+                          >
+                            Source ↗
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <Link href="/research" className="mt-3 block font-mono text-[10px] text-white/30 hover:text-white/60">
+                    All evidence updates →
+                  </Link>
+                </div>
+              )}
             </aside>
           </div>
         </div>
