@@ -46,9 +46,7 @@ export function Footer() {
             <div className="flex flex-col gap-2">
               <Link href="/partners" className="text-sm text-white/50 transition-colors hover:text-white">
                 Partner Directory
-              </Link>
-              <Link href="/dashboard?tab=partner" className="text-sm text-white/50 transition-colors hover:text-white">
-                Partner Dashboard
+                <span className="ml-1.5 font-mono text-[9px] tracking-mono text-lavender/50">soon</span>
               </Link>
             </div>
           </div>
