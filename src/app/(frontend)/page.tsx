@@ -5,6 +5,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { PeptideCard } from '@/components/PeptideCard'
 import { CompoundPanel } from '@/components/CompoundPanel'
+import { ScrollReveal } from '@/components/ScrollReveal'
 import { RecentlyViewed } from '@/components/RecentlyViewed'
 import { EmailCapture } from '@/components/EmailCapture'
 import type { Category, Peptide } from '@/payload-types'
@@ -29,11 +30,28 @@ export const metadata: Metadata = {
 async function getData() {
   const payload = await getPayload({ config })
 
-  const [categoriesResult, featuredResult, indexResult] = await Promise.all([
+  // Popular peptides by community relevance — with alphabetical fallback
+  const popularSlugs = [
+    'bpc-157', 'tb-500', 'ghk-cu', 'ipamorelin',
+    'cjc-1295', 'semaglutide', 'tesamorelin', 'retatrutide',
+  ]
+
+  const [categoriesResult, popularResult, indexResult] = await Promise.all([
     payload.find({ collection: 'categories', limit: 100, sort: 'name' }),
-    payload.find({ collection: 'peptides', limit: 8, depth: 1, sort: 'name' }),
+    payload.find({
+      collection: 'peptides',
+      limit: 8,
+      depth: 1,
+      where: { slug: { in: popularSlugs } },
+    }),
     payload.find({ collection: 'peptides', limit: 24, depth: 0, sort: 'name' }),
   ])
+
+  // Fallback to alphabetical if popular slugs aren't in the DB yet
+  const featuredResult =
+    popularResult.docs.length >= 4
+      ? popularResult
+      : await payload.find({ collection: 'peptides', limit: 8, depth: 1, sort: 'name' })
 
   const countMap: Record<number, number> = {}
   for (const cat of categoriesResult.docs) {
@@ -62,16 +80,15 @@ export default async function HomePage() {
           White. Asymmetric. The statement, then the search, then the
           product itself — a live compound record — sitting beside it.
       ──────────────────────────────────────────────────────────────── */}
-      <section className="border-b bg-white" style={{ borderColor: 'var(--border-light)' }}>
+      <section className="border-b gradient-pastel">
         <div className="mx-auto max-w-[1200px] px-6 py-16 sm:py-24">
           <div className="grid gap-12 lg:grid-cols-[1fr_360px] lg:items-center">
 
             {/* Left — statement + search */}
             <div>
               <h1 className="text-[52px] font-medium leading-[1.02] tracking-display text-black sm:text-[68px] lg:text-[76px] anim-fade-up anim-delay-1">
-                The research<br />
-                record for<br />
-                <span className="text-gradient">peptide science.</span>
+                The Gold Standard<br />
+                for Peptide Research.
               </h1>
 
               <p className="mt-5 max-w-md text-[17px] leading-[1.6] text-black/55 anim-fade-up anim-delay-2">
@@ -85,7 +102,7 @@ export default async function HomePage() {
                   type="search"
                   placeholder="BPC-157, Retatrutide, GHK-Cu…"
                   className="flex-1 rounded-sharp border bg-white px-4 py-3 text-[15px] tracking-tight text-black placeholder:text-black/30 focus:outline-none focus:ring-2 focus:ring-sunrise-500/30"
-                  style={{ borderColor: 'var(--border-light)' }}
+                  style={{ borderColor: 'rgba(30,21,17,0.18)' }}
                 />
                 <button type="submit" className="btn-dark shrink-0">Search</button>
               </form>
@@ -213,17 +230,17 @@ export default async function HomePage() {
                     <Link
                       key={cat.id}
                       href={`/peptides?category=${cat.slug}`}
-                      className="group flex items-center gap-3 py-3.5 transition-colors"
+                      className="group -mx-3 flex items-center gap-3 rounded-sharp px-3 py-3.5 transition-all hover:bg-black/[0.035]"
                     >
                       <span className="flex-1 text-[15px] font-medium tracking-tight text-black transition-colors group-hover:text-midnight">
                         {cat.name}
                       </span>
                       {countMap[cat.id] !== undefined && (
-                        <span className="shrink-0 font-mono text-[11px] text-black/30">
+                        <span className="shrink-0 font-mono text-[11px] text-black/30 transition-colors group-hover:text-black/50">
                           {countMap[cat.id]}
                         </span>
                       )}
-                      <span className="font-mono text-[11px] text-black/20 transition-colors group-hover:translate-x-0.5 group-hover:text-black/50">
+                      <span className="font-mono text-[11px] text-black/20 transition-all group-hover:translate-x-1 group-hover:text-black/60">
                         →
                       </span>
                     </Link>
@@ -413,15 +430,13 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Social proof — one strong quote, not three equal cards ──────── */}
+      {/* ── Social proof — scroll-triggered fade in ──────────────────────── */}
       <section className="border-b bg-white py-16" style={{ borderColor: 'var(--border-light)' }}>
         <div className="mx-auto max-w-[1200px] px-6">
           <div className="grid gap-16 lg:grid-cols-[2fr_1fr] lg:items-start">
             {/* Dominant quote */}
-            <div>
-              <p
-                className="text-[24px] font-medium leading-[1.5] tracking-tight text-black sm:text-[26px]"
-              >
+            <ScrollReveal delay={0}>
+              <p className="text-[24px] font-medium leading-[1.5] tracking-tight text-black sm:text-[26px]">
                 &ldquo;The mechanism breakdowns go further than anything I&rsquo;ve found
                 outside of primary literature. I&rsquo;ve started sending patients here
                 before appointments.&rdquo;
@@ -429,9 +444,9 @@ export default async function HomePage() {
               <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.12em] text-black/30">
                 Functional medicine practitioner
               </p>
-            </div>
+            </ScrollReveal>
 
-            {/* Supporting quotes — smaller, stacked */}
+            {/* Supporting quotes — staggered */}
             <div
               className="space-y-6 border-l pl-10"
               style={{ borderColor: 'var(--border-light)' }}
@@ -440,18 +455,20 @@ export default async function HomePage() {
                 {
                   q: 'PubMed-linked profiles cut my pre-protocol research time in half.',
                   role: 'PhD researcher, biochemistry',
+                  delay: 120,
                 },
                 {
                   q: 'Finally something I can share with colleagues. No anecdotes dressed up as evidence.',
                   role: 'Compounding pharmacist',
+                  delay: 240,
                 },
               ].map((t) => (
-                <div key={t.role}>
+                <ScrollReveal key={t.role} delay={t.delay}>
                   <p className="text-[13px] leading-[1.7] text-black/55">&ldquo;{t.q}&rdquo;</p>
                   <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.1em] text-black/25">
                     {t.role}
                   </p>
-                </div>
+                </ScrollReveal>
               ))}
             </div>
           </div>
@@ -463,21 +480,15 @@ export default async function HomePage() {
         <RecentlyViewed />
       </div>
 
-      {/* ── Email — one line, no bullet points ──────────────────────────── */}
+      {/* ── Email ────────────────────────────────────────────────────────── */}
       <section className="border-t bg-midnight py-14" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-        <div className="mx-auto max-w-[680px] px-6 text-center">
-          <h2 className="text-[26px] font-medium tracking-heading text-white">
-            New peptide research, once a week.
-          </h2>
-          <p className="mx-auto mt-3 max-w-sm text-[14px] leading-[1.6] text-white/40">
-            PubMed updates and new profiles. Not a sales email.
-          </p>
-          <div className="mt-7">
-            <EmailCapture
-              variant="dark"
-              source="homepage"
-            />
-          </div>
+        <div className="mx-auto max-w-[560px] px-6 text-center">
+          <EmailCapture
+            variant="dark"
+            source="homepage"
+            heading="New peptide research, once a week."
+            subheading="New profiles and PubMed updates. Not a sales email."
+          />
         </div>
       </section>
 

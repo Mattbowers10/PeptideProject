@@ -87,12 +87,12 @@ export function EmailCapture({
   return (
     <div>
       {effectiveHeading && (
-        <p className={`text-[18px] font-medium tracking-heading mb-1 ${isDark ? 'text-white' : 'text-black'}`}>
+        <p className={`text-[22px] font-medium tracking-heading mb-2 ${isDark ? 'text-white' : 'text-black'}`}>
           {effectiveHeading}
         </p>
       )}
       {effectiveSubheading && (
-        <p className={`text-[14px] mb-4 ${isDark ? 'text-white/50' : 'text-black/50'}`}>
+        <p className={`text-[14px] leading-[1.6] mb-5 ${isDark ? 'text-white/45' : 'text-black/50'}`}>
           {effectiveSubheading}
         </p>
       )}
