@@ -166,6 +166,19 @@
     background-clip: text;
   }
 
+  /* ── Ticker auto-scroll ────────────────────────────── */
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .ticker-track {
+    display: flex;
+    min-width: max-content;
+    animation: ticker-scroll 90s linear infinite;
+    will-change: transform;
+  }
+  .ticker-track:hover { animation-play-state: paused; }
+
   /* Stagger entrance animations */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(14px); }

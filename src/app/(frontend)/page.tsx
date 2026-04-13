@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { PeptideCard } from '@/components/PeptideCard'
+import { CompoundPanel } from '@/components/CompoundPanel'
 import { RecentlyViewed } from '@/components/RecentlyViewed'
 import { EmailCapture } from '@/components/EmailCapture'
 import type { Category, Peptide } from '@/payload-types'
@@ -23,15 +24,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://peptideunited.com',
   },
-}
-
-const STATUS_LABEL: Record<string, string> = {
-  preclinical: 'Preclinical',
-  phase1: 'Phase I',
-  phase2: 'Phase II',
-  phase3: 'Phase III',
-  approved: 'FDA Approved',
-  discontinued: 'Discontinued',
 }
 
 async function getData() {
@@ -63,7 +55,6 @@ async function getData() {
 
 export default async function HomePage() {
   const { categories, featuredPeptides, indexPeptides, countMap } = await getData()
-  const hero = featuredPeptides[0]
 
   return (
     <>
@@ -77,9 +68,10 @@ export default async function HomePage() {
 
             {/* Left — statement + search */}
             <div>
-              <h1 className="text-[46px] font-medium leading-[1.04] tracking-display text-black sm:text-[60px] anim-fade-up anim-delay-1">
-                The research record<br />
-                for <span className="text-gradient">peptide science.</span>
+              <h1 className="text-[52px] font-medium leading-[1.02] tracking-display text-black sm:text-[68px] lg:text-[76px] anim-fade-up anim-delay-1">
+                The research<br />
+                record for<br />
+                <span className="text-gradient">peptide science.</span>
               </h1>
 
               <p className="mt-5 max-w-md text-[17px] leading-[1.6] text-black/55 anim-fade-up anim-delay-2">
@@ -113,90 +105,26 @@ export default async function HomePage() {
 
               {/* Inline stats — no separate section */}
               <div
-                className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t pt-8 anim-fade-up anim-delay-4"
+                className="mt-10 flex flex-wrap gap-x-12 gap-y-5 border-t pt-8 anim-fade-up anim-delay-4"
                 style={{ borderColor: 'var(--border-light)' }}
               >
                 {[
-                  { n: '102', l: 'peptide profiles' },
-                  { n: '16', l: 'research categories' },
-                  { n: '1,200+', l: 'PubMed citations' },
+                  { n: '102', l: 'profiles' },
+                  { n: '16', l: 'categories' },
+                  { n: '1,200+', l: 'citations' },
                 ].map((s) => (
-                  <div key={s.l} className="flex items-baseline gap-2">
-                    <span className="text-[32px] font-medium tracking-display text-black">{s.n}</span>
-                    <span className="text-[13px] text-black/40">{s.l}</span>
+                  <div key={s.l}>
+                    <span className="block text-[44px] font-medium leading-none tracking-display text-black">{s.n}</span>
+                    <span className="mt-1.5 block font-mono text-[10px] uppercase tracking-[0.13em] text-black/35">{s.l}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right — live compound record (desktop only) */}
-            {hero && (
+            {/* Right — cycling compound panel (desktop only) */}
+            {featuredPeptides.length > 0 && (
               <div className="hidden lg:block anim-fade-up anim-delay-3">
-                <div
-                  className="overflow-hidden rounded-comfortable border bg-white shadow-warm-xl"
-                  style={{ borderColor: 'var(--border-light)' }}
-                >
-                  {/* Record header */}
-                  <div className="border-b px-5 py-4" style={{ borderColor: 'var(--border-light)' }}>
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-black/25">
-                          Compound record
-                        </p>
-                        <p className="mt-1 text-[22px] font-medium tracking-tight text-black">
-                          {hero.name}
-                        </p>
-                      </div>
-                      <span
-                        className="mt-1 shrink-0 rounded px-2 py-1 font-mono text-[9px] uppercase tracking-[0.1em]"
-                        style={{ background: 'rgba(232,98,42,0.1)', color: 'var(--sunrise-500)' }}
-                      >
-                        {STATUS_LABEL[hero.researchStatus] ?? hero.researchStatus}
-                      </span>
-                    </div>
-                    {hero.summary && (
-                      <p className="mt-3 text-[12px] leading-[1.65] text-black/45 line-clamp-3">
-                        {hero.summary}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Key data rows */}
-                  <div className="divide-y" style={{ borderColor: 'var(--border-light)' }}>
-                    {[
-                      { label: 'HALF-LIFE', value: hero.halfLife ?? '—' },
-                      { label: 'MOL. WEIGHT', value: hero.molecularWeight ?? '—' },
-                      { label: 'FORMULA', value: hero.molecularFormula ?? '—' },
-                      { label: 'CAS', value: hero.casNumber ?? '—' },
-                    ].map((row) => (
-                      <div
-                        key={row.label}
-                        className="flex items-center justify-between px-5 py-2.5"
-                        style={{ borderColor: 'var(--border-light)' }}
-                      >
-                        <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-black/25">
-                          {row.label}
-                        </span>
-                        <span className="text-right font-mono text-[12px] tracking-tight text-black/65">
-                          {row.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* CTA */}
-                  <div className="px-5 py-4">
-                    <Link
-                      href={`/peptides/${hero.slug}`}
-                      className="btn-dark w-full justify-center text-[13px]"
-                    >
-                      View full profile →
-                    </Link>
-                    <p className="mt-2 text-center font-mono text-[10px] text-black/25">
-                      Mechanism · Pharmacokinetics · Studies
-                    </p>
-                  </div>
-                </div>
+                <CompoundPanel peptides={featuredPeptides} />
               </div>
             )}
           </div>
@@ -204,59 +132,70 @@ export default async function HomePage() {
       </section>
 
       {/* ── Compound index ticker ────────────────────────────────────────
-          A horizontal scroll of compound names. Feels like a research
-          index, not a marketing section.
+          Auto-scrolling. Duplicated array for seamless loop.
+          Pauses on hover.
       ──────────────────────────────────────────────────────────────── */}
       <div
-        className="border-b overflow-x-auto scrollbar-hide"
+        className="border-b flex items-stretch overflow-hidden"
         style={{ borderColor: 'var(--border-light)', background: 'rgba(30,21,17,0.018)' }}
       >
-        <div className="flex items-stretch" style={{ width: 'max-content' }}>
-          <div
-            className="flex shrink-0 items-center border-r px-5 py-0"
-            style={{ borderColor: 'var(--border-light)' }}
-          >
-            <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-black/25">
-              Index
-            </span>
-          </div>
-          {indexPeptides.map((p, i) => (
+        {/* Static label */}
+        <div
+          className="flex shrink-0 items-center border-r px-5 py-3"
+          style={{ borderColor: 'var(--border-light)', zIndex: 1, background: 'rgba(253,250,247,0.95)' }}
+        >
+          <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-black/25">
+            Index
+          </span>
+        </div>
+
+        {/* Animated scrolling track — content doubled for seamless loop */}
+        <div className="ticker-track">
+          {[...indexPeptides, ...indexPeptides].map((p, i) => (
             <Link
-              key={p.id}
+              key={`${p.id}-${i}`}
               href={`/peptides/${p.slug}`}
               className="flex shrink-0 items-center border-r px-5 py-3 font-mono text-[11px] tracking-tight text-black/40 transition-colors hover:bg-black/[0.025] hover:text-black"
               style={{ borderColor: 'var(--border-light)' }}
             >
               <span
-                className="mr-2 h-1.5 w-1.5 rounded-full"
+                className="mr-2 h-1.5 w-1.5 shrink-0 rounded-full"
                 style={{
-                  background: p.researchStatus === 'approved'
-                    ? '#22c55e'
-                    : p.researchStatus === 'preclinical'
-                    ? 'rgba(0,0,0,0.2)'
-                    : 'var(--sunrise-500)',
+                  background:
+                    p.researchStatus === 'approved'
+                      ? '#22c55e'
+                      : p.researchStatus === 'preclinical'
+                      ? 'rgba(0,0,0,0.18)'
+                      : 'var(--sunrise-500)',
                 }}
               />
               {p.name}
             </Link>
           ))}
-          <Link
-            href="/peptides"
-            className="flex shrink-0 items-center px-5 py-3 font-mono text-[11px] transition-colors hover:text-black"
-            style={{ color: 'var(--sunrise-500)' }}
-          >
-            All 102+ →
-          </Link>
         </div>
+
+        {/* Static "All" link on right */}
+        <Link
+          href="/peptides"
+          className="flex shrink-0 items-center border-l px-5 py-3 font-mono text-[11px] transition-colors hover:text-black"
+          style={{ borderColor: 'var(--border-light)', color: 'var(--sunrise-500)', zIndex: 1, background: 'rgba(253,250,247,0.95)' }}
+        >
+          All 102+ →
+        </Link>
       </div>
 
       {/* ── Research categories ────────────────────────────────────────── */}
       <section className="border-b bg-white py-14" style={{ borderColor: 'var(--border-light)' }}>
         <div className="mx-auto max-w-[1200px] px-6">
           <div className="mb-8 flex items-baseline justify-between">
-            <h2 className="text-[22px] font-medium tracking-heading text-black">
-              16 research areas
-            </h2>
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-black/30">
+                Research areas
+              </p>
+              <h2 className="mt-1.5 text-[28px] font-medium tracking-display text-black">
+                16 categories
+              </h2>
+            </div>
             <Link
               href="/categories"
               className="text-[13px] tracking-tight text-black/40 transition-colors hover:text-black"
@@ -264,35 +203,35 @@ export default async function HomePage() {
               Browse all →
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
-            {categories.slice(0, 12).map((cat) => (
-              <Link
-                key={cat.id}
-                href={`/peptides?category=${cat.slug}`}
-                className="group flex items-start justify-between rounded-sharp border bg-white px-4 py-3.5 transition-all hover:-translate-y-px hover:shadow-warm"
-                style={{ borderColor: 'var(--border-light)' }}
-              >
-                <div>
-                  <p className="text-[13px] font-medium tracking-tight text-black transition-colors group-hover:text-midnight">
-                    {cat.name}
-                  </p>
-                  {countMap[cat.id] !== undefined && (
-                    <p className="mt-0.5 font-mono text-[10px] text-black/30">
-                      {countMap[cat.id]} compounds
-                    </p>
-                  )}
+
+          {/* Table-of-contents list — editorial, not cards */}
+          <div className="grid gap-x-12 lg:grid-cols-2">
+            {[categories.slice(0, Math.ceil(categories.length / 2)), categories.slice(Math.ceil(categories.length / 2))].map(
+              (col, colIdx) => (
+                <div key={colIdx} className="divide-y" style={{ borderColor: 'var(--border-light)' }}>
+                  {col.map((cat) => (
+                    <Link
+                      key={cat.id}
+                      href={`/peptides?category=${cat.slug}`}
+                      className="group flex items-center gap-3 py-3.5 transition-colors"
+                    >
+                      <span className="flex-1 text-[15px] font-medium tracking-tight text-black transition-colors group-hover:text-midnight">
+                        {cat.name}
+                      </span>
+                      {countMap[cat.id] !== undefined && (
+                        <span className="shrink-0 font-mono text-[11px] text-black/30">
+                          {countMap[cat.id]}
+                        </span>
+                      )}
+                      <span className="font-mono text-[11px] text-black/20 transition-colors group-hover:translate-x-0.5 group-hover:text-black/50">
+                        →
+                      </span>
+                    </Link>
+                  ))}
                 </div>
-                <span className="mt-0.5 font-mono text-[11px] text-black/20 transition-colors group-hover:text-black/40">→</span>
-              </Link>
-            ))}
+              )
+            )}
           </div>
-          {categories.length > 12 && (
-            <div className="mt-4 text-center">
-              <Link href="/categories" className="text-[13px] text-black/40 hover:text-black">
-                +{categories.length - 12} more categories
-              </Link>
-            </div>
-          )}
         </div>
       </section>
 
