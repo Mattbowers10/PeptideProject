@@ -21,14 +21,19 @@ function PaywallGateInner({
   children,
   title,
   description,
+  freeAccess = false,
 }: {
   minTier: Tier
   children: React.ReactNode
   title: string
   description: string
+  freeAccess?: boolean
 }) {
   const searchParams = useSearchParams()
   const { user, loading } = useAuth()
+
+  // Guide peptides: bypass all tier checks
+  if (freeAccess) return <>{children}</>
 
   // Determine effective tier:
   // 1. ?tier= URL param overrides (dev/preview convenience)
@@ -110,11 +115,13 @@ export function PaywallGate({
   children,
   title = 'Researcher Access Required',
   description = '',
+  freeAccess = false,
 }: {
   minTier?: Tier
   children: React.ReactNode
   title?: string
   description?: string
+  freeAccess?: boolean
 }) {
   return (
     <Suspense
@@ -122,7 +129,12 @@ export function PaywallGate({
         <div className="h-40 rounded-comfortable bg-white/5 animate-pulse" />
       }
     >
-      <PaywallGateInner minTier={minTier} title={title} description={description}>
+      <PaywallGateInner
+        minTier={minTier}
+        title={title}
+        description={description}
+        freeAccess={freeAccess}
+      >
         {children}
       </PaywallGateInner>
     </Suspense>

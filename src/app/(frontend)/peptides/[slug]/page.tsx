@@ -14,6 +14,7 @@ import { StudiesSection } from '@/components/StudiesSection'
 import { SaveToListButton } from '@/components/SaveToListButton'
 import { ShareButtons } from '@/components/ShareButtons'
 import { PeptideUpgradeCTA } from '@/components/PeptideUpgradeCTA'
+import { isGuideSlug } from '@/lib/guideConfig'
 import type { AffiliateLink, Category, Partner, Peptide, Study } from '@/payload-types'
 
 export const revalidate = 3600
@@ -137,6 +138,7 @@ export default async function PeptideDetailPage({
   const safety = peptide.sideEffectsAndSafety as LexicalData | null | undefined
 
   const hasGatedContent = moa || pk || findings || safety
+  const isFreeProfile = isGuideSlug(peptide.slug)
 
   const base = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://peptideunited.com').replace(/\/$/, '')
 
@@ -335,6 +337,7 @@ export default async function PeptideDetailPage({
                           minTier="researcher"
                           title="Mechanism Detail — Researcher+"
                           description={peptide.summary ?? ''}
+                          freeAccess={isFreeProfile}
                         >
                           <RichTextRenderer data={moa as Parameters<typeof RichTextRenderer>[0]['data']} />
                         </PaywallGate>
@@ -350,6 +353,7 @@ export default async function PeptideDetailPage({
                           minTier="researcher"
                           title="Pharmacokinetics — Researcher+"
                           description={peptide.summary ?? ''}
+                          freeAccess={isFreeProfile}
                         >
                           <RichTextRenderer data={pk as Parameters<typeof RichTextRenderer>[0]['data']} />
                         </PaywallGate>
@@ -365,6 +369,7 @@ export default async function PeptideDetailPage({
                           minTier="researcher"
                           title="Research Findings — Researcher+"
                           description={peptide.summary ?? ''}
+                          freeAccess={isFreeProfile}
                         >
                           <RichTextRenderer data={findings as Parameters<typeof RichTextRenderer>[0]['data']} />
                         </PaywallGate>
@@ -380,6 +385,7 @@ export default async function PeptideDetailPage({
                           minTier="researcher"
                           title="Safety Profile — Researcher+"
                           description={peptide.summary ?? ''}
+                          freeAccess={isFreeProfile}
                         >
                           <RichTextRenderer data={safety as Parameters<typeof RichTextRenderer>[0]['data']} />
                         </PaywallGate>
@@ -450,8 +456,32 @@ export default async function PeptideDetailPage({
                 </dl>
               </div>
 
-              {/* Upgrade CTA — hidden for users who already have researcher+ access */}
-              {hasGatedContent && <PeptideUpgradeCTA minTier="researcher" />}
+              {/* Sidebar access card */}
+              {hasGatedContent && (
+                isFreeProfile ? (
+                  <div className="card-dark p-5" style={{ borderColor: 'rgba(232,98,42,0.25)' }}>
+                    <p className="mono-label mb-2" style={{ color: 'var(--sunrise-500)' }}>
+                      Free Profile
+                    </p>
+                    <p className="text-[13px] leading-[1.65] text-white/50">
+                      This is one of 10 profiles available in full on the free tier — part of
+                      the{' '}
+                      <Link href="/guide" className="underline underline-offset-2 text-white/60 hover:text-white">
+                        free research guide
+                      </Link>
+                      . Upgrade to unlock all 102+ profiles.
+                    </p>
+                    <Link
+                      href="/upgrade"
+                      className="btn-dark mt-4 w-full justify-center text-[13px]"
+                    >
+                      Unlock all profiles →
+                    </Link>
+                  </div>
+                ) : (
+                  <PeptideUpgradeCTA minTier="researcher" />
+                )
+              )}
 
               {/* Research disclaimer */}
               <div className="card-dark border-lavender/20 p-5">

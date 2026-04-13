@@ -5,6 +5,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { ResearchBadge } from '@/components/ResearchBadge'
 import { PrintButton } from '@/components/PrintButton'
+import { GUIDE_SLUGS } from '@/lib/guideConfig'
 import type { Peptide } from '@/payload-types'
 
 export const revalidate = 86400
@@ -14,19 +15,6 @@ export const metadata: Metadata = {
   description:
     'A curated research guide covering the 10 most studied peptides — mechanisms, research status, and where to learn more.',
 }
-
-const GUIDE_SLUGS = [
-  'bpc-157',
-  'tb-500',
-  'semaglutide',
-  'ipamorelin',
-  'cjc-1295',
-  'epithalon',
-  'pt-141',
-  'ghk-cu',
-  'ss-31',
-  'mots-c',
-]
 
 export default async function GuidePage() {
   const payload = await getPayload({ config })
