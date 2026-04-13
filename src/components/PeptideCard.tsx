@@ -40,13 +40,21 @@ export function PeptideCard({ peptide, providers }: Props) {
         {peptide.summary}
       </p>
 
-      {/* Molecular data annotation */}
-      {peptide.molecularFormula && (
-        <p className="mb-3 font-mono text-[10px] tracking-mono text-black/30">
-          {peptide.molecularFormula}
-          {peptide.molecularWeight && <span> · {peptide.molecularWeight}</span>}
-        </p>
-      )}
+      {/* Molecular data — always shown; blank fields display as em-dash */}
+      <div className="mb-3 border-t pt-2.5" style={{ borderColor: 'var(--border-light)' }}>
+        <div className="flex items-baseline justify-between py-0.5">
+          <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-black/25">Formula</span>
+          <span className="font-mono text-[11px] text-black/55">
+            {peptide.molecularFormula ?? '—'}
+          </span>
+        </div>
+        <div className="flex items-baseline justify-between py-0.5">
+          <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-black/25">Weight</span>
+          <span className="font-mono text-[11px] text-black/55">
+            {peptide.molecularWeight ?? '—'}
+          </span>
+        </div>
+      </div>
 
       {/* Category tags */}
       {categories.length > 0 && (
