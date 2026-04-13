@@ -166,6 +166,12 @@
     background-clip: text;
   }
 
+  /* ── Compound panel progress bar ───────────────────── */
+  @keyframes panel-progress {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
   /* ── Ticker auto-scroll ────────────────────────────── */
   @keyframes ticker-scroll {
     from { transform: translateX(0); }
