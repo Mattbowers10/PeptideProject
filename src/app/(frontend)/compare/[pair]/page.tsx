@@ -4,10 +4,10 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { ResearchBadge } from '@/components/ResearchBadge'
-import type { Peptide, Category } from '@/payload-types'
+import { CompareTable } from '@/components/compare/CompareTable'
+import type { Peptide } from '@/payload-types'
 
-export const revalidate = 86400
+export const revalidate = 3600
 
 // Pre-generate the top 30 high-value comparison pairs
 const TOP_PAIRS = [
@@ -48,10 +48,17 @@ async function getPeptideBySlug(payload: Awaited<ReturnType<typeof getPayload>>,
   return docs[0] as Peptide | undefined
 }
 
+function parsePair(pair: string): [string, string] | null {
+  const idx = pair.indexOf('-vs-')
+  if (idx === -1) return null
+  return [pair.slice(0, idx), pair.slice(idx + 4)]
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ pair: string }> }): Promise<Metadata> {
   const { pair } = await params
-  const [slugA, slugB] = pair.split('-vs-')
-  if (!slugA || !slugB) return { title: 'Peptide Comparison' }
+  const parsed = parsePair(pair)
+  if (!parsed) return { title: 'Peptide Comparison' }
+  const [slugA, slugB] = parsed
 
   const payload = await getPayload({ config })
   const a = await getPeptideBySlug(payload, slugA)
@@ -73,39 +80,12 @@ export async function generateMetadata({ params }: { params: Promise<{ pair: str
   }
 }
 
-const ROUTE_LABELS: Record<string, string> = {
-  subcutaneous: 'Subcutaneous (SQ)',
-  intramuscular: 'Intramuscular (IM)',
-  intravenous: 'Intravenous (IV)',
-  oral: 'Oral',
-  intranasal: 'Intranasal',
-  transdermal: 'Transdermal',
-  topical: 'Topical',
-  sublingual: 'Sublingual',
-}
-
-const STATUS_LABELS: Record<string, string> = {
-  approved: 'FDA Approved',
-  human: 'Human Trials',
-  preclinical: 'Preclinical Research',
-  experimental: 'Experimental',
-  discontinued: 'Discontinued',
-}
-
-function CompareCell({ value, label }: { value?: string | null; label: string }) {
-  return (
-    <div>
-      <p className="font-mono text-[10px] tracking-mono text-white/30 mb-1">{label}</p>
-      <p className="text-[14px] tracking-tight text-white/80">{value ?? '—'}</p>
-    </div>
-  )
-}
 
 export default async function PairComparisonPage({ params }: { params: Promise<{ pair: string }> }) {
   const { pair } = await params
-  const parts = pair.split('-vs-')
-  if (parts.length !== 2) notFound()
-  const [slugA, slugB] = parts
+  const parsed = parsePair(pair)
+  if (!parsed) notFound()
+  const [slugA, slugB] = parsed
 
   const payload = await getPayload({ config })
   const peptideA = await getPeptideBySlug(payload, slugA)
@@ -130,11 +110,6 @@ export default async function PairComparisonPage({ params }: { params: Promise<{
       ],
     },
   }
-
-  const routesA = (peptideA.administrationRoutes ?? []).map(r => ROUTE_LABELS[r.route ?? ''] ?? r.route).filter(Boolean) as string[]
-  const routesB = (peptideB.administrationRoutes ?? []).map(r => ROUTE_LABELS[r.route ?? ''] ?? r.route).filter(Boolean) as string[]
-  const catA = (peptideA.categories ?? []).filter((c): c is Category => typeof c === 'object').map(c => c.name).join(', ')
-  const catB = (peptideB.categories ?? []).filter((c): c is Category => typeof c === 'object').map(c => c.name).join(', ')
 
   return (
     <>
@@ -170,62 +145,7 @@ export default async function PairComparisonPage({ params }: { params: Promise<{
 
         {/* Comparison table */}
         <div className="mx-auto max-w-[1200px] px-6 pb-16">
-          <div className="grid gap-4 lg:grid-cols-2">
-            {[
-              { peptide: peptideA, routes: routesA, cats: catA },
-              { peptide: peptideB, routes: routesB, cats: catB },
-            ].map(({ peptide, routes, cats }) => (
-              <div key={peptide.id} className="card-dark p-6 space-y-5">
-                <div>
-                  <Link href={`/peptides/${peptide.slug}`} className="text-[22px] font-medium tracking-heading text-white hover:text-lavender transition-colors">
-                    {peptide.name}
-                  </Link>
-                  {peptide.aliases && peptide.aliases.length > 0 && (
-                    <p className="mt-1 font-mono text-[11px] tracking-mono text-white/30">
-                      {peptide.aliases.map(a => a.alias).filter(Boolean).join(' · ')}
-                    </p>
-                  )}
-                  <div className="mt-2">
-                    <ResearchBadge status={peptide.researchStatus} variant="dark" />
-                  </div>
-                </div>
-
-                {peptide.summary && (
-                  <p className="text-[14px] leading-[1.65] text-white/60">{peptide.summary}</p>
-                )}
-
-                <div className="grid gap-4 border-t pt-4" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                  <CompareCell label="Research Status" value={STATUS_LABELS[peptide.researchStatus ?? ''] ?? peptide.researchStatus} />
-                  <CompareCell label="Half-Life" value={peptide.halfLife} />
-                  <CompareCell label="Molecular Formula" value={peptide.molecularFormula} />
-                  <CompareCell label="Molecular Weight" value={peptide.molecularWeight} />
-                  <CompareCell label="CAS Number" value={peptide.casNumber} />
-                  {cats && <CompareCell label="Research Categories" value={cats} />}
-                  {routes.length > 0 && (
-                    <div>
-                      <p className="font-mono text-[10px] tracking-mono text-white/30 mb-1">Routes of Administration</p>
-                      <div className="flex flex-wrap gap-1.5 mt-1">
-                        {routes.map(r => (
-                          <span key={r} className="badge-dark text-[11px]">{r}</span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Upgrade gate for mechanism comparison */}
-          <div className="mt-6 card-dark border-lavender/20 p-6 text-center">
-            <p className="mono-label mb-2 text-lavender/60">Full mechanism comparison</p>
-            <p className="text-[14px] text-white/50 mb-4">
-              Mechanism of action, pharmacokinetics, and research findings comparison available on the Researcher plan.
-            </p>
-            <Link href="/upgrade?highlight=researcher" className="btn-dark text-[13px]">
-              Unlock full comparison →
-            </Link>
-          </div>
+          <CompareTable peptideA={peptideA} peptideB={peptideB} />
 
           {/* Related comparisons */}
           <div className="mt-8">
