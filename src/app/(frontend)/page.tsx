@@ -87,7 +87,7 @@ export default async function HomePage() {
             {/* Left — statement + search */}
             <div>
               <h1 className="text-[52px] font-medium leading-[1.02] tracking-display text-black sm:text-[68px] lg:text-[76px] anim-fade-up anim-delay-1">
-                The Gold Standard<br />
+                The <span className="text-gradient">Gold Standard</span><br />
                 for Peptide Research.
               </h1>
 
@@ -229,7 +229,7 @@ export default async function HomePage() {
                   {col.map((cat) => (
                     <Link
                       key={cat.id}
-                      href={`/peptides?category=${cat.slug}`}
+                      href={`/categories/${cat.slug}`}
                       className="group -mx-3 flex items-center gap-3 rounded-sharp px-3 py-3.5 transition-all hover:bg-black/[0.035]"
                     >
                       <span className="flex-1 text-[15px] font-medium tracking-tight text-black transition-colors group-hover:text-midnight">
