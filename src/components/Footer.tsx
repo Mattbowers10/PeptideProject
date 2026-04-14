@@ -40,6 +40,9 @@ export function Footer() {
               <Link href="/research" className="text-sm text-white/50 transition-colors hover:text-white">
                 Research Hub
               </Link>
+              <Link href="/fda-tracker" className="text-sm text-white/50 transition-colors hover:text-white">
+                FDA Tracker
+              </Link>
               <Link href="/stacks" className="text-sm text-white/50 transition-colors hover:text-white">
                 Stack Builder
               </Link>
