@@ -15,6 +15,9 @@ import { SaveToListButton } from '@/components/SaveToListButton'
 import { ShareButtons } from '@/components/ShareButtons'
 import { PeptideUpgradeCTA } from '@/components/PeptideUpgradeCTA'
 import { isGuideSlug } from '@/lib/guideConfig'
+import { ProfileTOC } from '@/components/ProfileTOC'
+import { PeptideFAQ } from '@/components/PeptideFAQ'
+import type { TOCSection } from '@/components/ProfileTOC'
 import type { AffiliateLink, Category, Partner, Peptide, Study } from '@/payload-types'
 
 export const revalidate = 3600
@@ -157,6 +160,20 @@ export default async function PeptideDetailPage({
   const isFreeProfile = isGuideSlug(peptide.slug)
 
   const base = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://peptideunited.com').replace(/\/$/, '')
+
+  // Build TOC sections based on what data exists
+  const tocSections: TOCSection[] = [
+    { id: 'summary', label: 'Summary' },
+    ...(peptide.administrationRoutes && peptide.administrationRoutes.length > 0
+      ? [{ id: 'administration', label: 'Administration' }]
+      : []),
+    ...(moa ? [{ id: 'mechanism', label: 'Mechanism' }] : []),
+    ...(pk ? [{ id: 'pharmacokinetics', label: 'Pharmacokinetics' }] : []),
+    ...(findings ? [{ id: 'findings', label: 'Research Findings' }] : []),
+    ...(safety ? [{ id: 'safety', label: 'Safety' }] : []),
+    { id: 'faq', label: 'FAQ' },
+    ...(studies.length > 0 ? [{ id: 'studies', label: 'Studies' }] : []),
+  ]
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -302,8 +319,13 @@ export default async function PeptideDetailPage({
           </div>
         </header>
 
+        {/* ── Mobile TOC ─────────────────────────────────────── */}
+        <div className="mx-auto max-w-[1200px] px-6 pb-4">
+          <ProfileTOC sections={tocSections} />
+        </div>
+
         {/* ── Summary — glass card ───────────────────────────── */}
-        <section className="mx-auto max-w-[1200px] px-6 pb-10">
+        <section id="summary" className="mx-auto max-w-[1200px] px-6 pb-10 scroll-mt-20">
           <div className="card-dark p-6 sm:p-8">
             <p className="mono-label mb-3 text-white/30">Overview</p>
             <p className="max-w-3xl text-[16px] leading-[1.65] tracking-tight text-white/75">
@@ -321,7 +343,7 @@ export default async function PeptideDetailPage({
 
               {/* Administration Routes — free */}
               {peptide.administrationRoutes && peptide.administrationRoutes.length > 0 && (
-                <section className="card-dark p-6">
+                <section id="administration" className="card-dark p-6 scroll-mt-20">
                   <p className="mono-label mb-4 text-white/30">Routes of Administration</p>
                   <div className="space-y-0">
                     {peptide.administrationRoutes.map((item, i) => (
@@ -345,7 +367,7 @@ export default async function PeptideDetailPage({
                   <div className="space-y-8">
 
                     {moa && (
-                      <div>
+                      <div id="mechanism" className="scroll-mt-20">
                         <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.1em] text-lavender/70">
                           Mechanism of Action
                         </p>
@@ -361,7 +383,7 @@ export default async function PeptideDetailPage({
                     )}
 
                     {pk && (
-                      <div>
+                      <div id="pharmacokinetics" className="scroll-mt-20">
                         <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.1em] text-lavender/70">
                           Pharmacokinetics
                         </p>
@@ -377,7 +399,7 @@ export default async function PeptideDetailPage({
                     )}
 
                     {findings && (
-                      <div>
+                      <div id="findings" className="scroll-mt-20">
                         <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.1em] text-lavender/70">
                           Key Research Findings
                         </p>
@@ -393,7 +415,7 @@ export default async function PeptideDetailPage({
                     )}
 
                     {safety && (
-                      <div>
+                      <div id="safety" className="scroll-mt-20">
                         <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.1em] text-lavender/70">
                           Side Effects & Safety
                         </p>
@@ -434,8 +456,15 @@ export default async function PeptideDetailPage({
                 </section>
               )}
 
+              {/* Auto-generated FAQ accordion */}
+              <div id="faq" className="scroll-mt-20">
+                <PeptideFAQ peptide={peptide} />
+              </div>
+
               {/* PubMed-linked studies */}
-              <StudiesSection studies={studies} />
+              <div id="studies" className="scroll-mt-20">
+                <StudiesSection studies={studies} />
+              </div>
 
               {/* Affiliate links */}
               <AffiliateSection links={affiliateLinks} />
@@ -462,6 +491,15 @@ export default async function PeptideDetailPage({
 
             {/* ── Sidebar ──────────────────────────────────── */}
             <aside className="space-y-6 lg:col-span-2">
+              {/* Desktop TOC */}
+              <div className="hidden lg:block">
+                <div className="sticky top-20 space-y-6">
+                  <div className="rounded-sharp border border-black/[0.07] bg-white p-5">
+                    <ProfileTOC sections={tocSections} />
+                  </div>
+                </div>
+              </div>
+
               <div className="card-dark p-6">
                 <p className="mono-label mb-4 text-white/30">Molecular Information</p>
                 <dl>

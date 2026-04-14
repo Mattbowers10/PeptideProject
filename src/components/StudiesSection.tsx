@@ -99,6 +99,31 @@ export function StudiesSection({ studies }: { studies: Study[] }) {
     return (b.publishedDate ?? '').localeCompare(a.publishedDate ?? '')
   })
 
+  const breakdown = {
+    human: studies.filter((s) => s.studyType === 'human').length,
+    animal: studies.filter((s) => s.studyType === 'animal').length,
+    'in-vitro': studies.filter((s) => s.studyType === 'in-vitro').length,
+    review: studies.filter(
+      (s) => s.studyType === 'review' || s.studyType === 'meta-analysis',
+    ).length,
+    other: studies.filter(
+      (s) =>
+        !['human', 'animal', 'in-vitro', 'review', 'meta-analysis'].includes(
+          s.studyType ?? '',
+        ),
+    ).length,
+  }
+
+  type BreakdownKey = keyof typeof breakdown
+  const allBreakdownItems: Array<{ key: BreakdownKey; label: string; className: string }> = [
+    { key: 'human', label: 'Human (Clinical)', className: 'text-lavender' },
+    { key: 'animal', label: 'Animal', className: 'text-white/50' },
+    { key: 'in-vitro', label: 'In Vitro', className: 'text-white/40' },
+    { key: 'review', label: 'Reviews', className: 'text-white/60' },
+    { key: 'other', label: 'Other', className: 'text-white/35' },
+  ]
+  const breakdownItems = allBreakdownItems.filter((item) => breakdown[item.key] > 0)
+
   return (
     <section className="card-dark p-6">
       <div className="mb-1 flex items-center justify-between">
@@ -110,6 +135,26 @@ export function StudiesSection({ studies }: { studies: Study[] }) {
       <p className="mb-4 text-[12px] text-white/25">
         PubMed-indexed research associated with this peptide. Human trials ranked first.
       </p>
+
+      {/* Study type breakdown */}
+      {breakdownItems.length > 0 && (
+        <>
+          <div className="mb-4 flex flex-wrap gap-x-6 gap-y-2">
+            {breakdownItems.map(({ key, label, className }) => (
+              <div key={key} className="flex flex-col items-center gap-0.5">
+                <span className={`font-mono text-[18px] font-medium leading-none ${className}`}>
+                  {breakdown[key]}
+                </span>
+                <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-white/25">
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+          <div className="mb-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.07)' }} />
+        </>
+      )}
+
       <div>
         {sorted.map((study) => (
           <StudyCard key={study.id} study={study} />
