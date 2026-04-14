@@ -64,26 +64,6 @@ export function ProfileTOC({ sections }: { sections: TOCSection[] }) {
         </nav>
       </div>
 
-      {/* ── Mobile: horizontal scroll nav ── */}
-      <div
-        className="flex gap-5 overflow-x-auto border-b py-3 lg:hidden"
-        style={{ borderColor: 'var(--border-dark)' }}
-      >
-        {sections.map(({ id, label }) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            onClick={handleClick(id)}
-            className={
-              activeId === id
-                ? 'mono-label whitespace-nowrap text-white'
-                : 'mono-label whitespace-nowrap text-white/35 hover:text-white/70'
-            }
-          >
-            {label}
-          </a>
-        ))}
-      </div>
     </>
   )
 }
