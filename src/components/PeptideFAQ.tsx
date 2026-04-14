@@ -74,14 +74,14 @@ function buildFAQs(peptide: Peptide): FAQItem[] {
 
 function FAQItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: boolean; onToggle: () => void }) {
   return (
-    <div className="border-b border-black/[0.07]">
+    <div className="border-b" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
       <button
         onClick={onToggle}
         className="flex w-full items-center justify-between gap-4 py-4 text-left"
         aria-expanded={isOpen}
       >
-        <span className="text-[15px] font-medium text-black">{item.q}</span>
-        <span className="shrink-0 text-[18px] font-light text-black/40 transition-transform">
+        <span className="text-[14px] font-medium text-white/85">{item.q}</span>
+        <span className="shrink-0 font-mono text-[16px] font-light text-white/30">
           {isOpen ? '−' : '+'}
         </span>
       </button>
@@ -90,7 +90,7 @@ function FAQItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: boolean; o
           isOpen ? 'max-h-[600px] pb-4 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <p className="text-[14px] leading-[1.65] text-black/60">{item.a}</p>
+        <p className="text-[13px] leading-[1.65] text-white/50">{item.a}</p>
       </div>
     </div>
   )
@@ -101,8 +101,8 @@ export function PeptideFAQ({ peptide }: { peptide: Peptide }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
-    <section className="rounded-sharp border border-black/[0.07] bg-white p-6">
-      <p className="mono-label mb-4 text-black/40">Frequently Asked Questions</p>
+    <section className="card-dark p-6">
+      <p className="mono-label mb-4 text-white/30">Frequently Asked Questions</p>
       <div>
         {faqs.map((item, i) => (
           <FAQItem

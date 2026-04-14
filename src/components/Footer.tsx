@@ -46,6 +46,9 @@ export function Footer() {
               <Link href="/stacks" className="text-sm text-white/50 transition-colors hover:text-white">
                 Stack Builder
               </Link>
+              <Link href="/peptide-brief" className="text-sm text-white/50 transition-colors hover:text-white">
+                The Peptide Brief
+              </Link>
             </div>
           </div>
 

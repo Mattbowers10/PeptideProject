@@ -42,7 +42,7 @@ export function ProfileTOC({ sections }: { sections: TOCSection[] }) {
     <>
       {/* ── Desktop: vertical sticky list (inside sidebar) ── */}
       <div className="hidden lg:block">
-        <p className="mono-label mb-3 text-black/40">On This Page</p>
+        <p className="mono-label mb-3 text-white/30">On This Page</p>
         <nav>
           <ul className="space-y-1">
             {sections.map(({ id, label }) => (
@@ -52,8 +52,8 @@ export function ProfileTOC({ sections }: { sections: TOCSection[] }) {
                   onClick={handleClick(id)}
                   className={
                     activeId === id
-                      ? 'block text-[13px] font-medium text-black transition-colors'
-                      : 'block text-[13px] text-black/40 transition-colors hover:text-black'
+                      ? 'block text-[13px] font-medium text-white transition-colors'
+                      : 'block text-[13px] text-white/35 transition-colors hover:text-white/70'
                   }
                 >
                   {label}
@@ -65,7 +65,10 @@ export function ProfileTOC({ sections }: { sections: TOCSection[] }) {
       </div>
 
       {/* ── Mobile: horizontal scroll nav ── */}
-      <div className="flex gap-4 overflow-x-auto border-b border-black/[0.08] py-2 lg:hidden">
+      <div
+        className="flex gap-5 overflow-x-auto border-b py-3 lg:hidden"
+        style={{ borderColor: 'var(--border-dark)' }}
+      >
         {sections.map(({ id, label }) => (
           <a
             key={id}
@@ -73,8 +76,8 @@ export function ProfileTOC({ sections }: { sections: TOCSection[] }) {
             onClick={handleClick(id)}
             className={
               activeId === id
-                ? 'mono-label whitespace-nowrap text-black'
-                : 'mono-label whitespace-nowrap text-black/40'
+                ? 'mono-label whitespace-nowrap text-white'
+                : 'mono-label whitespace-nowrap text-white/35 hover:text-white/70'
             }
           >
             {label}
