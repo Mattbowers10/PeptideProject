@@ -1,8 +1,9 @@
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/lib/useAuth'
+import { getInteraction, type InteractionType } from '@/lib/peptideInteractions'
 
 const TIER_RANK: Record<string, number> = { free: 0, researcher: 1, pro: 2, clinic: 3 }
 
@@ -23,6 +24,14 @@ const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   preclinical:  { label: 'Preclinical',    color: 'text-amber-600 bg-amber-50' },
   experimental: { label: 'Experimental',   color: 'text-orange-600 bg-orange-50' },
   discontinued: { label: 'Discontinued',   color: 'text-gray-500 bg-gray-100' },
+}
+
+const INTERACTION_BADGE: Record<InteractionType, { bg: string; text: string }> = {
+  synergistic: { bg: 'bg-emerald-50', text: 'text-emerald-700' },
+  additive:    { bg: 'bg-blue-50',    text: 'text-blue-700' },
+  neutral:     { bg: 'bg-gray-100',   text: 'text-gray-500' },
+  caution:     { bg: 'bg-amber-50',   text: 'text-amber-700' },
+  antagonistic:{ bg: 'bg-red-50',     text: 'text-red-700' },
 }
 
 const ROUTE_LABELS: Record<string, string> = {
@@ -235,6 +244,50 @@ export function StackBuilderClient() {
           })}
         </div>
       )}
+
+      {/* Interaction Matrix */}
+      {stack.length >= 2 && (() => {
+        const pairs: Array<{ a: PeptideEntry; b: PeptideEntry }> = []
+        for (let i = 0; i < stack.length; i++) {
+          for (let j = i + 1; j < stack.length; j++) {
+            pairs.push({ a: stack[i]!, b: stack[j]! })
+          }
+        }
+        return (
+          <div className="rounded-comfortable border p-5" style={{ borderColor: 'var(--border-light)' }}>
+            <p className="mono-label text-black/40 mb-4">Interaction Overview</p>
+            <div className="space-y-3">
+              {pairs.map(({ a, b }) => {
+                const ix = getInteraction(a.slug, b.slug)
+                const badge = ix ? INTERACTION_BADGE[ix.type] : null
+                return (
+                  <div key={`${a.id}-${b.id}`} className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[13px] font-medium text-black/70">
+                        {a.name} <span className="text-black/30">+</span> {b.name}
+                      </span>
+                      {badge ? (
+                        <span
+                          className={`inline-block rounded-sharp px-2 py-0.5 font-mono text-[10px] tracking-mono capitalize ${badge.bg} ${badge.text}`}
+                        >
+                          {ix!.type}
+                        </span>
+                      ) : (
+                        <span className="inline-block rounded-sharp px-2 py-0.5 font-mono text-[10px] tracking-mono bg-gray-100 text-gray-400">
+                          No data
+                        </span>
+                      )}
+                    </div>
+                    {ix && (
+                      <p className="text-[12px] leading-[1.5] text-black/45 pl-0">{ix.summary}</p>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )
+      })()}
 
       {/* Research disclaimer */}
       <p className="font-mono text-[11px] tracking-mono text-black/25 text-center">

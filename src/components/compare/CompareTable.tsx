@@ -4,6 +4,7 @@ import { ResearchBadge } from '@/components/ResearchBadge'
 import { PaywallGate } from '@/components/PaywallGate'
 import { RichTextRenderer } from '@/components/RichTextRenderer'
 import type { Category, Peptide } from '@/payload-types'
+import { getInteraction, type InteractionType } from '@/lib/peptideInteractions'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type LexicalData = { root: { children: any[] } }
@@ -70,6 +71,14 @@ function GatedRow({
   )
 }
 
+const INTERACTION_BADGE: Record<InteractionType, string> = {
+  synergistic: 'bg-emerald-500/20 text-emerald-400',
+  additive: 'bg-blue-500/20 text-blue-400',
+  neutral: 'bg-white/10 text-white/50',
+  caution: 'bg-amber-500/20 text-amber-400',
+  antagonistic: 'bg-red-500/20 text-red-400',
+}
+
 export function CompareTable({
   peptideA,
   peptideB,
@@ -96,6 +105,8 @@ export function CompareTable({
     .map((r) => r.route)
     .filter(Boolean)
     .join(', ')
+
+  const interaction = getInteraction(peptideA.slug ?? '', peptideB.slug ?? '')
 
   const moaA = peptideA.mechanismOfAction as LexicalData | null | undefined
   const moaB = peptideB.mechanismOfAction as LexicalData | null | undefined
@@ -190,6 +201,27 @@ export function CompareTable({
           label="Categories"
           a={categoriesA || <CellEmpty />}
           b={categoriesB || <CellEmpty />}
+        />
+
+        {/* Interaction row */}
+        <FreeRow
+          label="Interaction"
+          a={
+            interaction ? (
+              <div className="space-y-1">
+                <span
+                  className={`inline-block rounded-sharp px-2 py-0.5 font-mono text-[10px] tracking-mono capitalize ${INTERACTION_BADGE[interaction.type]}`}
+                >
+                  {interaction.type}
+                </span>
+                <p className="text-[13px] leading-[1.5] text-white/70">{interaction.summary}</p>
+                <p className="font-mono text-[10px] tracking-mono text-white/30">{interaction.evidenceLevel}</p>
+              </div>
+            ) : (
+              <span className="text-white/20">No interaction data on file</span>
+            )
+          }
+          b={<span />}
         />
 
         {/* Gated rows */}
