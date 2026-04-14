@@ -319,11 +319,6 @@ export default async function PeptideDetailPage({
           </div>
         </header>
 
-        {/* ── Mobile TOC ─────────────────────────────────────── */}
-        <div className="mx-auto max-w-[1200px] px-6 pb-4">
-          <ProfileTOC sections={tocSections} />
-        </div>
-
         {/* ── Summary — glass card ───────────────────────────── */}
         <section id="summary" className="mx-auto max-w-[1200px] px-6 pb-10 scroll-mt-20">
           <div className="card-dark p-6 sm:p-8">
