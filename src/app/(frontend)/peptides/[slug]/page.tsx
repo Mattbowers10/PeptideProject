@@ -15,9 +15,7 @@ import { SaveToListButton } from '@/components/SaveToListButton'
 import { ShareButtons } from '@/components/ShareButtons'
 import { PeptideUpgradeCTA } from '@/components/PeptideUpgradeCTA'
 import { isGuideSlug } from '@/lib/guideConfig'
-import { ProfileTOC } from '@/components/ProfileTOC'
 import { PeptideFAQ } from '@/components/PeptideFAQ'
-import type { TOCSection } from '@/components/ProfileTOC'
 import type { AffiliateLink, Category, Partner, Peptide, Study } from '@/payload-types'
 
 export const revalidate = 3600
@@ -160,20 +158,6 @@ export default async function PeptideDetailPage({
   const isFreeProfile = isGuideSlug(peptide.slug)
 
   const base = (process.env.NEXT_PUBLIC_APP_URL ?? 'https://peptideunited.com').replace(/\/$/, '')
-
-  // Build TOC sections based on what data exists
-  const tocSections: TOCSection[] = [
-    { id: 'summary', label: 'Summary' },
-    ...(peptide.administrationRoutes && peptide.administrationRoutes.length > 0
-      ? [{ id: 'administration', label: 'Administration' }]
-      : []),
-    ...(moa ? [{ id: 'mechanism', label: 'Mechanism' }] : []),
-    ...(pk ? [{ id: 'pharmacokinetics', label: 'Pharmacokinetics' }] : []),
-    ...(findings ? [{ id: 'findings', label: 'Research Findings' }] : []),
-    ...(safety ? [{ id: 'safety', label: 'Safety' }] : []),
-    { id: 'faq', label: 'FAQ' },
-    ...(studies.length > 0 ? [{ id: 'studies', label: 'Studies' }] : []),
-  ]
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -486,15 +470,6 @@ export default async function PeptideDetailPage({
 
             {/* ── Sidebar ──────────────────────────────────── */}
             <aside className="space-y-6 lg:col-span-2">
-              {/* Desktop TOC */}
-              <div className="hidden lg:block">
-                <div className="sticky top-20 space-y-6">
-                  <div className="rounded-sharp border border-black/[0.07] bg-white p-5">
-                    <ProfileTOC sections={tocSections} />
-                  </div>
-                </div>
-              </div>
-
               <div className="card-dark p-6">
                 <p className="mono-label mb-4 text-white/30">Molecular Information</p>
                 <dl>
